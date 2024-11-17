@@ -3,3 +3,7 @@ git+https://github.com/facebookresearch/segment-anything.git
 # python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
 # On macOS, you may need to prepend the above commands with a few environment variables:
 # CC=clang CXX=clang++ ARCHFLAGS="-arch x86_64" python -m pip install ...
+tqdm
+pyyaml
+wget
+fire

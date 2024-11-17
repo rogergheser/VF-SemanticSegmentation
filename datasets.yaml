@@ -1,5 +1,4 @@
 # https://github.com/MendelXu/zsseg.baseline
-
 COCO: # TODO download files localy and double check organisation
   train:
     url: http://images.cocodataset.org/zips/train2017.zip
@@ -9,7 +8,7 @@ COCO: # TODO download files localy and double check organisation
     dir: data/coco/
   annotations:
     url: http://images.cocodataset.org/annotations/annotations_trainval2017.zip
-    dir: data/coco/annotations/
+    dir: data/coco/
   map:
     url: http://calvin.inf.ed.ac.uk/wp-content/uploads/data/cocostuffdataset/stuffthingmaps_trainval2017.zip
     dir: data/coco/stuffthingmaps_detectron2/
@@ -18,6 +17,10 @@ VOC2012: # TODO download files localy and double check organisation
   trainval:
     url: http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar
     dir: data/VOC2012/JPEGImages/
+
+  val_file:
+    url: None
+    dir: data/VOC2012/
 
   SegClassAug: # download manually from dropbox, other source could not be accessed
     url: https://www.dropbox.com/s/oeu149j8qtbs1x0/SegmentationClassAug.zip?dl=0
@@ -33,11 +36,11 @@ pcontext: # TODO download files localy and double check organisation
     dir: data/pcontext/JPEGImages/
   labels:
     url: https://codalabuser.blob.core.windows.net/public/trainval_merged.json
-    dir: data/pcontext/trainval_merged.json
+    dir: data/pcontext/
 
 #[OK]
 ADEChallengeData2016: #https://github.com/facebookresearch/MaskFormer/blob/main/datasets/README.md#expected-dataset-structure-for-ade20k-scene-parsing
-  url: http://sceneparsing.csail.mit.edu/data/ADEChallengeData2016.zip # Train-Val
+  url: http://data.csail.mit.edu/places/ADEchallenge/ADEChallengeData2016.zip # Train-Val
   dir: data/
 
 ADE20K_2021_17_01: # Waiting for permission for this dataset
@@ -50,4 +53,3 @@ ADE20K_2021_17_01: # Waiting for permission for this dataset
 
 pcontext_full: # TODO Find this dataset
   pass
-  

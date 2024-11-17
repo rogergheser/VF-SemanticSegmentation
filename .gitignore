@@ -2,7 +2,9 @@
 .VS_Code
 **/.VS_Code
 data
-*_env
+datasets/
+*env
+VOCdevkit/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
