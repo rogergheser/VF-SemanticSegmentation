@@ -3,6 +3,7 @@
 **/.VS_Code
 data
 datasets/
+!datasets/*.py
 *env
 VOCdevkit/
 
