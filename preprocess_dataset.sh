@@ -6,7 +6,7 @@ python tools/mask_cls_collect.py datasets/coco/stuffthingmaps/val2017 datasets/c
 
 echo "Processed COCO"
 
-python datasets/prepare_pcontext_sem_seg.py --ori_root_dir datasets/pcontext-59 --save_dir datasets/pcontext-59
+python datasets/prepare_pcontext_sem_seg.py --ori_root_dir datasets/pcontext --save_dir datasets/pcontext-59
 
 echo "Processed Pascal Context"
 
