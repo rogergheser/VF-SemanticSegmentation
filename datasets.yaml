@@ -11,7 +11,7 @@ COCO: # TODO download files localy and double check organisation
     dir: datasets/coco/
   map:
     url: http://calvin.inf.ed.ac.uk/wp-content/uploads/data/cocostuffdataset/stuffthingmaps_trainval2017.zip
-    dir: datasets/coco/stuffthingmaps_detectron2/
+    dir: datasets/coco/stuffthingmaps/
 
 VOC2012: # TODO download files localy and double check organisation
   trainval:
@@ -23,6 +23,7 @@ VOC2012: # TODO download files localy and double check organisation
     dir: datasets/VOC2012/
 
   SegClassAug: # download manually from dropbox, other source could not be accessed
+  # use wget -->
     url: https://www.dropbox.com/s/oeu149j8qtbs1x0/SegmentationClassAug.zip?dl=0
     dir: datasets/VOC2012/SegmentationClassAug/
 

@@ -7,7 +7,7 @@ datasets/pcontext-59
 datasets/pcontext
 datasets/coco
 datasets/ADEChallengeData2016
-datasets/ADE20K_2021_17_01
+datasets/ADE20K_*
 
 *env
 VOCdevkit/
