@@ -17,7 +17,7 @@ from tqdm import tqdm
 # TODO Add an OUT field in YAML to check if the file is already downloaded
 ####################################################################
 CONFIG_FILE = 'datasets.yaml'
-POSTPROCESS = True
+POSTPROCESS = False
 
 def field_exists(field: dict)->bool:
     """
@@ -89,16 +89,11 @@ class Dataset(ABC):
             self._download_dataset()
         else:
             raise ValueError('Dataset not found')
-        if POSTPROCESS:
-            self._post_process()
 
     @abstractmethod
     def _download_dataset(self):
         pass
 
-    @abstractmethod
-    def _post_process(self):
-        pass
 
 class COCO(Dataset):
     def _download_dataset(self):

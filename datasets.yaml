@@ -2,46 +2,46 @@
 COCO: # TODO download files localy and double check organisation
   train:
     url: http://images.cocodataset.org/zips/train2017.zip
-    dir: data/coco/
+    dir: datasets/coco/
   val:
     url: http://images.cocodataset.org/zips/val2017.zip
-    dir: data/coco/
+    dir: datasets/coco/
   annotations:
     url: http://images.cocodataset.org/annotations/annotations_trainval2017.zip
-    dir: data/coco/
+    dir: datasets/coco/
   map:
     url: http://calvin.inf.ed.ac.uk/wp-content/uploads/data/cocostuffdataset/stuffthingmaps_trainval2017.zip
-    dir: data/coco/stuffthingmaps_detectron2/
+    dir: datasets/coco/stuffthingmaps_detectron2/
 
 VOC2012: # TODO download files localy and double check organisation
   trainval:
     url: http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar
-    dir: data/VOC2012/JPEGImages/
+    dir: datasets/VOC2012/JPEGImages/
 
   val_file:
     url: None
-    dir: data/VOC2012/
+    dir: datasets/VOC2012/
 
   SegClassAug: # download manually from dropbox, other source could not be accessed
     url: https://www.dropbox.com/s/oeu149j8qtbs1x0/SegmentationClassAug.zip?dl=0
-    dir: data/VOC2012/SegmentationClassAug/
+    dir: datasets/VOC2012/SegmentationClassAug/
 
   train_file: # Clone with github
     url: https://gist.githubusercontent.com/sun11/2dbda6b31acc7c6292d14a872d0c90b7/raw/5f5a5270089239ef2f6b65b1cc55208355b5acca/trainaug.txt
-    dir: data/VOC2012/train.txt
+    dir: datasets/VOC2012/train.txt
   
 pcontext: # TODO download files localy and double check organisation
   images:
     url: http://host.robots.ox.ac.uk/pascal/VOC/voc2010/VOCtrainval_03-May-2010.tar
-    dir: data/pcontext/JPEGImages/
+    dir: datasets/pcontext/JPEGImages/
   labels:
     url: https://codalabuser.blob.core.windows.net/public/trainval_merged.json
-    dir: data/pcontext/
+    dir: datasets/pcontext/
 
 #[OK]
 ADEChallengeData2016: #https://github.com/facebookresearch/MaskFormer/blob/main/datasets/README.md#expected-dataset-structure-for-ade20k-scene-parsing
   url: http://data.csail.mit.edu/places/ADEchallenge/ADEChallengeData2016.zip # Train-Val
-  dir: data/
+  dir: datasets/
 
 ADE20K_2021_17_01: # Waiting for permission for this dataset
   images:
