@@ -74,7 +74,7 @@ def download_file(url: str, destination: str):
 class Dataset(ABC):
     """
     Abstract class for downloading datasets. 
-    To extend this class, the _download_dataset and _post_process methods must be implemented.
+    To extend this class, the _download_dataset method must be implemented.
     """
     def __init__(self, cfg: dict, download:bool=True, postprocess:bool=False):
         """
@@ -89,16 +89,14 @@ class Dataset(ABC):
             self._download_dataset()
         else:
             raise ValueError('Dataset not found')
-        if POSTPROCESS:
-            self._post_process()
 
     @abstractmethod
     def _download_dataset(self):
         pass
 
-    @abstractmethod
-    def _post_process(self):
-        pass
+    # @abstractmethod
+    # def _post_process(self):
+    #     pass
 
 class COCO(Dataset):
     def _download_dataset(self):
@@ -118,10 +116,6 @@ class COCO(Dataset):
                 zip_ref.extractall(os.path.dirname(dir))
             print("Successfully downloaded and extracted COCO:{}".format(field))
             os.remove(os.path.join(dir, link.split('/')[-1]))
-
-            if field == 'map':
-                target_dir = '/'.join(self.cfg[field][dir].split('/')[:-1]) + '/stuffthingmaps'
-                os.rename(self.cfg[field][dir], target_dir)
 
 class VOC2012(Dataset):
     def _download_dataset(self):
@@ -204,13 +198,35 @@ class ADEChallengeData2016(Dataset):
                     zip_ref.extract(member=member, path=dir)
             os.remove(os.path.join(dir, link.split('/')[-1]))
 
+class ADE20K(Dataset):
+    def _download_dataset(self):
+        if field_exists(self.cfg):
+            print("Field {} already exists. Skipping download".format(self.cfg))
+        else:
+            link, dir = self.cfg['url'], self.cfg['dir']
+            if link == 'link':
+                print("ADE20K full requires authorisation for dataset download. Please download manually.")
+                print("Alternatively, register and insert the correct link the datasets.yaml file.")
+                print("Consider commenting out some of the datasets to avoid downloading them in main.")
+                return
+            target_file = os.path.join(dir, os.path.basename(link))
+            try:
+                download_file(link, dir) # zip file
+            except requests.exceptions.RequestException as e:
+                print(f"Error downloading file: {e}")
+                return
+            with zipfile.ZipFile(target_file, 'r') as zip_ref:
+                for member in tqdm(iterable=zip_ref.namelist(), total=len(zip_ref.namelist())):
+                    zip_ref.extract(member=member, path=dir)
+            os.remove(os.path.join(dir, link.split('/')[-1]))
 
 if __name__ == '__main__':
     with open(CONFIG_FILE, 'r') as f:
         cfg = yaml.safe_load(f)
     
-    coco_data = COCO(cfg['COCO'])
-    voc2012_data = VOC2012(cfg['VOC2012'])
-    pcontext_data = PContext(cfg['pcontext'])
-    adechallenge_data = ADEChallengeData2016(cfg['ADEChallengeData2016'])
+    # coco_data = COCO(cfg['COCO'])
+    # voc2012_data = VOC2012(cfg['VOC2012'])
+    # pcontext_data = PContext(cfg['pcontext'])
+    # adechallenge_data = ADEChallengeData2016(cfg['ADEChallengeData2016'])
+    ade20k_data = ADE20K(cfg['ADE20K_2021_17_01'])
 
