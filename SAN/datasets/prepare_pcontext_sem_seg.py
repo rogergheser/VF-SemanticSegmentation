@@ -10,6 +10,8 @@ import shutil
 from PIL import Image
 import numpy as np
 from tqdm import tqdm
+import sys 
+sys.path.append('/home/disi/VF-SemanticSegmentation/detail-api/PythonAPI')
 
 LABEL_DIR = 'label'
 IMAGE_DIR = 'image'

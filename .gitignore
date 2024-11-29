@@ -1,7 +1,6 @@
 #
 .VS_Code
 **/.VS_Code
-data
 datasets/VOC2012
 datasets/pcontext-59
 datasets/pcontext

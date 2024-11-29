@@ -9,10 +9,15 @@ import tqdm
 from PIL import Image
 
 
-def convert(input, output):
+def convert(input, output, index=None):
     img = np.asarray(Image.open(input))
     assert img.dtype == np.uint8
     img = img - 1  # 0 (ignore) becomes 255. others are shifted by 1
+    if index is not None:
+        mapping = {i: k for k, i in enumerate(index)}
+        img = np.vectorize(lambda x: mapping[x] if x in mapping else 255)(
+            img.astype(np.float)
+        ).astype(np.uint8)
     Image.fromarray(img).save(output)
 
 
