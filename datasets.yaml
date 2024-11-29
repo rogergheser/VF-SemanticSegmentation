@@ -45,8 +45,8 @@ ADEChallengeData2016: #https://github.com/facebookresearch/MaskFormer/blob/main/
 
 ADE20K_2021_17_01: # Waiting for permission for this dataset
   # Put your link. Kindly ask Mr. Matteo Mascherin for the link
-  url: https://ade20k.csail.mit.edu/syml/matteomascherin_3dc284ba.zip 
-  dir: data/ADE20K_2021_17_01/
+  url: https://ade20k.csail.mit.edu/syml/matteomascherin_5b06b4f5.zip
+  dir: datasets/ADE20K_2021_17_01/
 
 pcontext_full: # TODO Find this dataset
   pass
