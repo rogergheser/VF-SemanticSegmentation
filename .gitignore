@@ -1,3 +1,4 @@
+*.pth
 #
 .VS_Code
 **/.VS_Code
@@ -7,6 +8,8 @@ datasets/pcontext
 datasets/coco
 datasets/ADEChallengeData2016
 datasets/ADE20K_*
+
+checkpoints
 
 *env
 VOCdevkit/
