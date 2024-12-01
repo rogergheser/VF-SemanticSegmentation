@@ -1,0 +1,4 @@
+Finire dataloader per batch
+Integrare pipeline che vada preso un dataset
+Provare con le label di coco
+Provare ad integrare un captioner
