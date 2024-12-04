@@ -10,6 +10,7 @@ datasets/ADEChallengeData2016
 datasets/ADE20K_*
 images/
 checkpoints
+detail-api/
 
 *env
 VOCdevkit/
