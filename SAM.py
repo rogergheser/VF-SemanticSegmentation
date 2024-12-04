@@ -45,30 +45,8 @@ class SAMSegmenter:
             masks = mask_generator.generate(image)
             return masks
 
-    def save_masks(self, masks, output_dir):
-        
-        os.makedirs(output_dir, exist_ok=True)
-
-        for i, mask_dict in enumerate(masks):
-            # Extract the segmentation mask
-            mask = mask_dict['segmentation']
-            
-            # Save the binary mask as an image
-            mask_path = os.path.join(output_dir, f"mask_{i}.png")
-            cv2.imwrite(mask_path, mask.astype('uint8') * 255)
-            print(f"Saved mask to {mask_path}")
-
-    def blurred_masks():
-        print("post processing: blur masks")
-
-    def red_circle_masks():
-        print("post processing: create a red circle in the image")
-
-    def bbox_masks():
-        print("post processing: bbox masks")
     
-    def black_background_masks():
-        print("post processing: black background masks")
+
 
 
 

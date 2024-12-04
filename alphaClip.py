@@ -22,24 +22,26 @@ class AlphaClip:
         ])
 
 
-    def prepare_batch(self, image, masks, vocabulary):
+    def prepare_batch(self, images, masks, vocabulary, flagUseAlpha):
         imgs = []
         alphas = []
         prompts = self.prompts_from_vocab(vocabulary)
         tokenized_prompts = alpha_clip.tokenize(prompts)
 
-        for mask in masks:        
-            x, y, w, h = mask['bbox']
-            binary_mask = mask['segmentation'][y:y+h, x:x+w]
+        for mask, image in zip(masks, images):        
+            binary_mask = mask['segmentation']
             
-            alpha = self.mask_transform((binary_mask * 255).astype(np.uint8))
+            if flagUseAlpha:
+                alpha = self.mask_transform((binary_mask * 255).astype(np.uint8))
+            else:
+                alpha = torch.ones(224, 224)
+                
             alpha = alpha.half().cuda()
             
-            cropped_img = image[y:y+h, x:x+w]
-            cropped_img = Image.fromarray(cropped_img)
-            cropped_img = self.preprocess(cropped_img).half()
+            image = Image.fromarray(image)
+            image = self.preprocess(image).half()
 
-            imgs.append(cropped_img)
+            imgs.append(image)
             alphas.append(alpha)
 
         batch = {
@@ -51,9 +53,9 @@ class AlphaClip:
         return batch
 
 
-    def classify_mask(self, image, masks, vocabulary):
+    def classify_mask(self, images, masks, vocabulary, flagUseAlpha = True):
 
-        batch = self.prepare_batch(image, masks, vocabulary)
+        batch = self.prepare_batch(images, masks, vocabulary, flagUseAlpha)
         cropped_img, alpha, tokenized_prompts = batch['image'], batch['alpha'], batch['text']
         
         cropped_img = cropped_img.to(self.device)
