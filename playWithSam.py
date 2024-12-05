@@ -1,5 +1,4 @@
-import matplotlib.pyplot as plt
-from utilsSAM import *
+from utils.utilsSAM import *
 from models.SAM import SAMSegmenter
 from models.alphaClip import AlphaClip
 
