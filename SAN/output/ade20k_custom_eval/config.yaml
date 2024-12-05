@@ -12,7 +12,7 @@ DATASETS:
   PROPOSAL_FILES_TEST: []
   PROPOSAL_FILES_TRAIN: []
   TEST:
-  - ade20k_full_sem_seg_val
+  - ade20k_sem_seg_val
   TRAIN:
   - coco_2017_train_stuff_sem_seg
 FLOAT32_PRECISION: ''
@@ -331,7 +331,7 @@ MODEL:
     PRETRAINED: false
     VIT_NAME: vit_w240n6d8_patch16
   WEIGHTS: san_vit_b_16.pth
-OUTPUT_DIR: output/ade20k_full
+OUTPUT_DIR: output/ade20k_custom_eval
 SEED: -1
 SOLVER:
   AMP:

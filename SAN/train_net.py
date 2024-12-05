@@ -46,6 +46,8 @@ from san import (
 from san.data import build_detection_test_loader, build_detection_train_loader
 from san.utils import WandbWriter, setup_wandb
 
+from custom_evaluator import CustomSemSegEvaluator # Custom evaluator
+
 
 class Trainer(DefaultTrainer):
     def build_writers(self):
@@ -55,7 +57,7 @@ class Trainer(DefaultTrainer):
         return writers
 
     @classmethod
-    def build_evaluator(cls, cfg, dataset_name, output_folder=None):
+    def build_evaluator(cls, cfg, dataset_name, model, output_folder=None): # pass model to evaluator to get the encoded labels
         if output_folder is None:
             output_folder = os.path.join(cfg.OUTPUT_DIR, "inference")
         evaluator_list = []
@@ -63,7 +65,8 @@ class Trainer(DefaultTrainer):
         # semantic segmentation
         if evaluator_type in ["sem_seg", "ade20k_panoptic_seg"]:
             evaluator_list.append(
-                SemSegEvaluator(
+                CustomSemSegEvaluator(
+                    model,
                     dataset_name,
                     distributed=True,
                     output_dir=output_folder,
