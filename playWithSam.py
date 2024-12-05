@@ -1,6 +1,6 @@
 from utilsSAM import *
-from SAM import SAMSegmenter
-from alphaClip import AlphaClip
+from models.SAM import SAMSegmenter
+from models.alphaClip import AlphaClip
 
 from datasets.dataset_vars import (
         COCO_CATEGORIES, 
