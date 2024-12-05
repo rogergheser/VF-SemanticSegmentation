@@ -1,0 +1,11 @@
+datasets/ADE20K_2021_17_01/images/ADE/validation/cultural/art_studio/ADE_val_00000037
+datasets/ADE20K_2021_17_01/images/ADE/validation/cultural/apse__indoor/ADE_val_00000025
+datasets/ADE20K_2021_17_01/images/ADE/validation/home_or_hotel/bathroom/ADE_val_00000085
+datasets/ADE20K_2021_17_01/images/ADE/validation/industrial/oil_refinery__outdoor/ADE_val_00001650
+datasets/ADE20K_2021_17_01/images/ADE/validation/nature_landscape/fjord/ADE_val_00001355
+datasets/ADE20K_2021_17_01/images/ADE/validation/shopping_and_dining/drugstore/ADE_val_00000336
+datasets/ADE20K_2021_17_01/images/ADE/validation/sports_and_leisure/boxing_ring/ADE_val_00000198
+datasets/ADE20K_2021_17_01/images/ADE/validation/transportation/hallway/ADE_val_00001397
+datasets/ADE20K_2021_17_01/images/ADE/validation/unclassified/outliers__flood_plain/ADE_val_00000985
+datasets/ADE20K_2021_17_01/images/ADE/validation/urban/cathedral__outdoor/ADE_val_00001236
+datasets/ADE20K_2021_17_01/images/ADE/validation/work_place/engine_room/ADE_val_00000341
