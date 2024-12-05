@@ -1,5 +1,6 @@
 import os
 import cv2
+import copy
 import numpy as np
 from typing import List
 
@@ -73,24 +74,26 @@ def add_padding(bbox, image_shape, padding_p):
 
 
 def post_processing(masks, image, post_processing='blurred_masks'):
-
+    
+    masks_copy = copy.deepcopy(masks)
     if post_processing == 'blurred_masks':
-        images = blurred_masks(masks, image)
+        images = blurred_masks(masks_copy, image)
     elif post_processing == 'red_circle_masks':
-        images = red_circle_masks(masks, image)
+        images = red_circle_masks(masks_copy, image)
     elif post_processing == 'bbox_masks':
-        images, masks = bbox_masks(masks, image)
+        images, masks_copy = bbox_masks(masks_copy, image)
     elif post_processing == 'black_background_masks':
-        images = black_background_masks(masks, image)
+        images = black_background_masks(masks_copy, image)
     else:
-        print("Invalid post processing method")
+        print("no post-processing")
+        images = [image for _ in masks]
+        
 
-    return images, masks
+    return images, masks_copy
 
 
 def blurred_masks(masks, image):
     # apply a Gaussian blur to the entire image where the mask is 0
-    print("--[INFO] post processing: blur masks--")
     images = []
 
     for i, mask_dict in enumerate(masks):
@@ -115,7 +118,6 @@ def blurred_masks(masks, image):
 
 
 def red_circle_masks(masks, image):
-    print("--[INFO] post processing: create an empty red circle in the image--")
     images = []
 
     for i, mask_dict in enumerate(masks):
@@ -140,7 +142,6 @@ def red_circle_masks(masks, image):
 
 
 def bbox_masks(masks, image):
-    print("--[INFO] post processing: bbox masks--")
     images = []
 
     for i, mask_dict in enumerate(masks):
@@ -157,7 +158,6 @@ def bbox_masks(masks, image):
 
 
 def black_background_masks(masks, image):
-    print("--[INFO] post processing: black background masks--")
 
     images = []
 
@@ -171,5 +171,55 @@ def black_background_masks(masks, image):
         images.append(processed_image)
     
     return images
+
+
+def read_line_file(path_files):
+    ret_lines = []
+    with open(path_files, 'r') as file:
+        for line in file:
+            ret_lines.append("../" + line.strip() + ".jpg")
+    
+    return ret_lines
+
+
+def segment_and_classify(segmenter, classifier, path_images, vocabulary, methods):
+    imgs = []
+    segmentations = []
+    results_logits = []
+
+    for path_image in path_images:
+        print(f"Processing image {path_image}")
+
+        image = cv2.imread(path_image)
+
+        # Segment Image
+        masks = segmenter.predict_mask(image)
+
+        masks_sam_copy = copy.deepcopy(masks)
+
+        result_logit = {}
+
+        for method in methods:
+
+            #Post Processing
+            images, masks_sam_copy = post_processing(masks_sam_copy, image, post_processing=method)
+
+            # Classify Mask
+            logits = classifier.classify_mask(images, masks_sam_copy, vocabulary, flagUseAlpha = True)
+
+            result_logit[method] = logits
+        
+        imgs.append(image)
+        segmentations.append(masks)
+        results_logits.append(result_logit)
+        
+
+    results = {
+        'images': imgs,
+        'segmentations': segmentations,
+        'logits': results_logits
+    }
+
+    return results
 
 

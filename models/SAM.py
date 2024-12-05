@@ -1,5 +1,3 @@
-import os
-import cv2
 from segment_anything import SamPredictor, SamAutomaticMaskGenerator, sam_model_registry
 
 class SAMSegmenter:
