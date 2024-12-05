@@ -1,6 +1,8 @@
+import matplotlib.pyplot as plt
 from utilsSAM import *
 from SAM import SAMSegmenter
 from alphaClip import AlphaClip
+
 
 from datasets.dataset_vars import (
         COCO_CATEGORIES, 
@@ -20,7 +22,7 @@ if __name__ == "__main__":
     vocabulary = take_vocabulary(dataset = COCO_CATEGORIES)
     
     classifier = AlphaClip(model_type='ViT-B/16', weight_path = PATH_WEIGHT_ACLIP)
-    logits = classifier.classify_mask(images, masks, vocabulary)
+    logits = classifier.classify_mask(images, masks, vocabulary, flagUseAlpha = False)
  
 
     predictions = logits.argmax(dim=-1)

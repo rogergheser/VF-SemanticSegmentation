@@ -34,7 +34,7 @@ class AlphaClip:
             if flagUseAlpha:
                 alpha = self.mask_transform((binary_mask * 255).astype(np.uint8))
             else:
-                alpha = torch.ones(224, 224)
+                alpha = torch.ones(1, 224, 224)
                 
             alpha = alpha.half().cuda()
             
