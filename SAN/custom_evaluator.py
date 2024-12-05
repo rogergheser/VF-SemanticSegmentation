@@ -33,18 +33,34 @@ class CustomSemSegEvaluator(SemSegEvaluator):
         
         similarity_matrix = np.zeros((num_classes, num_classes))
         encoded_labels = self.ov_classifier.cache[self._dataset_name] # retrieve the already normalized encoded labels using CLIP and template ensambling
-        similarity_matrix = encoded_labels @ encoded_labels.T
+        similarity_matrix: torch.Tensor = encoded_labels @ encoded_labels.T
+        
+        # standardize the similarity matrix
+        sim_mean = similarity_matrix.mean()
+        sim_std = similarity_matrix.std()
+        similarity_matrix_standard = (similarity_matrix - sim_mean) / sim_std
+
+        # rescacle the similarity matrix to [0, 1]
+        sim_min = similarity_matrix.min()
+        sim_max = similarity_matrix.max()
+        similarity_matrix_rescaled = (similarity_matrix - sim_min) / (sim_max - sim_min)
 
         # Compute weighted sum of similarities
         total_similarity = 0
+        total_similarity_standard = 0
+        total_similarity_rescaled = 0
         total_pixels = np.sum(conf_matrix)
         for gt_class in range(num_classes-1):
             for pred_class in range(num_classes-1):
                 total_similarity += conf_matrix[gt_class, pred_class] * similarity_matrix[gt_class, pred_class]
+                total_similarity_standard += conf_matrix[gt_class, pred_class] * similarity_matrix_standard[gt_class, pred_class]
+                total_similarity_rescaled += conf_matrix[gt_class, pred_class] * similarity_matrix_rescaled[gt_class, pred_class]
 
         # Normalize by total pixels to compute mean similarity
         mean_semantic_similarity = total_similarity / total_pixels
-        return mean_semantic_similarity.item()
+        mean_semantic_similarity_standard = total_similarity_standard / total_pixels
+        mean_semantic_similarity_rescaled = total_similarity_rescaled / total_pixels
+        return mean_semantic_similarity.item(), mean_semantic_similarity_standard.item(), mean_semantic_similarity_rescaled.item()
         
 
     def evaluate(self):
@@ -105,11 +121,14 @@ class CustomSemSegEvaluator(SemSegEvaluator):
             b_iou_valid = b_union > 0
             b_iou[b_iou_valid] = b_tp[b_iou_valid] / b_union[b_iou_valid]
 
-        sem_miou = self.label_semantic_metric(self._conf_matrix, self._b_conf_matrix) # Custom metric
+        sem_miou, sem_miou_standard, sem_miou_rescaled = self.label_semantic_metric(self._conf_matrix, self._b_conf_matrix) # Custom metric
 
         res = {}
+        res["conf_matrix"] = self._conf_matrix # Saves also the confusion matrix for future analysis
         res["mIoU"] = 100 * miou
         res["sem_mIoU"] = 100 * sem_miou # Custom metric result to be added to the pth file
+        res["sem_mIoU_standard"] = 100 * sem_miou_standard
+        res["sem_mIoU_rescaled"] = 100 * sem_miou_rescaled
         res["fwIoU"] = 100 * fiou
         for i, name in enumerate(self._class_names):
             res[f"IoU-{name}"] = 100 * iou[i]
@@ -125,6 +144,7 @@ class CustomSemSegEvaluator(SemSegEvaluator):
             file_path = os.path.join(self._output_dir, "sem_seg_evaluation.pth")
             with PathManager.open(file_path, "wb") as f:
                 torch.save(res, f)
+        del res["conf_matrix"] # Remove the confusion matrix from the results to avoid print error in the logger
         results = OrderedDict({"sem_seg": res})
         self._logger.info(results)
         return results
