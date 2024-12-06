@@ -1,4 +1,7 @@
+import cv2
+import numpy as np
 from segment_anything import SamPredictor, SamAutomaticMaskGenerator, sam_model_registry
+from torchvision.transforms import ToPILImage
 
 class SAMSegmenter:
     def __init__(self,
@@ -36,11 +39,9 @@ class SAMSegmenter:
         """
         Predict segmentation masks for the input image.
         """
-
-        predictor = SamPredictor(self.model)
-        predictor.set_image(image)
-
         if points is not None and labels is not None:
+            predictor = SamPredictor(self.model)
+            predictor.set_image(image)
             masks, scores, logits = predictor.predict(point_coords=points, point_labels=labels, multimask_output=True)
             return masks, scores, logits
         else:
@@ -53,8 +54,12 @@ class SAMSegmenter:
                 crop_n_points_downscale_factor=2,
                 min_mask_region_area=100,  # Requires open-cv to run post-processing
             )
-            masks = mask_generator.generate(image)
+            img = np.transpose(image.cpu().numpy(), (1, 2, 0))
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+            masks = mask_generator.generate(img)
             print("Generated {} masks".format(len(masks)))
+            
             return masks
 
 

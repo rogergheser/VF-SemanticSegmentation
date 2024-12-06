@@ -96,7 +96,7 @@ class AlphaClip:
         preprocess = transforms.Compose([self.preprocess.transforms[0],
                                         self.preprocess.transforms[1],
                                         self.preprocess.transforms[-1]])
-        imgs = torch.stack([preprocess.transforms[-1](image).half().cuda() for image in images])
+        imgs = torch.stack([preprocess(image).half().cuda() for image in images])
         alphas = torch.stack([self.prepare_mask(mask) for mask in masks])
         text = alpha_clip.tokenize(self.prompts_from_vocab(vocabulary)).to(self.device)
 
