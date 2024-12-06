@@ -2,6 +2,7 @@ import os
 import cv2
 import copy
 import numpy as np
+import matplotlib.pyplot as plt
 from typing import List
 
 
@@ -84,9 +85,11 @@ def post_processing(masks, image, post_processing='blurred_masks'):
         images, masks_copy = bbox_masks(masks_copy, image)
     elif post_processing == 'black_background_masks':
         images = black_background_masks(masks_copy, image)
-    else:
-        print("no post-processing")
+    elif post_processing == 'none':
         images = [image for _ in masks]
+    else:
+        print("Invalid post processing method")
+        raise ValueError
         
 
     return images, masks_copy
@@ -223,3 +226,21 @@ def segment_and_classify(segmenter, classifier, path_images, vocabulary, methods
     return results
 
 
+def recompose_image(image, masks):
+    # Create a blank image with the same shape as the original image
+    recomposed_image = np.zeros_like(image)
+
+    # Define a list of colors for the masks
+    colors = plt.cm.get_cmap('hsv', len(masks))
+
+    # Iterate over the masks and apply the colors
+    for i, mask in enumerate(masks):
+            
+        color = colors(i)[:3]  # Get the RGB values from the colormap
+        segmentation = mask['segmentation']
+        recomposed_image[segmentation] = (np.array(color) * 255).astype(np.uint8)
+
+    # Overlay the recomposed image on the original image
+    overlay_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
+
+    return overlay_image
