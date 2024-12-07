@@ -58,7 +58,7 @@ class AlphaClip:
             else:
                 alpha = torch.ones(1, 224, 224)
                 
-            alpha = alpha.half().cuda()
+            alpha = alpha.half().to(device=self.device)
             
             image = Image.fromarray(image)
             image = self.preprocess(image).half()
@@ -80,7 +80,7 @@ class AlphaClip:
     def prepare_mask(self, mask : list[dict]):
         binary_mask = mask['segmentation']
         alpha = self.mask_transform((binary_mask * 255).astype(np.uint8))
-        alpha = alpha.half().cuda()
+        alpha = alpha.half().to(device=self.device)
         return alpha
 
     def classify(self,
@@ -96,7 +96,7 @@ class AlphaClip:
         preprocess = transforms.Compose([self.preprocess.transforms[0],
                                         self.preprocess.transforms[1],
                                         self.preprocess.transforms[-1]])
-        imgs = torch.stack([preprocess(image).half().cuda() for image in images])
+        imgs = torch.stack([preprocess(image).half().to(device=self.device) for image in images])
         alphas = torch.stack([self.prepare_mask(mask) for mask in masks])
         text = alpha_clip.tokenize(self.prompts_from_vocab(vocabulary)).to(self.device)
 

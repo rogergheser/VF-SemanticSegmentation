@@ -1,4 +1,5 @@
 import cv2
+import torch
 import numpy as np
 from segment_anything import SamPredictor, SamAutomaticMaskGenerator, sam_model_registry
 from torchvision.transforms import ToPILImage
@@ -54,8 +55,18 @@ class SAMSegmenter:
                 crop_n_points_downscale_factor=2,
                 min_mask_region_area=100,  # Requires open-cv to run post-processing
             )
-            img = np.transpose(image.cpu().numpy(), (1, 2, 0))
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            
+            # Convert the image based on the device type
+            if self.device == 'mps':  # Handle MPS-specific behavior
+                img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            elif self.device == 'cuda':
+                img = np.transpose(image.cpu().numpy(), (1, 2, 0))
+                # Convert color space for OpenCV
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            
+
+            if self.device == 'mps' and isinstance(img, np.ndarray):
+                img = img.astype(np.float32)
 
             masks = mask_generator.generate(img)
             print("Generated {} masks".format(len(masks)))
