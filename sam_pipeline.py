@@ -13,7 +13,8 @@ from datasets.dataset_vars import (
 )
 from utils.data import (
     ADE20KDataset,
-    QualitativeDataset
+    QualitativeDataset,
+    Coco
 )
 from utils.utilsSAM import (
     post_processing,
@@ -118,6 +119,7 @@ if __name__ == '__main__':
     dataset_name_to_class = {
         'qualitative': QualitativeDataset,
         'ade20kfull': ADE20KDataset,
+        'coco' : Coco
     }
     
     dataset_name = args['dataset']['name']
