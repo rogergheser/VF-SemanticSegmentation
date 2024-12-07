@@ -208,9 +208,16 @@ def segment_and_classify(segmenter, classifier, path_images, vocabulary, methods
             images, masks_sam_copy = post_processing(masks_sam_copy, image, post_processing=method)
 
             # Classify Mask
-            logits = classifier.classify_mask(images, masks_sam_copy, vocabulary, flagUseAlpha = True)
+            flag_alpha = True
+            logits = classifier.classify_mask(images, masks_sam_copy, vocabulary, flagUseAlpha = flag_alpha)
 
-            result_logit[method] = logits
+            result_logit[f"{method}_{flag_alpha}"] = logits
+            
+            flag_alpha = False
+            logits = classifier.classify_mask(images, masks_sam_copy, vocabulary, flagUseAlpha = flag_alpha)
+
+            result_logit[f"{method}_{flag_alpha}"] = logits
+
         
         imgs.append(image)
         segmentations.append(masks)
