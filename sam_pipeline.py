@@ -6,12 +6,16 @@ import logging # TODO Configure logging
 import numpy as np
 import yaml
 import cv2
+import os
 
 from datasets.dataset_vars import (
     ADE20K_SEM_SEG_FULL_CATEGORIES as ADE20K_CATEGORIES
 )
 from utils.data import ADE20KDataset
-from utils.utilsSAM import post_processing
+from utils.utilsSAM import (
+    post_processing,
+    recompose_image
+)
 from torchvision import transforms as transform
 from models.alphaClip import AlphaClip
 from models.SAM import SAMSegmenter
@@ -45,6 +49,7 @@ class Evaluator:
 
 
     def eval(self):
+        os.makedirs('overlay', exist_ok=True)
         loop = tqdm(self.loader, total=len(self.loader))
         print("-"*90)
         print("Starting evaluation")
@@ -60,6 +65,8 @@ class Evaluator:
             predictions = torch.argmax(logits, dim=1)
             text_predictions = [vocabulary[pred.item()] for pred in predictions]
             semseg = self.add_labels(image, text_predictions, masks)
+            overlay = recompose_image(image.cpu().numpy(), masks)
+            cv2.imwrite(f'overlay/{i}.png', overlay.transpose(1, 2, 0))
             # assemble image
             # evaluate image
 
