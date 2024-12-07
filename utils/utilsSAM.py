@@ -239,7 +239,6 @@ def recompose_image(image, masks, overlay=True):
     :param image: Original image (numpy array).
     :param masks: List of segmentation masks, SAM style.
     """
-    # TODO Handle both uint and float images
     # Create a blank image with the same shape as the original image
     recomposed_image = np.zeros_like(image)
 
@@ -258,14 +257,11 @@ def recompose_image(image, masks, overlay=True):
         recomposed_image[segmentation] = color
         # Transpose back to (3, 711, 400)
         recomposed_image = recomposed_image.transpose(2, 0, 1)
-
-    # Overlay the recomposed image on the original image
-    # overlay_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
+    if image.dtype == 'uint8':
+        recomposed_image = recomposed_image * 255
 
     if overlay:
         recomposed_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
-    if image.dtype == 'uint8':
-        recomposed_image = recomposed_image * 255
 
     return recomposed_image
     

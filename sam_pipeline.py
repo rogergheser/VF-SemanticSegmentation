@@ -27,7 +27,8 @@ class Evaluator:
                  sam: SAMSegmenter,
                  clip: AlphaClip,
                  loader: data.DataLoader,
-                 device:str='cuda'):
+                 device:str='cuda',
+                 args: dict=None):
         """
         :param sam: SAMSegmenter instance
         :param clip: AlphaClip instance
@@ -38,6 +39,8 @@ class Evaluator:
         self.clip = clip
         self.loader = loader
         self.device = device
+        self.save_results = args['save_results']
+        self.overlay = args['overlay']
         self.ade_voc = {}
         self.new_label_idx = 0
         for i, category in enumerate(ADE20K_CATEGORIES):
@@ -46,7 +49,6 @@ class Evaluator:
             for key in keys:
                 if key not in self.ade_voc:
                     self.ade_voc[key] = category["trainId"]
-
 
     def eval(self):
         os.makedirs('overlay', exist_ok=True)
@@ -65,10 +67,10 @@ class Evaluator:
             predictions = torch.argmax(logits, dim=1)
             text_predictions = [vocabulary[pred.item()] for pred in predictions]
             semseg = self.add_labels(image, text_predictions, masks)
-            overlay = recompose_image(image.cpu().numpy(), masks)
-            cv2.imwrite(f'overlay/{i}.png', overlay.transpose(1, 2, 0))
-            # assemble image
-            # evaluate image
+            if self.save_results:
+                overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
+                cv2.imwrite(f'overlay/{i}.png', overlay.transpose(1, 2, 0))
+            # TODO: evaluate image
 
     def add_labels(self, image, text_predictions, masks):
         for text in text_predictions:
@@ -85,17 +87,15 @@ class Evaluator:
 
         return semseg
 
-def main(args):
+def main(dataset, args):
     sam = SAMSegmenter.from_args(args['sam'], device=args['device'])
     clip = AlphaClip.from_args(args['clip'], device=args['device'])
     loader = data.DataLoader(
-        ADE20KDataset(
-            args['root'], 
-            transform=transform.PILToTensor(),
-            vocabulary='image_caption',
-            ), batch_size=1, shuffle=False)
+        dataset, 
+        batch_size=args['dataloader']['batch_size'],
+        shuffle=args['dataloader']['shuffle'],)
     
-    evaluator = Evaluator(sam, clip, loader, device=args['device'])
+    evaluator = Evaluator(sam, clip, loader, device=args['device'], args=args)
     evaluator.eval()
 
 
@@ -107,5 +107,9 @@ if __name__ == '__main__':
     
     with open('configs/sam_cfg.yaml', 'r') as file:
         args = yaml.load(file, Loader=yaml.FullLoader)
-    
-    main(args)
+    dataset = ADE20KDataset(
+            args['dataset']['root'], 
+            transform=transform.PILToTensor(),
+            vocabulary='image_caption',
+            )
+    main(dataset, args)
