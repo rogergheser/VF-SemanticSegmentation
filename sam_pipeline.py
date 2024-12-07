@@ -11,7 +11,10 @@ import os
 from datasets.dataset_vars import (
     ADE20K_SEM_SEG_FULL_CATEGORIES as ADE20K_CATEGORIES
 )
-from utils.data import ADE20KDataset
+from utils.data import (
+    ADE20KDataset,
+    QualitativeDataset
+)
 from utils.utilsSAM import (
     post_processing,
     recompose_image
@@ -107,9 +110,18 @@ if __name__ == '__main__':
     
     with open('configs/sam_cfg.yaml', 'r') as file:
         args = yaml.load(file, Loader=yaml.FullLoader)
-    dataset = ADE20KDataset(
-            args['dataset']['root'], 
-            transform=transform.PILToTensor(),
-            vocabulary='image_caption',
-            )
+    transform = transform.Compose([
+        # transform.Resize((args['dataset']['resize'], args['dataset']['resize'])),
+        transform.PILToTensor(),
+    ])
+
+    dataset_name_to_class = {
+        'qualitative': QualitativeDataset,
+        'ade20kfull': ADE20KDataset,
+    }
+    
+    dataset_name = args['dataset']['name']
+    dataset_class = dataset_name_to_class[dataset_name]
+    dataset = dataset_class.from_args(args, transform)
+
     main(dataset, args)

@@ -19,6 +19,12 @@ class QualitativeDataset(data.Dataset):
         """
         self.root = root
         self.transform = transform
+        self.vocab_type = vocabulary
+        self.vocabulary = None
+
+        self.captioner = None
+        self.cap_preprocess = None
+
         with open('datasets/subsetADE.txt') as f:
             self.paths = [x.strip() for x in f.read().splitlines()]
         self.image_paths = [x + '.jpg' for x in self.paths]
@@ -47,10 +53,10 @@ class QualitativeDataset(data.Dataset):
     @classmethod
     def from_args(cls, args:dict, transform: Compose=None):
         return cls(
-            root=args.root,
+            root=args['dataset']['root'],
             transform=transform,
-            vocabulary=args.vocabulary,
-            device=args.device
+            vocabulary=args['dataset']['vocabulary'],
+            device=args['device']
         )
     def __len__(self):
         return len(self.image_paths)
@@ -135,10 +141,10 @@ class ADE20KDataset(data.Dataset):
     @classmethod
     def from_args(cls, args: dict, transform: Compose=None):
         return cls(
-            root=args.root,
+            root=args['dataset']['root'],
             transform=transform,
-            vocabulary=args.vocabulary,
-            device=args.device
+            vocabulary=args['dataset']['vocabulary'],
+            device=args['device']
         )
     def __len__(self):
         return len(self.image_paths)
