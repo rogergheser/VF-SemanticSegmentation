@@ -244,3 +244,49 @@ def recompose_image(image, masks):
     overlay_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
 
     return overlay_image
+
+
+def annotate_predictions_on_image(image, seg, logit, vocabulary):
+    """
+    Annotate the given image with predictions based on segmentation and logit data.
+
+    Parameters:
+        image: The original image (numpy array) to annotate.
+        seg: List of segmentation masks containing bounding boxes.
+        logit: Logit values from which predictions are derived.
+        vocabulary: List of labels corresponding to predictions.
+
+    Returns:
+        Annotated image (numpy array).
+    """
+    # Create a deep copy of the input image
+    annotated_image = copy.deepcopy(image)
+
+    # Determine predictions by taking the argmax of logits
+    predictions = logit.argmax(axis=-1)  # Assuming logit is a numpy array
+
+    for i, mask in enumerate(seg):
+        # Extract bounding box coordinates
+        x, y, w, h = mask['bbox']
+
+        # Get the predicted label from vocabulary
+        label = vocabulary[predictions[i]]
+
+        # Add the label text on the image
+        font_scale = 0.5
+        thickness = 1
+        text_size, baseline = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness)
+        text_w, text_h = text_size
+
+        # Overlay the text label
+        cv2.putText(
+            annotated_image,
+            label,
+            (x, y - baseline),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            font_scale,
+            (255, 255, 255),  # White text
+            thickness
+        )
+
+    return annotated_image
