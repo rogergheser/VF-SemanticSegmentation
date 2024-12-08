@@ -1,5 +1,4 @@
 *.pth
-#
 .VS_Code
 **/.VS_Code
 .vscode/
