@@ -30,7 +30,10 @@ from detectron2.engine import (
 from detectron2.evaluation import (
     CityscapesSemSegEvaluator,
     DatasetEvaluators,
+    DatasetEvaluator,
     SemSegEvaluator,
+    inference_on_dataset,
+    print_csv_format,
     verify_results,
 )
 from detectron2.projects.deeplab import add_deeplab_config, build_lr_scheduler
@@ -46,6 +49,9 @@ from san import (
 from san.data import build_detection_test_loader, build_detection_train_loader
 from san.utils import WandbWriter, setup_wandb
 
+from custom_evaluator import CustomSemSegEvaluator # Custom evaluator
+from san.data.datasets.register_coco_stuff_164k import COCO_CATEGORIES
+
 
 class Trainer(DefaultTrainer):
     def build_writers(self):
@@ -55,7 +61,7 @@ class Trainer(DefaultTrainer):
         return writers
 
     @classmethod
-    def build_evaluator(cls, cfg, dataset_name, output_folder=None):
+    def build_evaluator(cls, cfg, dataset_name, model, inference_voc=None, output_folder=None): # pass model to evaluator to get the encoded labels
         if output_folder is None:
             output_folder = os.path.join(cfg.OUTPUT_DIR, "inference")
         evaluator_list = []
@@ -63,10 +69,12 @@ class Trainer(DefaultTrainer):
         # semantic segmentation
         if evaluator_type in ["sem_seg", "ade20k_panoptic_seg"]:
             evaluator_list.append(
-                SemSegEvaluator(
+                CustomSemSegEvaluator(
+                    model,
                     dataset_name,
                     distributed=True,
                     output_dir=output_folder,
+                    inference_voc=inference_voc
                 )
             )
 
@@ -233,6 +241,64 @@ class Trainer(DefaultTrainer):
         res = cls.test(cfg, model, evaluators)
         res = OrderedDict({k + "_TTA": v for k, v in res.items()})
         return res
+    
+    @classmethod
+    def test(cls, cfg, model, vocab=None, evaluators=None):
+        """
+        Evaluate the given model. The given model is expected to already contain
+        weights to evaluate.
+
+        Args:
+            cfg (CfgNode):
+            model (nn.Module):
+            vocab (list[str]): list of custom class names
+            evaluators (list[DatasetEvaluator] or None): if None, will call
+                :meth:`build_evaluator`. Otherwise, must have the same length as
+                ``cfg.DATASETS.TEST``.
+
+        Returns:
+            dict: a dict of result metrics
+        """
+        logger = logging.getLogger(__name__)
+        if isinstance(evaluators, DatasetEvaluator):
+            evaluators = [evaluators]
+        if evaluators is not None:
+            assert len(cfg.DATASETS.TEST) == len(evaluators), "{} != {}".format(
+                len(cfg.DATASETS.TEST), len(evaluators)
+            )
+
+        results = OrderedDict()
+        for idx, dataset_name in enumerate(cfg.DATASETS.TEST):
+            data_loader = cls.build_test_loader(cfg, dataset_name)
+
+            # When evaluators are passed in as arguments,
+            # implicitly assume that evaluators can be created before data_loader.
+            if evaluators is not None:
+                evaluator = evaluators[idx]
+            else:
+                try:
+                    evaluator = cls.build_evaluator(cfg, dataset_name, model, vocab)
+                except NotImplementedError:
+                    logger.warn(
+                        "No evaluator found. Use `DefaultTrainer.test(evaluators=)`, "
+                        "or implement its `build_evaluator` method."
+                    )
+                    results[dataset_name] = {}
+                    continue
+            results_i = inference_on_dataset(model, data_loader, evaluator, vocab)
+            results[dataset_name] = results_i
+            if comm.is_main_process():
+                assert isinstance(
+                    results_i, dict
+                ), "Evaluator must return a dict on the main process. Got {} instead.".format(
+                    results_i
+                )
+                logger.info("Evaluation results for {} in csv format:".format(dataset_name))
+                print_csv_format(results_i)
+
+        if len(results) == 1:
+            results = list(results.values())[0]
+        return results
 
 
 def setup(args):
@@ -261,7 +327,7 @@ def main(args):
         DetectionCheckpointer(model, save_dir=cfg.OUTPUT_DIR).resume_or_load(
             cfg.MODEL.WEIGHTS, resume=args.resume
         )
-        res = Trainer.test(cfg, model)
+        res = Trainer.test(cfg, model, args.vocabulary)
         if cfg.TEST.AUG.ENABLED:
             res.update(Trainer.test_with_TTA(cfg, model))
         if comm.is_main_process():
@@ -273,10 +339,15 @@ def main(args):
     trainer.resume_or_load(resume=args.resume)
     return trainer.train()
 
+def merge_vocabulary(vocabulary: List[str]) -> List[str]:
+    default_voc = [c["name"] for c in COCO_CATEGORIES]
+    return vocabulary + [c for c in default_voc if c not in vocabulary]
 
 if __name__ == "__main__":
     args = default_argument_parser().parse_args()
     print("Command Line Args:", args)
+    # args.vocabulary = merge_vocabulary(vocabulary=['batman', 'wonderwoman'])
+    args.vocabulary = None
     launch(
         main,
         args.num_gpus,
