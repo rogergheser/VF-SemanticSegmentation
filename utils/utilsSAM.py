@@ -242,38 +242,26 @@ def segment_and_classify(segmenter, classifier, path_images, vocabulary, methods
     return results
 
 
-def recompose_image(image, masks, overlay=True):
-    """
-    Image recomposition function that overlays segmentation masks on the original image.
-    :param image: Original image (numpy array).
-    :param masks: List of segmentation masks, SAM style.
-    """
+def recompose_image(image, masks):
     # Create a blank image with the same shape as the original image
     recomposed_image = np.zeros_like(image)
 
     # Define a list of colors for the masks
-    
     colors = plt.cm.get_cmap('hsv', len(masks))
-        
+
     # Iterate over the masks and apply the colors
     for i, mask in enumerate(masks):
             
-        color = colors(i)[:3] 
+        color = colors(i)[:3]  # Get the RGB values from the colormap
         segmentation = mask['segmentation']
-        # Transpose image to (711, 400, 3) for easier manipulation
-        recomposed_image = recomposed_image.transpose(1, 2, 0)
-        # Apply mask
-        recomposed_image[segmentation] = color
-        # Transpose back to (3, 711, 400)
-        recomposed_image = recomposed_image.transpose(2, 0, 1)
-    if image.dtype == 'uint8':
-        recomposed_image = recomposed_image * 255
+        recomposed_image[segmentation] = (np.array(color) * 255).astype(np.uint8)
 
-    if overlay:
-        recomposed_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
+    # Overlay the recomposed image on the original image
+    overlay_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
 
-    return recomposed_image
-    
+    return overlay_image
+
+
 
 
 def is_contained(inner_bbox, outer_bbox):
@@ -319,11 +307,11 @@ def annotate_predictions_on_image(image, masks, predictions, vocabulary):
     img_height, img_width = image.shape[:2]
     
     # Define a font scale based on the image dimensions
-    font_scale = min(img_width, img_height) / 1000.0  # Adjust the divisor for desired scale
+    font_scale = min(img_width, img_height) / 700.0  # Adjust the divisor for desired scale
 
     for i, mask in enumerate(masks):
         x, y, w, h = mask['bbox']
-        origin = (x + int(w/2), y + int(h/2))
+        origin = (x + int(w/2) - 45, y + int(h/2))
 
         # Overlay the text
         cv2.putText(
