@@ -1,6 +1,7 @@
 # results for subsetADE
 resultsSAM
-results/ade_gt
+results/
+
 
 *.pth
 .VS_Code

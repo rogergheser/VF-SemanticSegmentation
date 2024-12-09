@@ -63,12 +63,13 @@ class Evaluator:
 
         if self.save_results:
             os.makedirs(self.out_path, exist_ok=True)
-        # for i, category in enumerate(ADE20K_CATEGORIES):
-        #     keys = category["name"].split(", ")
-        #     self.new_label_idx += 1
-        #     for key in keys:
-        #         if key not in self.ade_voc:
-        #             self.ade_voc[key] = category["trainId"]
+
+        for i, category in enumerate(ADE20K_CATEGORIES):
+            keys = category["name"].split(", ")
+            self.new_label_idx += 1
+            for key in keys:
+                if key not in self.ade_voc:
+                    self.ade_voc[key] = category["trainId"]
 
     def eval(self):
         os.makedirs('overlay', exist_ok=True)
@@ -76,6 +77,8 @@ class Evaluator:
         print("-"*90)
         print("Starting evaluation")
         for i, batch in enumerate(loop):
+            if i % 10 != 0:
+                continue
             image = batch['image'].squeeze(0).to(self.device)
             vocabulary = batch['vocabulary']
             json_label = batch['label']
@@ -83,8 +86,12 @@ class Evaluator:
             masks = self.sam.predict_mask(image)
 
             masks, _ = filter_masks(masks)
+<<<<<<< HEAD
             print("Filtered masks: ", len(masks))
             images, masks = post_processing(masks, image, post_processing=self.post_process)
+=======
+            images, masks = post_processing(masks, image.cpu().numpy(), post_processing='black_background_masks')
+>>>>>>> aa7bc3ccf823ea5aa25100c8cc4149ce141d90f7
             
             logits = self.clip.classify(images, masks, vocabulary)
             predictions = torch.argmax(logits, dim=1)
@@ -96,8 +103,9 @@ class Evaluator:
                 self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, masks)
                 
             # TODO: evaluate image
-            output = [{'sem_seg': logits}]
-            # self.evaluator.process(inputs=batch, outputs=output)
+            batch['file_name'] = batch['file_name'][0] # remove list from file_name added by dataloader
+            output = [{'sem_seg': semseg}]
+            self.evaluator.process(inputs=[batch], outputs=output)
 
     def save_interpretable_results(self,
                                    overlay_img: np.ndarray,
@@ -158,7 +166,7 @@ def get_san_model():
 
     detectron_args.config_file = 'SAN/configs/san_clip_vit_res4_coco.yaml'
     detectron_args.eval_only = True
-    detectron_args.opts = ['OUTPUT_DIR', 'output/ade20k_full_SAM_eval', 'MODEL.WEIGHTS', 'checkpoints/san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"]
+    detectron_args.opts = ['OUTPUT_DIR', 'output/ade20k_full_SAM_eval_blackbg', 'MODEL.WEIGHTS', 'checkpoints/san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"]
     cfg = setup(detectron_args)
     san_model = build_model(cfg)
 
@@ -172,12 +180,13 @@ def main(dataset, args):
         batch_size=args['dataloader']['batch_size'],
         shuffle=args['dataloader']['shuffle'],)
     
-    # san_model, san_cfg = get_san_model()
-    # quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
-    quantitative_evaluator = None
+    san_model, san_cfg = get_san_model()
+    quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
+    quantitative_evaluator.reset()
     
     evaluator = Evaluator(sam, clip, loader, quantitative_evaluator, device=args['device'], args=args)
     evaluator.eval()
+    evaluator.evaluator.evaluate()
 
 
 if __name__ == '__main__':

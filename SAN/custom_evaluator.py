@@ -26,8 +26,8 @@ class CustomSemSegEvaluator(SemSegEvaluator):
         Returns:
             float: mean semantic pixel similarity
         """
-        if not self.ov_classifier.cache:
-            raise ValueError("Classifier cache is empty. Run inference on the dataset to populate the cache with the encoded labels.")
+        if not self.ov_classifier.cache and not self.inference_voc:
+            self.ov_classifier.get_classifier_by_dataset_name(self._dataset_name) # populate the cache with the encoded labels
         
         if self.inference_voc:
             assert self._num_classes + len(self.inference_voc) + 1 == self._conf_matrix.shape[0], "The number of classes in the inference vocabulary must match the number of classes in the dataset."
@@ -127,6 +127,7 @@ class CustomSemSegEvaluator(SemSegEvaluator):
         res["conf_matrix"] = self._conf_matrix # Saves also the confusion matrix for future analysis
         res["sem_acc"] = 100 * sem_acc # Custom metric result to be added to the pth file
         res["sem_acc_rescaled"] = 100 * sem_acc_rescaled
+        print(f"Semantic pixel similarity: {res['sem_acc']:.2f}%")
 
         if not self.inference_voc:
             res["mIoU"] = 100 * miou
@@ -162,7 +163,11 @@ class CustomSemSegEvaluator(SemSegEvaluator):
                 segmentation prediction in the same format.
         """
         for input, output in zip(inputs, outputs):
-            output = output["sem_seg"].argmax(dim=0).to(self._cpu_device)
+            output = output["sem_seg"]
+            if output.shape[0] > 1:
+                output = output.argmax(dim=0).to(self._cpu_device)
+            else:
+                output = output.squeeze(0).to(self._cpu_device)
             pred = np.array(output, dtype=int)
             gt_filename = self.input_file_to_gt_file[input["file_name"]]
             gt = self.sem_seg_loading_fn(gt_filename, dtype=int)
