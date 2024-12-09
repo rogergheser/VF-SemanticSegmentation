@@ -1,6 +1,7 @@
 import os
 import cv2
 import copy
+import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
@@ -144,6 +145,14 @@ def red_circle_masks(masks, image):
     return images
 
 
+def read_pickle(path):
+    ret = None
+    with open(path, 'rb') as f:
+        ret = pickle.load(f)
+
+    return ret
+
+
 def bbox_masks(masks, image):
     images = []
 
@@ -176,11 +185,11 @@ def black_background_masks(masks, image):
     return images
 
 
-def read_line_file(path_files):
+def read_line_file(path_files, additional_path = "../"):
     ret_lines = []
     with open(path_files, 'r') as file:
         for line in file:
-            ret_lines.append("../" + line.strip() + ".jpg")
+            ret_lines.append(additional_path + line.strip() + ".jpg")
     
     return ret_lines
 
@@ -210,12 +219,12 @@ def segment_and_classify(segmenter, classifier, path_images, vocabulary, methods
             # Classify Mask
             flag_alpha = True
             logits = classifier.classify_mask(images, masks_sam_copy, vocabulary, flagUseAlpha = flag_alpha)
-
+            logits = logits.cpu()
             result_logit[f"{method}_{flag_alpha}"] = logits
             
             flag_alpha = False
             logits = classifier.classify_mask(images, masks_sam_copy, vocabulary, flagUseAlpha = flag_alpha)
-
+            logits = logits.cpu()
             result_logit[f"{method}_{flag_alpha}"] = logits
 
         
@@ -233,67 +242,100 @@ def segment_and_classify(segmenter, classifier, path_images, vocabulary, methods
     return results
 
 
-def recompose_image(image, masks):
+def recompose_image(image, masks, overlay=True):
+    """
+    Image recomposition function that overlays segmentation masks on the original image.
+    :param image: Original image (numpy array).
+    :param masks: List of segmentation masks, SAM style.
+    """
     # Create a blank image with the same shape as the original image
     recomposed_image = np.zeros_like(image)
 
     # Define a list of colors for the masks
+    
     colors = plt.cm.get_cmap('hsv', len(masks))
-
+        
     # Iterate over the masks and apply the colors
     for i, mask in enumerate(masks):
             
-        color = colors(i)[:3]  # Get the RGB values from the colormap
+        color = colors(i)[:3] 
         segmentation = mask['segmentation']
-        recomposed_image[segmentation] = (np.array(color) * 255).astype(np.uint8)
+        # Transpose image to (711, 400, 3) for easier manipulation
+        recomposed_image = recomposed_image.transpose(1, 2, 0)
+        # Apply mask
+        recomposed_image[segmentation] = color
+        # Transpose back to (3, 711, 400)
+        recomposed_image = recomposed_image.transpose(2, 0, 1)
+    if image.dtype == 'uint8':
+        recomposed_image = recomposed_image * 255
 
-    # Overlay the recomposed image on the original image
-    overlay_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
+    if overlay:
+        recomposed_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
 
-    return overlay_image
+    return recomposed_image
+    
 
 
-def annotate_predictions_on_image(image, seg, logit, vocabulary):
+def is_contained(inner_bbox, outer_bbox):
     """
-    Annotate the given image with predictions based on segmentation and logit data.
-
-    Parameters:
-        image: The original image (numpy array) to annotate.
-        seg: List of segmentation masks containing bounding boxes.
-        logit: Logit values from which predictions are derived.
-        vocabulary: List of labels corresponding to predictions.
-
-    Returns:
-        Annotated image (numpy array).
+    Check if the bounding box 'inner_bbox' is completely contained in 'outer_bbox'.
     """
-    # Create a deep copy of the input image
-    annotated_image = copy.deepcopy(image)
+    ix, iy, iw, ih = inner_bbox  # intern mask
+    ox, oy, ow, oh = outer_bbox  # extern mask
+    
+   
+    return (ix >= ox and 
+            iy >= oy and  
+            ix + iw <= ox + ow and  
+            iy + ih <= oy + oh) 
 
-    # Determine predictions by taking the argmax of logits
-    predictions = logit.argmax(axis=-1)  # Assuming logit is a numpy array
-
+def filter_largest_masks(seg, predictions=None):
+    """
+    keep only the largest mask among the contained ones.
+    """
+    seg_to_keep = []
+    pred_to_keep = []
     for i, mask in enumerate(seg):
-        # Extract bounding box coordinates
+        is_largest = True
+        for j, other_mask in enumerate(seg):
+            if i != j and is_contained(mask['bbox'], other_mask['bbox']):
+                # Confronta le aree: se la maschera corrente è più piccola, scartala
+                area_mask = mask['bbox'][2] * mask['bbox'][3]
+                area_other = other_mask['bbox'][2] * other_mask['bbox'][3]
+                if area_mask <= area_other:
+                    is_largest = False
+                    break
+        if is_largest:
+            seg_to_keep.append(mask)
+            pred_to_keep.append(predictions[i] if predictions is not None else None)
+    return seg_to_keep, pred_to_keep 
+
+
+def annotate_predictions_on_image(image, masks, predictions, vocabulary):
+    annotated_image = copy.deepcopy(image)
+    # predictions = logit.argmax(axis=-1)
+
+    # Get the dimensions of the image
+    img_height, img_width = image.shape[:2]
+    
+    # Define a font scale based on the image dimensions
+    font_scale = min(img_width, img_height) / 1000.0  # Adjust the divisor for desired scale
+
+    for i, mask in enumerate(masks):
         x, y, w, h = mask['bbox']
+        origin = (x + int(w/2), y + int(h/2))
 
-        # Get the predicted label from vocabulary
-        label = vocabulary[predictions[i]]
-
-        # Add the label text on the image
-        font_scale = 0.5
-        thickness = 1
-        text_size, baseline = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness)
-        text_w, text_h = text_size
-
-        # Overlay the text label
+        # Overlay the text
         cv2.putText(
             annotated_image,
-            label,
-            (x, y - baseline),
+            vocabulary[predictions[i]], 
+            origin,
             cv2.FONT_HERSHEY_SIMPLEX,
-            font_scale,
-            (255, 255, 255),  # White text
-            thickness
+            fontScale=font_scale,
+            color=(255, 255, 255),
+            thickness=1,
+            lineType=cv2.LINE_AA
         )
 
     return annotated_image
+
