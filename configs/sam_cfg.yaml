@@ -1,6 +1,8 @@
 device: cuda
-save_results: True
-overlay: True
+output:
+  save_results: True
+  overlay: True
+  save_path: results/ade_gt
 sam:
   model_type: vit_h
   weight_path: checkpoints/sam_vit_h_4b8939.pth
@@ -8,8 +10,8 @@ clip:
   model_type: ViT-B/16
   weight_path: checkpoints/clip_b16_grit+mim_fultune_4xe.pth
 dataset:
-  name: ade20k_full_sem_seg_val # coco , ade20k_sem_seg_val, qualitative
-  root: SAN/datasets/ADE20K_2021_17_01
+  name: qualitative # coco , ade20k_sem_seg_val, qualitative
+  root: dataset/
   vocabulary: ade_gt # [image_caption, coco_gt, ade_caption]
 dataloader:
   batch_size: 1

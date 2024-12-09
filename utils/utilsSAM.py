@@ -328,7 +328,7 @@ def filter_masks(masks, predictions=None):
     return masks_to_keep, preds_to_keep 
 
 
-def annotate_predictions_on_image(image, masks, predictions, vocabulary):
+def annotate_image(image, masks, predictions, vocabulary):
     annotated_image = copy.deepcopy(image)
     # predictions = logit.argmax(axis=-1)
 

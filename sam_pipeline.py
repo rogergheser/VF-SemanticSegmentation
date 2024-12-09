@@ -6,7 +6,8 @@ import logging # TODO Configure logging
 import numpy as np
 import yaml
 import cv2
-import os
+import os   
+import copy
 
 from datasets.dataset_vars import (
     ADE20K_SEM_SEG_FULL_CATEGORIES as ADE20K_CATEGORIES
@@ -19,7 +20,8 @@ from utils.data import (
 from utils.utilsSAM import (
     post_processing,
     recompose_image,
-    filter_masks
+    filter_masks,
+    annotate_image
 )
 from torchvision import transforms as transform
 from models.alphaClip import AlphaClip
@@ -52,10 +54,14 @@ class Evaluator:
         self.loader = loader
         self.evaluator = evaluator
         self.device = device
-        self.save_results = args['save_results']
-        self.overlay = args['overlay']
+        self.save_results = args['output']['save_results']
+        self.overlay = args['output']['overlay']
+        self.out_path = args['output']['save_path']
         self.ade_voc = {}
         self.new_label_idx = 0
+
+        if self.save_results:
+            os.makedirs(self.out_path, exist_ok=True)
         # for i, category in enumerate(ADE20K_CATEGORIES):
         #     keys = category["name"].split(", ")
         #     self.new_label_idx += 1
@@ -86,11 +92,11 @@ class Evaluator:
 
             if self.save_results:
                 overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
-                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'overlay/{i}.png', vocabulary, text_predictions, masks)
-                # cv2.imwrite(f'overlay/{i}.png', overlay.transpose(1, 2, 0))
+                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, masks)
+                
             # TODO: evaluate image
             output = [{'sem_seg': logits}]
-            self.evaluator.process(inputs=batch, outputs=output)
+            # self.evaluator.process(inputs=batch, outputs=output)
 
     def save_interpretable_results(self,
                                    overlay_img: np.ndarray,
@@ -98,8 +104,37 @@ class Evaluator:
                                    vocabulary: list[str],
                                    predictions: list[str],
                                    masks: list[dict]):
+        
         assert overlay_img.shape[-1] == 3
-        pass
+
+
+        overlay_img_copy = np.ascontiguousarray(overlay_img, dtype=np.uint8)
+        # Get the dimensions of the image
+        img_height, img_width = overlay_img_copy.shape[:2]
+        
+        # Define a font scale based on the image dimensions
+        font_scale = min(img_width, img_height) / 700.0  # Adjust the divisor for desired scale
+
+        for i, mask in enumerate(masks):
+            x, y, w, h = mask['bbox']
+            origin = (x + int(w/2) - 45, y + int(h/2))
+
+            # Overlay the text
+            cv2.putText(
+                overlay_img_copy,
+                predictions[i], 
+                origin,
+                cv2.FONT_HERSHEY_SIMPLEX,
+                fontScale=font_scale,
+                color=(255, 255, 255),
+                thickness=1,
+                lineType=cv2.LINE_AA
+            )
+
+        cv2.imwrite(output_path, overlay_img_copy)
+
+        return overlay_img_copy
+
 
     def add_labels(self, image, text_predictions, masks):
         for text in text_predictions:
@@ -135,9 +170,10 @@ def main(dataset, args):
         batch_size=args['dataloader']['batch_size'],
         shuffle=args['dataloader']['shuffle'],)
     
-    san_model, san_cfg = get_san_model()
-    quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
-
+    # san_model, san_cfg = get_san_model()
+    # quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
+    quantitative_evaluator = None
+    
     evaluator = Evaluator(sam, clip, loader, quantitative_evaluator, device=args['device'], args=args)
     evaluator.eval()
 
