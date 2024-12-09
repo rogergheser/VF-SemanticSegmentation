@@ -221,9 +221,9 @@ if __name__ == '__main__':
     with open(CONFIG_FILE, 'r') as f:
         cfg = yaml.safe_load(f)
     
-    # coco_data = COCO(cfg['COCO'])
-    # voc2012_data = VOC2012(cfg['VOC2012'])
-    # pcontext_data = PContext(cfg['pcontext'])
+    coco_data = COCO(cfg['COCO'])
+    voc2012_data = VOC2012(cfg['VOC2012'])
+    pcontext_data = PContext(cfg['pcontext'])
     # adechallenge_data = ADEChallengeData2016(cfg['ADEChallengeData2016'])
-    ade20k_data = ADE20K(cfg['ADE20K_2021_17_01'])
+    # ade20k_data = ADE20K(cfg['ADE20K_2021_17_01'])
 

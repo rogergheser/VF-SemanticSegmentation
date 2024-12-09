@@ -8,9 +8,9 @@ clip:
   model_type: ViT-B/16
   weight_path: checkpoints/clip_b16_grit+mim_fultune_4xe.pth
 dataset:
-  name: coco # ade20kfull, ade20k, qualitative
-  root: datasets/coco
-  vocabulary: coco_gt # [image_caption, ade_gt, ade_caption]
+  name: ade20k_full_sem_seg_val # coco , ade20k_sem_seg_val, qualitative
+  root: SAN/datasets/ADE20K_2021_17_01
+  vocabulary: ade_gt # [image_caption, coco_gt, ade_caption]
 dataloader:
   batch_size: 1
   shuffle: False
