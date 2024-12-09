@@ -1,6 +1,8 @@
 device: cuda
-save_results: True
-overlay: True
+output:
+  save_results: True
+  overlay: True
+  save_path: results/ade_gt
 sam:
   model_type: vit_h
   weight_path: checkpoints/sam_vit_h_4b8939.pth

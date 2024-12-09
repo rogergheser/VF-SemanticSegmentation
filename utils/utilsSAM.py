@@ -306,15 +306,15 @@ def is_contained(inner_bbox, outer_bbox):
             ix + iw <= ox + ow and  
             iy + ih <= oy + oh) 
 
-def filter_largest_masks(seg, predictions=None):
+def filter_masks(masks, predictions=None):
     """
-    keep only the largest mask among the contained ones.
+    Keep only the largest masks among the contained ones.
     """
-    seg_to_keep = []
-    pred_to_keep = []
-    for i, mask in enumerate(seg):
+    masks_to_keep = []
+    preds_to_keep = []
+    for i, mask in enumerate(masks):
         is_largest = True
-        for j, other_mask in enumerate(seg):
+        for j, other_mask in enumerate(masks):
             if i != j and is_contained(mask['bbox'], other_mask['bbox']):
                 # Confronta le aree: se la maschera corrente è più piccola, scartala
                 area_mask = mask['bbox'][2] * mask['bbox'][3]
@@ -323,12 +323,12 @@ def filter_largest_masks(seg, predictions=None):
                     is_largest = False
                     break
         if is_largest:
-            seg_to_keep.append(mask)
-            pred_to_keep.append(predictions[i] if predictions is not None else None)
-    return seg_to_keep, pred_to_keep 
+            masks_to_keep.append(mask)
+            preds_to_keep.append(predictions[i] if predictions is not None else None)
+    return masks_to_keep, preds_to_keep 
 
 
-def annotate_predictions_on_image(image, masks, predictions, vocabulary):
+def annotate_image(image, masks, predictions, vocabulary):
     annotated_image = copy.deepcopy(image)
     # predictions = logit.argmax(axis=-1)
 
