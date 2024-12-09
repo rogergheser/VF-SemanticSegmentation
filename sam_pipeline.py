@@ -18,7 +18,8 @@ from utils.data import (
 )
 from utils.utilsSAM import (
     post_processing,
-    recompose_image
+    recompose_image,
+    filter_masks
 )
 from torchvision import transforms as transform
 from models.alphaClip import AlphaClip
@@ -74,7 +75,10 @@ class Evaluator:
 
             masks = self.sam.predict_mask(image)
 
+            masks, _ = filter_masks(masks)
+            print("Filtered masks: ", len(masks))
             images, masks = post_processing(masks, image, post_processing='none')
+            
             logits = self.clip.classify(images, masks, vocabulary)
             predictions = torch.argmax(logits, dim=1)
             text_predictions = [vocabulary[pred.item()][0] for pred in predictions]
