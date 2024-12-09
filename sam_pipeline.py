@@ -85,18 +85,20 @@ class Evaluator:
             json_label = batch['label']
 
             masks = self.sam.predict_mask(image)
-
             masks, _ = filter_masks(masks)
-            images, masks = post_processing(masks, image.cpu().numpy(), post_processing='black_background_masks')
+            # These masks are guaranteed to remain intact, preserving correct shapes
+            original_masks = copy.deepcopy(masks) 
+
+            images, masks = post_processing(masks, image, post_processing=self.post_process)
             
             logits = self.clip.classify(images, masks, vocabulary)
             predictions = torch.argmax(logits, dim=1)
             text_predictions = [vocabulary[pred.item()][0] for pred in predictions]
-            semseg = self.add_labels(image, text_predictions, masks)
+            semseg = self.add_labels(image, text_predictions, original_masks)
 
             if self.save_results:
-                overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
-                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, masks)
+                overlay = recompose_image(image.cpu().numpy(), original_masks, overlay=self.overlay)
+                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, original_masks)
                 
             batch['file_name'] = batch['file_name'][0] # remove list from file_name added by dataloader
             output = [{'sem_seg': semseg}]
