@@ -34,11 +34,51 @@ full_clsID_to_trID = {
     20: 19,
     255: 255,
 }
+# 2-cow/motobike, 4-airplane/sofa, 6-cat/tv, 8-train/bottle, 10-
+# chair/potted plant
+# "aeroplane",
+# "bicycle",
+# "bird",
+# "boat",
+# "bottle",
+# "bus",
+# "car",
+# "cat",
+# "chair",
+# "cow",
+# "diningtable",
+# "dog",
+# "horse",
+# "motorbike",
+# "person",
+# "pottedplant",
+# "sheep",
+# "sofa",
+# "train",
+# "tv",
 
 novel_clsID = [16, 17, 18, 19, 20]
+novel_2_clsID = [10, 14]
+novel_4_clsID = [1, 10, 14, 18]
+novel_6_clsID = [1, 8, 10, 14, 18, 20]
+novel_8_clsID = [1, 5, 8, 10, 14, 18, 19, 20]
+novel_10_clsID = [1, 5, 8, 9, 10, 14, 16, 18, 19, 20]
+
 base_clsID = [k for k in full_clsID_to_trID.keys() if k not in novel_clsID + [0, 255]]
+base_2_clsID = [k for k in base_clsID if k not in novel_2_clsID]
+base_4_clsID = [k for k in base_clsID if k not in novel_4_clsID]
+base_6_clsID = [k for k in base_clsID if k not in novel_6_clsID]
+base_8_clsID = [k for k in base_clsID if k not in novel_8_clsID]
+base_10_clsID = [k for k in base_clsID if k not in novel_10_clsID]
+
 novel_clsID_to_trID = {k: i for i, k in enumerate(novel_clsID)}
 base_clsID_to_trID = {k: i for i, k in enumerate(base_clsID)}
+
+base_2_clsID_to_trID = {k: i for i, k in enumerate(base_2_clsID)}
+base_4_clsID_to_trID = {k: i for i, k in enumerate(base_4_clsID)}
+base_6_clsID_to_trID = {k: i for i, k in enumerate(base_6_clsID)}
+base_8_clsID_to_trID = {k: i for i, k in enumerate(base_8_clsID)}
+base_10_clsID_to_trID = {k: i for i, k in enumerate(base_10_clsID)}
 
 
 def convert_to_trainID(
@@ -84,7 +124,11 @@ def main():
         "train",
         "val",
         "train_base",
-        "train_base_10class",
+        "train_base_2",
+        "train_base_4",
+        "train_base_6",
+        "train_base_8",
+        "train_base_10",
         "train_novel",
         "val_base",
         "val_novel",
@@ -95,11 +139,11 @@ def main():
 
     train_list = [
         osp.join(voc_path, "SegmentationClassAug", f + ".png")
-        for f in np.loadtxt(osp.join(voc_path, "train.txt"), dtype=str).tolist()
+        for f in np.loadtxt(osp.join(voc_path, "train.txt"), dtype=np.str).tolist()
     ]
     test_list = [
         osp.join(voc_path, "SegmentationClassAug", f + ".png")
-        for f in np.loadtxt(osp.join(voc_path, "val.txt"), dtype=str).tolist()
+        for f in np.loadtxt(osp.join(voc_path, "val.txt"), dtype=np.str).tolist()
     ]
 
     if args.nproc > 1:
@@ -113,50 +157,6 @@ def main():
             test_list,
             nproc=nproc,
         )
-        mmcv.track_parallel_progress(
-            partial(
-                convert_to_trainID,
-                out_mask_dir=out_mask_dir,
-                is_train=True,
-                clsID_to_trID=base_clsID_to_trID,
-                suffix="_base",
-            ),
-            train_list,
-            nproc=nproc,
-        )
-        mmcv.track_parallel_progress(
-            partial(
-                convert_to_trainID,
-                out_mask_dir=out_mask_dir,
-                is_train=True,
-                clsID_to_trID=base_clsID_to_trID,
-                suffix="_base_10class",
-            ),
-            train_list,
-            nproc=nproc,
-        )
-        mmcv.track_parallel_progress(
-            partial(
-                convert_to_trainID,
-                out_mask_dir=out_mask_dir,
-                is_train=True,
-                clsID_to_trID=novel_clsID_to_trID,
-                suffix="_novel",
-            ),
-            train_list,
-            nproc=nproc,
-        )
-        mmcv.track_parallel_progress(
-            partial(
-                convert_to_trainID,
-                out_mask_dir=out_mask_dir,
-                is_train=False,
-                clsID_to_trID=novel_clsID_to_trID,
-                suffix="_novel",
-            ),
-            test_list,
-            nproc=nproc,
-        )
     else:
         mmcv.track_progress(
             partial(convert_to_trainID, out_mask_dir=out_mask_dir, is_train=True),
@@ -166,46 +166,7 @@ def main():
             partial(convert_to_trainID, out_mask_dir=out_mask_dir, is_train=False),
             test_list,
         )
-        mmcv.track_progress(
-            partial(
-                convert_to_trainID,
-                out_mask_dir=out_mask_dir,
-                is_train=True,
-                clsID_to_trID=base_clsID_to_trID,
-                suffix="_base",
-            ),
-            train_list,
-        )
-        mmcv.track_progress(
-            partial(
-                convert_to_trainID,
-                out_mask_dir=out_mask_dir,
-                is_train=False,
-                clsID_to_trID=base_clsID_to_trID,
-                suffix="_base",
-            ),
-            test_list,
-        )
-        mmcv.track_progress(
-            partial(
-                convert_to_trainID,
-                out_mask_dir=out_mask_dir,
-                is_train=True,
-                clsID_to_trID=novel_clsID_to_trID,
-                suffix="_novel",
-            ),
-            train_list,
-        )
-        mmcv.track_progress(
-            partial(
-                convert_to_trainID,
-                out_mask_dir=out_mask_dir,
-                is_train=False,
-                clsID_to_trID=novel_clsID_to_trID,
-                suffix="_novel",
-            ),
-            test_list,
-        )
+
     print("Done!")
 
 
