@@ -336,11 +336,11 @@ def annotate_predictions_on_image(image, masks, predictions, vocabulary):
     img_height, img_width = image.shape[:2]
     
     # Define a font scale based on the image dimensions
-    font_scale = min(img_width, img_height) / 1000.0  # Adjust the divisor for desired scale
+    font_scale = min(img_width, img_height) / 700.0  # Adjust the divisor for desired scale
 
     for i, mask in enumerate(masks):
         x, y, w, h = mask['bbox']
-        origin = (x + int(w/2), y + int(h/2))
+        origin = (x + int(w/2) - 45, y + int(h/2))
 
         # Overlay the text
         cv2.putText(
