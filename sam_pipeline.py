@@ -158,12 +158,12 @@ class Evaluator:
 
         return semseg
     
-def get_san_model():
+def get_san_model(args):
     detectron_args = default_argument_parser().parse_args()
 
     detectron_args.config_file = 'SAN/configs/san_clip_vit_res4_coco.yaml'
     detectron_args.eval_only = True
-    detectron_args.opts = ['OUTPUT_DIR', 'output/ade20k_full_SAM_eval_blackbg', 'MODEL.WEIGHTS', 'checkpoints/san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"]
+    detectron_args.opts = ['OUTPUT_DIR', args['output']['save_results'], 'MODEL.WEIGHTS', 'checkpoints/san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"]
     cfg = setup(detectron_args)
     san_model = build_model(cfg)
 
@@ -177,7 +177,7 @@ def main(dataset, args):
         batch_size=args['dataloader']['batch_size'],
         shuffle=args['dataloader']['shuffle'],)
     
-    san_model, san_cfg = get_san_model()
+    san_model, san_cfg = get_san_model(args)
     quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
     quantitative_evaluator.reset()
     
