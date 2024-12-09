@@ -232,7 +232,7 @@ class Coco(data.Dataset):
                 self.vocabulary = [label['name'] for label in self.labels['categories']]
             case 'coco_caption':
                 captions = [caption for caption in self.captions['annotations'] if caption['image_id']==image_id]
-                self.vocabulary = list(set(chain(*[caption['caption'].split(" ") for caption in captions])))
+                self.vocabulary = list(set(chain(*[caption['caption'].lower().split(" ") for caption in captions])))
             case 'image_caption':
                 # define caption and create vocabulary on the fly
                 from lavis.models import load_model_and_preprocess

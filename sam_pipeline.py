@@ -74,17 +74,28 @@ class Evaluator:
 
             masks = self.sam.predict_mask(image)
 
-            images, masks = post_processing(masks, image.type(torch.float32), post_processing='none')
+            images, masks = post_processing(masks, image, post_processing='none')
             logits = self.clip.classify(images, masks, vocabulary)
             predictions = torch.argmax(logits, dim=1)
-            text_predictions = [vocabulary[pred.item()] for pred in predictions]
+            text_predictions = [vocabulary[pred.item()][0] for pred in predictions]
             semseg = self.add_labels(image, text_predictions, masks)
+
             if self.save_results:
                 overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
-                cv2.imwrite(f'overlay/{i}.png', overlay.transpose(1, 2, 0))
+                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'overlay/{i}.png', vocabulary, text_predictions, masks)
+                # cv2.imwrite(f'overlay/{i}.png', overlay.transpose(1, 2, 0))
             # TODO: evaluate image
             output = [{'sem_seg': logits}]
             self.evaluator.process(inputs=batch, outputs=output)
+
+    def save_interpretable_results(self,
+                                   overlay_img: np.ndarray,
+                                   output_path: str,
+                                   vocabulary: list[str],
+                                   predictions: list[str],
+                                   masks: list[dict]):
+        assert overlay_img.shape[-1] == 3
+        pass
 
     def add_labels(self, image, text_predictions, masks):
         for text in text_predictions:
@@ -134,7 +145,7 @@ if __name__ == '__main__':
     
     with open('configs/sam_cfg.yaml', 'r') as file:
         args = yaml.load(file, Loader=yaml.FullLoader)
-    transform = transform.Compose([
+    _transform = transform.Compose([
         # transform.Resize((args['dataset']['resize'], args['dataset']['resize'])),
         transform.PILToTensor(),
     ])
@@ -147,6 +158,6 @@ if __name__ == '__main__':
     
     dataset_name = args['dataset']['name']
     dataset_class = dataset_name_to_class[dataset_name]
-    dataset = dataset_class.from_args(args, transform)
+    dataset = dataset_class.from_args(args, _transform)
 
     main(dataset, args)
