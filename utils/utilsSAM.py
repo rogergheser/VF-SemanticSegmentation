@@ -1,3 +1,4 @@
+import torch
 import os
 import cv2
 import copy
@@ -75,8 +76,23 @@ def add_padding(bbox, image_shape, padding_p):
         return x1, y1, new_height, new_width
 
 
-def post_processing(masks, image, post_processing='blurred_masks'):
-    
+def post_processing(masks: list[dict],
+                    image: np.ndarray, 
+                    post_processing:str='blurred_masks')-> List[np.ndarray]:
+    """
+    Post processing of SAM masks for AlphaCLIP classification.
+    :param masks: List of segmentation masks, SAM style.
+    :param image: Original image (numpy array).
+    :param post_processing: Post processing method to apply.
+    :return: List of processed images as np.float32.
+    """
+    if image.dtype == np.uint8 or image.dtype == 'uint8' \
+        or image.dtype == torch.uint8:
+        if image.dtype == 'uint8' or image.dtype == np.uint8:
+            image = image.astype(np.float32)/255.0
+        else:
+            image = image.type(torch.float32)/255.0
+
     masks_copy = copy.deepcopy(masks)
     if post_processing == 'blurred_masks':
         images = blurred_masks(masks_copy, image)
@@ -91,7 +107,8 @@ def post_processing(masks, image, post_processing='blurred_masks'):
     else:
         print("Invalid post processing method")
         raise ValueError
-        
+    
+    
 
     return images, masks_copy
 
@@ -242,26 +259,38 @@ def segment_and_classify(segmenter, classifier, path_images, vocabulary, methods
     return results
 
 
-def recompose_image(image, masks):
+def recompose_image(image, masks, overlay=True):
+    """
+    Image recomposition function that overlays segmentation masks on the original image.
+    :param image: Original image (numpy array).
+    :param masks: List of segmentation masks, SAM style.
+    """
     # Create a blank image with the same shape as the original image
     recomposed_image = np.zeros_like(image)
 
     # Define a list of colors for the masks
+    
     colors = plt.cm.get_cmap('hsv', len(masks))
-
+        
     # Iterate over the masks and apply the colors
     for i, mask in enumerate(masks):
             
-        color = colors(i)[:3]  # Get the RGB values from the colormap
+        color = colors(i)[:3] 
         segmentation = mask['segmentation']
-        recomposed_image[segmentation] = (np.array(color) * 255).astype(np.uint8)
+        # Transpose image to (711, 400, 3) for easier manipulation
+        recomposed_image = recomposed_image.transpose(1, 2, 0)
+        # Apply mask
+        recomposed_image[segmentation] = color
+        # Transpose back to (3, 711, 400)
+        recomposed_image = recomposed_image.transpose(2, 0, 1)
+    if image.dtype == 'uint8':
+        recomposed_image = recomposed_image * 255
 
-    # Overlay the recomposed image on the original image
-    overlay_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
+    if overlay:
+        recomposed_image = cv2.addWeighted(image, 0.5, recomposed_image, 0.5, 0)
 
-    return overlay_image
-
-
+    return recomposed_image
+    
 
 
 def is_contained(inner_bbox, outer_bbox):

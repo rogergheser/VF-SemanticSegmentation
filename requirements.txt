@@ -1,6 +1,6 @@
 git+https://github.com/facebookresearch/segment-anything.git
 # IMPORTANT https://detectron2.readthedocs.io/en/latest/tutorials/install.html 
-# python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
+git+https://github.com/facebookresearch/detectron2.git
 # On macOS, you may need to prepend the above commands with a few environment variables:
 # CC=clang CXX=clang++ ARCHFLAGS="-arch x86_64" python -m pip install ...
 tqdm
@@ -10,5 +10,5 @@ fire
 mmcv==1.3.14
 torch
 numpy
-python-opencv
+opencv-python
 salesforce-lavis
