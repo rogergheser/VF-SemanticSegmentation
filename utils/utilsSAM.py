@@ -1,3 +1,4 @@
+import torch
 import os
 import cv2
 import copy
@@ -74,8 +75,23 @@ def add_padding(bbox, image_shape, padding_p):
         return x1, y1, new_height, new_width
 
 
-def post_processing(masks, image, post_processing='blurred_masks'):
-    
+def post_processing(masks: list[dict],
+                    image: np.ndarray, 
+                    post_processing:str='blurred_masks')-> List[np.ndarray]:
+    """
+    Post processing of SAM masks for AlphaCLIP classification.
+    :param masks: List of segmentation masks, SAM style.
+    :param image: Original image (numpy array).
+    :param post_processing: Post processing method to apply.
+    :return: List of processed images as np.float32.
+    """
+    if image.dtype == np.uint8 or image.dtype == 'uint8' \
+        or image.dtype == torch.uint8:
+        if image.dtype == 'uint8' or image.dtype == np.uint8:
+            image = image.astype(np.float32)/255.0
+        else:
+            image = image.type(torch.float32)/255.0
+
     masks_copy = copy.deepcopy(masks)
     if post_processing == 'blurred_masks':
         images = blurred_masks(masks_copy, image)
@@ -90,7 +106,8 @@ def post_processing(masks, image, post_processing='blurred_masks'):
     else:
         print("Invalid post processing method")
         raise ValueError
-        
+    
+    
 
     return images, masks_copy
 
