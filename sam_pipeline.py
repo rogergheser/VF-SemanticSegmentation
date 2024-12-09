@@ -30,7 +30,8 @@ from tqdm import tqdm
 
 # evaluation using SAN evaluator
 import sys
-sys.path.append('/home/disi/VF-SemanticSegmentation/SAN')
+sys.path.append('SAN')
+os.environ['DETECTRON2_DATASETS'] = os.getcwd() + '/datasets'
 from SAN.custom_evaluator import CustomSemSegEvaluator
 from detectron2.modeling.meta_arch.build import build_model
 from SAN.eval_net import setup
@@ -86,12 +87,7 @@ class Evaluator:
             masks = self.sam.predict_mask(image)
 
             masks, _ = filter_masks(masks)
-<<<<<<< HEAD
-            print("Filtered masks: ", len(masks))
-            images, masks = post_processing(masks, image, post_processing=self.post_process)
-=======
             images, masks = post_processing(masks, image.cpu().numpy(), post_processing='black_background_masks')
->>>>>>> aa7bc3ccf823ea5aa25100c8cc4149ce141d90f7
             
             logits = self.clip.classify(images, masks, vocabulary)
             predictions = torch.argmax(logits, dim=1)
@@ -102,7 +98,6 @@ class Evaluator:
                 overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
                 self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, masks)
                 
-            # TODO: evaluate image
             batch['file_name'] = batch['file_name'][0] # remove list from file_name added by dataloader
             output = [{'sem_seg': semseg}]
             self.evaluator.process(inputs=[batch], outputs=output)
