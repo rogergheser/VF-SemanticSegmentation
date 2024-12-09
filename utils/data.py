@@ -113,10 +113,10 @@ class ADE20KDataset(data.Dataset):
         # with open('datasets/ADE20K_2021_17_01/image_paths.txt') as f:
         #     self.image_paths = [x.strip() for x in f.read().splitlines()]
         image_paths = glob.glob(f'{root}/**/*.jpg', recursive=True)
-        label_paths = glob.glob(f'{root}/**/*.json', recursive=True)
+        # label_paths = glob.glob(f'{root}/**/*.json', recursive=True)
         
         self.image_paths = image_paths
-        self.label_paths = label_paths
+        # self.label_paths = label_paths
         
         match self.vocab_type:
             case 'ade_gt':
@@ -156,8 +156,8 @@ class ADE20KDataset(data.Dataset):
         if self.transform:
             image = self.transform(image)
         
-        with open(self.label_paths[idx]) as f:
-            label = json.loads(f.read())
+        # with open(self.label_paths[idx]) as f:
+        #     label = json.loads(f.read())
         
         if self.vocab_type == 'image_caption':
             assert self.captioner is not None, "Captioner not defined"
@@ -168,7 +168,8 @@ class ADE20KDataset(data.Dataset):
         sample = {
             'image': image,
             'vocabulary': self.vocabulary,
-            'label': label
+            'label': 'maskemerda',
+            'file_name': os.path.join(os.getcwd(), image_path)
         }
 
         return sample

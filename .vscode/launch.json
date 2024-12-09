@@ -19,6 +19,15 @@
                 "MODEL.WEIGHTS", "../checkpoints/san_vit_b_16.pth",
                 "DATASETS.TEST", "('ade20k_full_sem_seg_val',)"
             ]
+        },
+        {
+            "name": "Default python",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false
         }
     ]
 }
