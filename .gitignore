@@ -5,7 +5,6 @@ resultsSAM
 *.pth
 .VS_Code
 **/.VS_Code
-.vscode/
 datasets/VOC2012
 datasets/pcontext-59
 datasets/pcontext
