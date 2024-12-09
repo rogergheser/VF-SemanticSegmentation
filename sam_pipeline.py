@@ -207,5 +207,6 @@ if __name__ == '__main__':
     dataset_name = args['dataset']['name']
     dataset_class = dataset_name_to_class[dataset_name]
     dataset = dataset_class.from_args(args, _transform)
+    subset = torch.utils.data.Subset(dataset, range(0, len(dataset), 10))
 
     main(dataset, args)
