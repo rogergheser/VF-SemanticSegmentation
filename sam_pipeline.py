@@ -85,7 +85,8 @@ class Evaluator:
 
             masks = self.sam.predict_mask(image)
             masks, _ = filter_masks(masks)
-            original_masks = copy.deepcopy(masks)
+            # These masks are guaranteed to remain intact, preserving correct shapes
+            original_masks = copy.deepcopy(masks) 
 
             images, masks = post_processing(masks, image, post_processing=self.post_process)
             
@@ -95,8 +96,8 @@ class Evaluator:
             semseg = self.add_labels(image, text_predictions, original_masks)
 
             if self.save_results:
-                overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
-                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, masks)
+                overlay = recompose_image(image.cpu().numpy(), original_masks, overlay=self.overlay)
+                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, original_masks)
                 
             # TODO: evaluate image
             batch['file_name'] = batch['file_name'][0] # remove list from file_name added by dataloader
