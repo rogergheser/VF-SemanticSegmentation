@@ -1,4 +1,8 @@
-#
+# results for subsetADE
+resultsSAM
+
+
+*.pth
 .VS_Code
 **/.VS_Code
 datasets/VOC2012
@@ -7,6 +11,11 @@ datasets/pcontext
 datasets/coco
 datasets/ADEChallengeData2016
 datasets/ADE20K_*
+images/
+checkpoints
+overlay
+overlay
+detail-api/
 
 *env
 VOCdevkit/

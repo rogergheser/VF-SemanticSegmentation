@@ -13,3 +13,6 @@ echo "Processed ADE20k"
 
 python datasets/prepare_pcontext_sem_seg.py --ori_root_dir datasets/pcontext --save_dir datasets/pcontext-59
 echo "Processed Pascal Context"
+
+python datasets/prepare_ade20k_full_sem_seg.py
+echo "Processed ADE20k FULL"

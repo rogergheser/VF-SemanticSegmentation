@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "SAN eval_net.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/SAN",
+            "justMyCode": false,
+            "args": [
+                "--eval-only",
+                "--config-file", "configs/san_clip_vit_large_res4_coco.yaml",
+                "OUTPUT_DIR", "outputs/coco_custom_eval",
+                "MODEL.WEIGHTS", "san_vit_large_14.pth",
+                "DATASETS.TEST", "('coco_sem_seg_val2017',)"
+            ]
+        }
+    ]
+}
