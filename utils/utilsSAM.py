@@ -108,7 +108,12 @@ def post_processing(masks: list[dict],
         print("Invalid post processing method")
         raise ValueError
     
-    
+    if image.dtype == np.uint8 or image.dtype == 'uint8' \
+        or image.dtype == torch.uint8:
+        if image.dtype == 'uint8' or image.dtype == np.uint8:
+            [image.astype(np.float32)/255.0 for image in images]
+        else:
+            [image.type(torch.float32)/255.0 for image in images]
 
     return images, masks_copy
 
