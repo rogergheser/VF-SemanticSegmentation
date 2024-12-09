@@ -57,6 +57,7 @@ class Evaluator:
         self.save_results = args['output']['save_results']
         self.overlay = args['output']['overlay']
         self.out_path = args['output']['save_path']
+        self.post_process = args['sam']['post_process']
         self.ade_voc = {}
         self.new_label_idx = 0
 
@@ -83,7 +84,7 @@ class Evaluator:
 
             masks, _ = filter_masks(masks)
             print("Filtered masks: ", len(masks))
-            images, masks = post_processing(masks, image, post_processing='none')
+            images, masks = post_processing(masks, image, post_processing=self.post_process)
             
             logits = self.clip.classify(images, masks, vocabulary)
             predictions = torch.argmax(logits, dim=1)
@@ -141,6 +142,7 @@ class Evaluator:
             if text not in self.ade_voc:
                 self.ade_voc[text] = self.new_label_idx
                 self.new_label_idx += 1
+        
         newshape = image.shape
         newshape = (1, newshape[1], newshape[2])
         semseg = torch.zeros(newshape, dtype=torch.int32)
