@@ -14,10 +14,10 @@
             "justMyCode": false,
             "args": [
                 "--eval-only",
-                "--config-file", "configs/san_clip_vit_large_res4_coco.yaml",
-                "OUTPUT_DIR", "outputs/coco_custom_eval",
-                "MODEL.WEIGHTS", "san_vit_large_14.pth",
-                "DATASETS.TEST", "('coco_sem_seg_val2017',)"
+                "--config-file", "configs/san_clip_vit_res4_coco.yaml",
+                "OUTPUT_DIR", "../output/san_coco_custom_eval",
+                "MODEL.WEIGHTS", "../checkpoints/san_vit_b_16.pth",
+                "DATASETS.TEST", "('ade20k_full_sem_seg_val',)"
             ]
         }
     ]

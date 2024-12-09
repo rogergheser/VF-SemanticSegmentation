@@ -117,7 +117,7 @@ def get_san_model():
 
     detectron_args.config_file = 'SAN/configs/san_clip_vit_res4_coco.yaml'
     detectron_args.eval_only = True
-    detectron_args.opts = ['OUTPUT_DIR', 'output/ade20k_full_SAM_eval', 'MODEL.WEIGHTS', 'san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"]
+    detectron_args.opts = ['OUTPUT_DIR', 'output/ade20k_full_SAM_eval', 'MODEL.WEIGHTS', 'checkpoints/san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"]
     cfg = setup(detectron_args)
     san_model = build_model(cfg)
 
