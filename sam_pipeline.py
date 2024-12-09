@@ -55,14 +55,14 @@ class Evaluator:
         self.loader = loader
         self.evaluator = evaluator
         self.device = device
-        self.save_results = args['output']['save_results']
+        self.save_predictions = args['output']['save_predictions']
         self.overlay = args['output']['overlay']
         self.out_path = args['output']['save_path']
         self.post_process = args['sam']['post_process']
         self.ade_voc = {}
         self.new_label_idx = 0
 
-        if self.save_results:
+        if self.save_predictions:
             os.makedirs(self.out_path, exist_ok=True)
 
         for i, category in enumerate(ADE20K_CATEGORIES):
@@ -96,7 +96,7 @@ class Evaluator:
             text_predictions = [vocabulary[pred.item()][0] for pred in predictions]
             semseg = self.add_labels(image, text_predictions, original_masks)
 
-            if self.save_results:
+            if self.save_predictions:
                 overlay = recompose_image(image.cpu().numpy(), original_masks, overlay=self.overlay)
                 self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, original_masks)
                 
