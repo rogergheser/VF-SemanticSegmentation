@@ -84,19 +84,15 @@ class Evaluator:
             json_label = batch['label']
 
             masks = self.sam.predict_mask(image)
-
             masks, _ = filter_masks(masks)
-<<<<<<< HEAD
-            print("Filtered masks: ", len(masks))
+            original_masks = copy.deepcopy(masks)
+
             images, masks = post_processing(masks, image, post_processing=self.post_process)
-=======
-            images, masks = post_processing(masks, image.cpu().numpy(), post_processing='black_background_masks')
->>>>>>> aa7bc3ccf823ea5aa25100c8cc4149ce141d90f7
             
             logits = self.clip.classify(images, masks, vocabulary)
             predictions = torch.argmax(logits, dim=1)
             text_predictions = [vocabulary[pred.item()][0] for pred in predictions]
-            semseg = self.add_labels(image, text_predictions, masks)
+            semseg = self.add_labels(image, text_predictions, original_masks)
 
             if self.save_results:
                 overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
