@@ -8,6 +8,7 @@ from tqdm import tqdm
 from torchvision import transforms
 from torch.utils.data import DataLoader, Dataset
 from lavis.models import load_model_and_preprocess
+from process_caption import extract_noun_phrases
 
 ROOT = 'datasets/ADE20K_2021_17_01/'
 
@@ -37,16 +38,19 @@ class ADE20KDataset(Dataset):
 def eval_loop(dataloader, model):
     captions = []
     for idx, batch in enumerate(tqdm(dataloader, desc="Generating captions", unit="batch")):
-        captions.extend(model.generate({"image": batch.to(device)}, use_nucleus_sampling=True, num_captions=10))
+        captions.extend(model.generate({"image": batch.to(device)},
+                                        use_nucleus_sampling=True,
+                                        num_captions=1))
         if idx == 100:
             print(captions[-10:])
 
-    vocabulary = set(chain(*[cap.split(" ") for cap in captions]))
-    
+    vocabulary = list(set(chain(*[cap.split() for cap in captions])))
+    vocabulary = list(extract_noun_phrases(" ".join(vocabulary)))
+    print(len(vocabulary))
     # dump in apickle file
-    with open(os.path.join(ROOT , 'captions_val/vocabulary.pkl'), 'wb') as f:
+    with open(os.path.join(ROOT , 'captions_val/vocabulary_1.pkl'), 'wb') as f:
         pickle.dump(vocabulary, f)
-    with open(os.path.join(ROOT , 'captions_val/captions.pkl'), 'wb') as f:
+    with open(os.path.join(ROOT , 'captions_val/captions_1.pkl'), 'wb') as f:
         pickle.dump(captions, f)
 
     return vocabulary

@@ -51,7 +51,8 @@ def extract_noun_phrases(text):
     nouns = []
     for subtree in result.subtrees():
         if subtree.label() == 'NP':
-            nouns.append(' '.join(t[0] for t in subtree.leaves() if t[1] == 'NN' and t[0] != ""))   #extract only the noun part 
+            for noun, type in subtree.leaves():
+                nouns.append(noun)
     
     return set(nouns)
 
