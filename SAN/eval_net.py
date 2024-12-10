@@ -347,11 +347,12 @@ def merge_vocabulary(vocabulary: List[str]) -> List[str]:
 if __name__ == "__main__":
     args = default_argument_parser().parse_args()
     print("Command Line Args:", args)
-    args.vocabulary = merge_vocabulary(vocabulary=['batman', 'wonderwoman'])
+    # args.vocabulary = merge_vocabulary(vocabulary=['batman', 'wonderwoman'])
     # read the list saved in a pickle file
-    with open("../datasets/captions_val/nouns_ade20k.pkl", "rb") as f:
+    with open("../datasets/captions_val/nouns_ade_1.pkl", "rb") as f:
         nouns = pickle.load(f)
     args.vocabulary = nouns
+    print("Vocabulary:", args.vocabulary, len(args.vocabulary))
     launch(
         main,
         args.num_gpus,
