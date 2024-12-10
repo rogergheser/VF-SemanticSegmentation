@@ -3,6 +3,7 @@ import glob
 import json
 import os
 from torchvision.transforms import Compose
+from process_caption import extract_noun_phrases
 from itertools import chain
 from PIL import Image
 
@@ -75,12 +76,13 @@ class QualitativeDataset(data.Dataset):
             assert self.captioner is not None, "Captioner not defined"
             _image = self.cap_preprocess['eval'](image_copy).unsqueeze(0)
             captions = self.captioner.generate({"image": _image.to('cuda')}, use_nucleus_sampling=True, num_captions=10)
-            self.vocabulary = list(set(chain(*[cap.split(" ") for cap in captions])))
+            self.vocabulary = list(set(chain(*[extract_noun_phrases(cap) for cap in captions])))
         
         sample = {
             'image': image,
             'vocabulary': self.vocabulary,
-            'label': label
+            'label': label,
+            'file_name': os.path.join(os.getcwd(), image_path)
         }
 
         return sample
@@ -135,6 +137,10 @@ class ADE20KDataset(data.Dataset):
                 self.captioner, self.cap_preprocess, _ = load_model_and_preprocess(
                     name="blip_caption", model_type="large_coco", is_eval=True, device=device
                 )
+            case 'coco_caption':
+                with open('datasets/coco/annotations/captions_val2017.json') as f:
+                    captions = json.load(f)
+                    self.vocabulary = list(set(chain(*[caption['caption'].lower().split(" ") for caption in captions])))
             case _:
                 raise ValueError(f"Invalid vocabulary type: {self.vocab_type}")
 
