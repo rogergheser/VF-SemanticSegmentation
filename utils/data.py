@@ -129,6 +129,20 @@ class ADE20KDataset(data.Dataset):
                         self.vocabulary = pickle.load(f)
                 except:
                     raise FileNotFoundError('Could not find vocabulary.pkl')
+            case 'ade_caption_filtered':
+                import pickle
+                try:
+                    with open('datasets/captions_val/nouns_ade20k.pkl', 'rb') as f:
+                        self.vocabulary = pickle.load(f)
+                except:
+                    raise FileNotFoundError('Could not find nouns_ade20k.pkl')
+            case 'coco_caption_filtered':
+                import pickle
+                try:
+                    with open('datasets/captions_val/nouns_coco.pkl', 'rb') as f:
+                        self.vocabulary = pickle.load(f)
+                except:
+                    raise FileNotFoundError('Could not find nouns_coco.pkl')
             case 'image_caption':
                 # define caption and create vocabulary on the fly
                 from lavis.models import load_model_and_preprocess

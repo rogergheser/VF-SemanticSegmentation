@@ -1,5 +1,6 @@
 import nltk
 import string
+import pickle
 
 from itertools import chain
 from utils.utilsSAM import read_pickle
@@ -56,7 +57,11 @@ if __name__ == '__main__':
 
     text = " ".join(captions)
     nouns = extract_noun_phrases(text)
-    print(nouns, len(nouns))
+    print(list(nouns), len(nouns))
+    # save captions in a pickle file 
+    with open("datasets/captions_val/nouns_ade20k.pkl", "wb") as f:
+        pickle.dump(list(nouns), f)
+
 
     captions_filtered = filter_caption(captions)
     captions_filtered = set(chain(*captions_filtered))
