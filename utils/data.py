@@ -249,7 +249,8 @@ class Coco(data.Dataset):
         sample = {
             'image': image,
             'vocabulary': self.vocabulary,
-            'label': label
+            'label': label,
+            'file_name': os.path.join(os.getcwd(), image_path)
         }
 
         return sample

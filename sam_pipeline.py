@@ -201,7 +201,7 @@ if __name__ == '__main__':
     dataset_name_to_class = {
         'qualitative': QualitativeDataset,
         'ade20k_full_sem_seg_val': ADE20KDataset,
-        'coco' : Coco
+        'coco_2017_test_stuff_sem_seg' : Coco
     }
     
     dataset_name = args['dataset']['name']
