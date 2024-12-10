@@ -330,8 +330,8 @@ MODEL:
     NUM_QUERIES: 100
     PRETRAINED: false
     VIT_NAME: vit_w240n6d8_patch16
-  WEIGHTS: san_vit_b_16.pth
-OUTPUT_DIR: output/ade20k_custom_eval
+  WEIGHTS: ../checkpoints/san_vit_b_16.pth
+OUTPUT_DIR: ../output/SAN/ade20k_custom_eval
 SEED: -1
 SOLVER:
   AMP:

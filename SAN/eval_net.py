@@ -61,7 +61,7 @@ class Trainer(DefaultTrainer):
         return writers
 
     @classmethod
-    def build_evaluator(cls, cfg, dataset_name, model, inference_voc=None, output_folder=None): # pass model to evaluator to get the encoded labels
+    def build_evaluator(cls, cfg, dataset_name, model, output_folder=None): # pass model to evaluator to get the encoded labels
         if output_folder is None:
             output_folder = os.path.join(cfg.OUTPUT_DIR, "inference")
         evaluator_list = []
@@ -73,8 +73,7 @@ class Trainer(DefaultTrainer):
                     model,
                     dataset_name,
                     distributed=True,
-                    output_dir=output_folder,
-                    inference_voc=inference_voc
+                    output_dir=output_folder
                 )
             )
 
@@ -277,7 +276,7 @@ class Trainer(DefaultTrainer):
                 evaluator = evaluators[idx]
             else:
                 try:
-                    evaluator = cls.build_evaluator(cfg, dataset_name, model, vocab)
+                    evaluator = cls.build_evaluator(cfg, dataset_name, model)
                 except NotImplementedError:
                     logger.warn(
                         "No evaluator found. Use `DefaultTrainer.test(evaluators=)`, "
@@ -346,7 +345,7 @@ def merge_vocabulary(vocabulary: List[str]) -> List[str]:
 if __name__ == "__main__":
     args = default_argument_parser().parse_args()
     print("Command Line Args:", args)
-    # args.vocabulary = merge_vocabulary(vocabulary=['batman', 'wonderwoman'])
+    args.vocabulary = merge_vocabulary(vocabulary=['batman', 'wonderwoman'])
     args.vocabulary = None
     launch(
         main,
