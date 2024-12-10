@@ -127,6 +127,7 @@ class AlphaClip:
         :param vocabulary: list of vocabulary to be tokenized
         :param flagUseAlpha: flag to use alpha or not
         """
+        flagUseAlpha = False
         batch = self.prepare_batch(images, masks, vocabulary, flagUseAlpha)
         cropped_img, alpha, tokenized_prompts = batch['image'], batch['alpha'], batch['text']
         
