@@ -3,7 +3,7 @@ output:
   save_predictions: False
   overlay: True
   save_path: results/ade20k_custom_vocab
-  save_results: output/SAM/ade20k_custom_coco_vocab
+  save_results: output/SAM/ade20k_custom_ade_vocab
 sam:
   model_type: vit_h
   weight_path: checkpoints/sam_vit_h_4b8939.pth
@@ -14,7 +14,7 @@ clip:
 dataset:
   name: ade20k_full_sem_seg_val # coco , ade20k_sem_seg_val, qualitative
   root: datasets/ADE20K_2021_17_01/images_detectron2/validation
-  vocabulary: coco_caption_filtered # [image_caption, coco_gt, ade_caption]
+  vocabulary: ade_caption_filtered # [image_caption, coco_gt, ade_caption]
 dataloader:
   batch_size: 1
   shuffle: False

@@ -76,7 +76,6 @@ class QualitativeDataset(data.Dataset):
             assert self.captioner is not None, "Captioner not defined"
             _image = self.cap_preprocess['eval'](image_copy).unsqueeze(0)
             captions = self.captioner.generate({"image": _image.to('cuda')}, use_nucleus_sampling=True, num_captions=10)
-            self.vocabulary = list(set(chain(*[extract_noun_phrases(cap) for cap in captions])))
         
         sample = {
             'image': image,
@@ -134,7 +133,7 @@ class ADE20KDataset(data.Dataset):
             case 'ade_caption_filtered':
                 import pickle
                 try:
-                    with open('datasets/captions_val/nouns_ade20k.pkl', 'rb') as f:
+                    with open('datasets/captions_val/nouns_ade_1.pkl', 'rb') as f:
                         self.vocabulary = pickle.load(f)
                 except:
                     raise FileNotFoundError('Could not find nouns_ade20k.pkl')
