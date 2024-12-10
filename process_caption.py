@@ -1,5 +1,6 @@
 import nltk
 import string
+import pickle
 
 from transformers import BertTokenizer, BertModel
 import torch
@@ -153,7 +154,11 @@ if __name__ == '__main__':
 
     text = " ".join(captions)
     nouns = extract_noun_phrases(text)
-    print(nouns, len(nouns))
+    print(list(nouns), len(nouns))
+    # save captions in a pickle file 
+    with open("datasets/captions_val/nouns_ade20k.pkl", "wb") as f:
+        pickle.dump(list(nouns), f)
+
 
     nouns = [strip_noun(noun) for noun in nouns]
     print(sorted(list(set(nouns))))
