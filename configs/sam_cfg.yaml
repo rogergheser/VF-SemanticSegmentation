@@ -1,20 +1,20 @@
 device: cuda
 output:
-  save_predictions: False
+  save_predictions: True
   overlay: True
-  save_path: results/ade_gt
-  save_results: output/ade20k_full_SAM_eval_stdclip
+  save_path: results/qualitative_cap_sam
+  save_results: output/sam/qualitative_cap_sam
 sam:
   model_type: vit_h
   weight_path: checkpoints/sam_vit_h_4b8939.pth
-  post_process: none # blurred_masks, red_circle_masks, bbox_masks, black_background_masks, none
+  post_process: blurred_masks # blurred_masks, red_circle_masks, bbox_masks, black_background_masks, none
 clip:
   model_type: ViT-B/16
   weight_path: checkpoints/clip_b16_grit+mim_fultune_4xe.pth
 dataset:
-  name: ade20k_full_sem_seg_val # coco , ade20k_sem_seg_val, qualitative
+  name: qualitative # coco , ade20k_sem_seg_val, qualitative
   root: datasets/ADE20K_2021_17_01/images_detectron2/validation
-  vocabulary: ade_gt # [image_caption, coco_gt, ade_caption]
+  vocabulary: image_caption # [image_caption, coco_gt, ade_caption]
 dataloader:
   batch_size: 1
   shuffle: False
