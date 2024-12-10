@@ -1,7 +1,7 @@
 # results for subsetADE
 resultsSAM
 results/
-
+configs/*
 
 *.pth
 .VS_Code
