@@ -158,7 +158,6 @@ if __name__ == '__main__':
     with open("datasets/captions_val/nouns_ade20k.pkl", "wb") as f:
         pickle.dump(list(nouns), f)
 
-
     nouns = [strip_noun(noun) for noun in nouns]
     print(sorted(list(set(nouns))))
 

@@ -143,6 +143,8 @@ class ADE20KDataset(data.Dataset):
                 try:
                     with open('datasets/captions_val/nouns_coco.pkl', 'rb') as f:
                         self.vocabulary = pickle.load(f)
+                        self.vocabulary = [word.lower() for word in self.vocabulary]
+                        self.vocabulary.remove("")
                 except:
                     raise FileNotFoundError('Could not find nouns_coco.pkl')
             case 'image_caption':
@@ -157,6 +159,7 @@ class ADE20KDataset(data.Dataset):
                     self.vocabulary = list(set(chain(*[caption['caption'].lower().split(" ") for caption in captions])))
             case _:
                 raise ValueError(f"Invalid vocabulary type: {self.vocab_type}")
+        print(f"Vocabulary: {self.vocabulary} - {len(self.vocabulary)}")
 
     @classmethod
     def from_args(cls, args: dict, transform: Compose=None):

@@ -52,6 +52,8 @@ from san.utils import WandbWriter, setup_wandb
 from custom_evaluator import CustomSemSegEvaluator # Custom evaluator
 from san.data.datasets.register_coco_stuff_164k import COCO_CATEGORIES
 
+import pickle
+
 
 class Trainer(DefaultTrainer):
     def build_writers(self):
@@ -346,7 +348,10 @@ if __name__ == "__main__":
     args = default_argument_parser().parse_args()
     print("Command Line Args:", args)
     args.vocabulary = merge_vocabulary(vocabulary=['batman', 'wonderwoman'])
-    args.vocabulary = None
+    # read the list saved in a pickle file
+    with open("../datasets/captions_val/nouns_ade20k.pkl", "rb") as f:
+        nouns = pickle.load(f)
+    args.vocabulary = nouns
     launch(
         main,
         args.num_gpus,
