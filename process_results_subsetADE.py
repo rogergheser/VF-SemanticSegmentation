@@ -12,11 +12,9 @@ if __name__ == "__main__":
     # process_and_save_image_seg_class()
 
     results = read_pickle('resultsSAM/results_subsetADE.pkl')
-
     vocabulary = take_vocabulary(dataset = COCO_CATEGORIES)
-
+    
     path_files = 'datasets/subsetADE.txt'
-
     path_images = read_line_file(path_files, additional_path="")
 
     # create a folder to save the results of images
