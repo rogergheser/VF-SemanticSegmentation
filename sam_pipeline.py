@@ -95,9 +95,10 @@ class Evaluator:
             if self.save_results:
                 overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
                 self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, masks)
-                
+
             output = [{'sem_seg': logits}]
-            self.evaluator.process(inputs=batch, outputs=output)
+            if self.evaluator is not None:
+                self.evaluator.process(inputs=batch, outputs=output)
 
     def save_interpretable_results(self,
                                    overlay_img: np.ndarray,
@@ -144,7 +145,8 @@ class Evaluator:
 
         return overlay_img_copy
 
-    def add_labels(self, image: torch.Tensor, 
+    def add_labels(self,
+                   image: torch.Tensor, 
                    text_predictions: list[str],
                    masks: list[dict]) -> torch.Tensor:
         """
@@ -188,9 +190,11 @@ def main(dataset, args):
         batch_size=args['dataloader']['batch_size'],
         shuffle=args['dataloader']['shuffle'],)
     
-    # san_model, san_cfg = get_san_model()
-    # quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
-    quantitative_evaluator = None
+    if args['dataset']['name'] == 'qualitative':
+        quantitative_evaluator = None
+    else:
+        san_model, san_cfg = get_san_model()
+        quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
     
     evaluator = Evaluator(sam, clip, loader, quantitative_evaluator, device=args['device'], args=args)
     evaluator.eval()
@@ -203,9 +207,11 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description='Semantic Segmentation with SAM')
     parser.add_argument('--config_file', type=str, default='configs/sam_cfg.yaml', help='Path to config file')
-    args = parser.parse_args()
+    # make an optional save results argument, which if present overrides the config file argument
+    parser.add_argument('--save_results', action='store_true', help='Save the results of the evaluation')
+    pyargs = parser.parse_args()
 
-    with open(args.config_file, 'r') as file:
+    with open(pyargs.config_file, 'r') as file:
         args = yaml.load(file, Loader=yaml.FullLoader)
     
     _transform = transform.Compose([
@@ -216,7 +222,7 @@ if __name__ == '__main__':
     dataset_name_to_class = {
         'qualitative': QualitativeDataset,
         'ade20k_full_sem_seg_val': ADE20KDataset,
-        'coco' : Coco
+        'coco_sem_seg_val2017' : Coco
     }
     
     dataset_name = args['dataset']['name']

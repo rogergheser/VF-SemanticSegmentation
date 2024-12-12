@@ -1,0 +1,18 @@
+device: cuda
+output:
+  save_results: False
+  overlay: True
+  save_path: results/coco_gt
+sam:
+  model_type: vit_h
+  weight_path: checkpoints/sam_vit_h_4b8939.pth
+clip:
+  model_type: ViT-B/16
+  weight_path: checkpoints/clip_b16_grit+mim_fultune_4xe.pth
+dataset:
+  name: coco_sem_seg_val2017 # coco , ade20k_sem_seg_val, qualitative
+  root: datasets/coco
+  vocabulary: coco_gt # [image_caption, coco_gt, ade_caption, coco_caption]
+dataloader:
+  batch_size: 1
+  shuffle: False
