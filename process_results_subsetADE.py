@@ -1,5 +1,5 @@
 from utils.utilsSAM import *
-from segment_classify_subsetADE import process_and_save_image_seg_class
+# from segment_classify_subsetADE import process_and_save_image_seg_class
 
 from datasets.dataset_vars import (
         COCO_CATEGORIES, 
@@ -35,7 +35,7 @@ if __name__ == "__main__":
         image_gt = cv2.imread(path_gt)
         cv2.imwrite(os.path.join(path_dir_image, 'gt.png'), image_gt)
         
-        filtered_seg, _ = filter_largest_masks(seg)
+        filtered_seg, _ = filter_masks(seg)
 
         overlay_image = recompose_image(image, filtered_seg)
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
             predictions = logit[method].argmax(axis=-1)
 
-            filtered_seg, filtered_prediction = filter_largest_masks(seg, predictions)
+            filtered_seg, filtered_prediction = filter_masks(seg, predictions)
             filtered_seg_copy = copy.deepcopy(filtered_seg)
 
             images, filtered_seg_copy = post_processing(filtered_seg_copy, image, post_processing='_'.join(method.rsplit('_', 1)[:-1]))
@@ -61,7 +61,7 @@ if __name__ == "__main__":
             for i, image_post in enumerate(images):
                 cv2.imwrite(os.path.join(path_post_processing_method, f'seg_{i}_post_processing.jpg'), image_post)
             
-            annotated_overlay = annotate_predictions_on_image(overlay_image, filtered_seg, filtered_prediction, vocabulary)
+            annotated_overlay = annotate_image(overlay_image, filtered_seg, filtered_prediction, vocabulary)
 
             cv2.imwrite(os.path.join(path_annotation, f'{method}.jpg'), annotated_overlay)
 
