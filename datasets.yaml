@@ -1,5 +1,7 @@
-# https://github.com/MendelXu/zsseg.baseline
-COCO: # TODO download files localy and double check organisation
+# For extra information and troubleshooting please refer to https://github.com/MendelXu/zsseg.baseline
+# Follow instruction in the yaml file for installation.
+# Make sure the datasets *are uncommented* in download_dataset.py to run!
+COCO:
   train:
     url: http://images.cocodataset.org/zips/train2017.zip
     dir: datasets/coco/
@@ -13,7 +15,7 @@ COCO: # TODO download files localy and double check organisation
     url: http://calvin.inf.ed.ac.uk/wp-content/uploads/data/cocostuffdataset/stuffthingmaps_trainval2017.zip
     dir: datasets/coco/stuffthingmaps/
 
-VOC2012: # TODO download files localy and double check organisation
+VOC2012:
   trainval:
     url: http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar
     dir: datasets/VOC2012/JPEGImages/
@@ -23,15 +25,15 @@ VOC2012: # TODO download files localy and double check organisation
     dir: datasets/VOC2012/
 
   SegClassAug: # download manually from dropbox, other source could not be accessed
-  # use wget -->
+  # use 'wget url' and move to destination
     url: https://www.dropbox.com/s/oeu149j8qtbs1x0/SegmentationClassAug.zip?dl=0
     dir: datasets/VOC2012/SegmentationClassAug/
 
-  train_file: # Clone with github
+  train_file: # Clone this file/copy paste as train.txt
     url: https://gist.githubusercontent.com/sun11/2dbda6b31acc7c6292d14a872d0c90b7/raw/5f5a5270089239ef2f6b65b1cc55208355b5acca/trainaug.txt
     dir: datasets/VOC2012/train.txt
   
-pcontext: # TODO download files localy and double check organisation
+pcontext:
   images:
     url: http://host.robots.ox.ac.uk/pascal/VOC/voc2010/VOCtrainval_03-May-2010.tar
     dir: datasets/pcontext/JPEGImages/
@@ -39,15 +41,12 @@ pcontext: # TODO download files localy and double check organisation
     url: https://codalabuser.blob.core.windows.net/public/trainval_merged.json
     dir: datasets/pcontext/
 
-#[OK]
 ADEChallengeData2016: #https://github.com/facebookresearch/MaskFormer/blob/main/datasets/README.md#expected-dataset-structure-for-ade20k-scene-parsing
   url: http://data.csail.mit.edu/places/ADEchallenge/ADEChallengeData2016.zip # Train-Val
   dir: datasets/
 
-ADE20K_2021_17_01: # Waiting for permission for this dataset
-  # Put your link. Kindly ask Mr. Matteo Mascherin for the link
-  url: https://ade20k.csail.mit.edu/syml/matteomascherin_5b06b4f5.zip
+ADE20K_2021_17_01: # To access this dataset you must ask permission from mit
+# https://ade20k.csail.mit.edu/request_data/
+  
+  url: None
   dir: datasets/ADE20K_2021_17_01/
-
-pcontext_full: # TODO Find this dataset
-  pass

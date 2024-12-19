@@ -9,13 +9,10 @@ from abc import ABC, abstractmethod
 from tqdm import tqdm
 
 ####################################################################
-# TODO Test COCO dataset download [DONE]
-# TODO Add other datasets [DONE]
-# TODO Move file checking inside download_file function [DONE]
-# TODO Change prints with logging
 # TODO Create an unzip function to avoid code repetition
 # TODO Add an OUT field in YAML to check if the file is already downloaded
 ####################################################################
+
 CONFIG_FILE = 'datasets.yaml'
 POSTPROCESS = False
 
@@ -225,5 +222,5 @@ if __name__ == '__main__':
     voc2012_data = VOC2012(cfg['VOC2012'])
     pcontext_data = PContext(cfg['pcontext'])
     adechallenge_data = ADEChallengeData2016(cfg['ADEChallengeData2016'])
-    # ade20k_data = ADE20K(cfg['ADE20K_2021_17_01'])
+    ade20k_data = ADE20K(cfg['ADE20K_2021_17_01'])
 

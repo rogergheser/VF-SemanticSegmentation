@@ -1,3 +1,4 @@
+import argparse
 import torch
 import torchvision
 import torch.utils.data as data
@@ -36,6 +37,7 @@ from SAN.custom_evaluator import CustomSemSegEvaluator
 from detectron2.modeling.meta_arch.build import build_model
 from SAN.eval_net import setup
 from detectron2.engine import default_argument_parser
+
 class Evaluator:
     def __init__(self,
                  sam: SAMSegmenter,
@@ -73,14 +75,14 @@ class Evaluator:
                     self.ade_voc[key] = category["trainId"]
 
     def eval(self):
-        os.makedirs('overlay', exist_ok=True)
+        os.makedirs(self.out_path, exist_ok=True)
         loop = tqdm(self.loader, total=len(self.loader))
         print("-"*90)
         print("Starting evaluation")
         for i, batch in enumerate(loop):
             image = batch['image'].squeeze(0).to(self.device)
             vocabulary = batch['vocabulary']
-            json_label = batch['label']
+            json_label = batch['label'] # unused in our experiments
 
             masks = self.sam.predict_mask(image)
             masks, _ = filter_masks(masks)
@@ -94,13 +96,13 @@ class Evaluator:
             text_predictions = [vocabulary[pred.item()][0] for pred in predictions]
             semseg = self.add_labels(image, text_predictions, original_masks)
 
-            if self.save_predictions:
-                overlay = recompose_image(image.cpu().numpy(), original_masks, overlay=self.overlay)
-                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, original_masks)
-                
-            batch['file_name'] = batch['file_name'][0] # remove list from file_name added by dataloader
-            output = [{'sem_seg': semseg}]
-            self.evaluator.process(inputs=[batch], outputs=output)
+            if self.save_results:
+                overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
+                self.save_interpretable_results(overlay.transpose(1, 2, 0), f'{self.out_path}/{i}.png', vocabulary, text_predictions, masks)
+
+            output = [{'sem_seg': logits}]
+            if self.evaluator is not None:
+                self.evaluator.process(inputs=batch, outputs=output)
 
     def save_interpretable_results(self,
                                    overlay_img: np.ndarray,
@@ -108,9 +110,17 @@ class Evaluator:
                                    vocabulary: list[str],
                                    predictions: list[str],
                                    masks: list[dict]):
-        
-        assert overlay_img.shape[-1] == 3
-
+        """
+        This function takes the original image, predictions and masks and recomposed the 
+        segmentation map with the predictions overlayed on top of the image. 
+        The final output is an RGB image.
+        :param overlay_img: Original image
+        :param output_path: Path to save the image
+        :param vocabulary: List of words in the vocabulary
+        :param predictions: List of predictions
+        :param masks: List of masks
+        """
+        assert overlay_img.shape[-1] == 3, "Overlay image must have RGB channels last"
 
         overlay_img_copy = np.ascontiguousarray(overlay_img, dtype=np.uint8)
         # Get the dimensions of the image
@@ -139,8 +149,18 @@ class Evaluator:
 
         return overlay_img_copy
 
-
-    def add_labels(self, image, text_predictions, masks):
+    def add_labels(self,
+                   image: torch.Tensor, 
+                   text_predictions: list[str],
+                   masks: list[dict]) -> torch.Tensor:
+        """
+        This function takes the image, text predictions and masks and creates a semantic segmentation map.
+        The final output is a tensor for evaluation.
+        :param image: Original image
+        :param text_predictions: List of text predictions
+        :param masks: List of masks
+        :return: Semantic segmentation map
+        """
         for text in text_predictions:
             if text not in self.ade_voc:
                 self.ade_voc[text] = self.new_label_idx
@@ -175,9 +195,11 @@ def main(dataset, args):
         batch_size=args['dataloader']['batch_size'],
         shuffle=args['dataloader']['shuffle'],)
     
-    san_model, san_cfg = get_san_model(args)
-    quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
-    quantitative_evaluator.reset()
+    if args['dataset']['name'] == 'qualitative':
+        quantitative_evaluator = None
+    else:
+        san_model, san_cfg = get_san_model()
+        quantitative_evaluator=CustomSemSegEvaluator(san_model, args['dataset']['name'], False, san_cfg.OUTPUT_DIR)
     
     evaluator = Evaluator(sam, clip, loader, quantitative_evaluator, device=args['device'], args=args)
     evaluator.eval()
@@ -189,8 +211,15 @@ if __name__ == '__main__':
     print("Torchvision version:", torchvision.__version__)
     print("CUDA is available:", torch.cuda.is_available())
     
-    with open('configs/sam_cfg.yaml', 'r') as file:
+    parser = argparse.ArgumentParser(description='Semantic Segmentation with SAM')
+    parser.add_argument('--config_file', type=str, default='configs/sam_cfg.yaml', help='Path to config file')
+    # make an optional save results argument, which if present overrides the config file argument
+    parser.add_argument('--save_results', action='store_true', help='Save the results of the evaluation')
+    pyargs = parser.parse_args()
+
+    with open(pyargs.config_file, 'r') as file:
         args = yaml.load(file, Loader=yaml.FullLoader)
+    
     _transform = transform.Compose([
         # transform.Resize((args['dataset']['resize'], args['dataset']['resize'])),
         transform.PILToTensor(),

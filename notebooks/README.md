@@ -1,0 +1,2 @@
+## DISCLAIMER
+These files are Jupyter notebooks that contain some initial experiments we used to understand how certain things work and how to connect pipeline components. The notebooks are not meant to be run as they are, but they are here to show the process we followed to get to the final results. They are not guaranteed to run without errors.
