@@ -224,6 +224,6 @@ if __name__ == '__main__':
     coco_data = COCO(cfg['COCO'])
     voc2012_data = VOC2012(cfg['VOC2012'])
     pcontext_data = PContext(cfg['pcontext'])
-    # adechallenge_data = ADEChallengeData2016(cfg['ADEChallengeData2016'])
+    adechallenge_data = ADEChallengeData2016(cfg['ADEChallengeData2016'])
     # ade20k_data = ADE20K(cfg['ADE20K_2021_17_01'])
 
