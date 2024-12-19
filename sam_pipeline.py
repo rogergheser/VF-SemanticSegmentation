@@ -78,8 +78,6 @@ class Evaluator:
         print("-"*90)
         print("Starting evaluation")
         for i, batch in enumerate(loop):
-            if (i+1) % (len(self.loader)/4) == 0:
-                self.evaluator.evaluate()
             image = batch['image'].squeeze(0).to(self.device)
             vocabulary = batch['vocabulary']
             json_label = batch['label']
@@ -203,10 +201,18 @@ if __name__ == '__main__':
         'ade20k_full_sem_seg_val': ADE20KDataset,
         'coco_2017_test_stuff_sem_seg' : Coco
     }
+
+    subset_percentage = args['dataset']['subset']
     
     dataset_name = args['dataset']['name']
     dataset_class = dataset_name_to_class[dataset_name]
     dataset = dataset_class.from_args(args, _transform)
-    subset = torch.utils.data.Subset(dataset, range(0, len(dataset), 4))
+    if subset_percentage:
+        subset_size = int(len(dataset) * subset_percentage)
+        sample_to_skip = len(dataset) // subset_size
+        subset = torch.utils.data.Subset(dataset, range(0, len(dataset), sample_to_skip))
 
-    main(subset, args)
+    if subset_percentage:
+        main(subset, args)
+    else:
+        main(subset, args)

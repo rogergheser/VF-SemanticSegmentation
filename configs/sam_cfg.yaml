@@ -15,6 +15,7 @@ dataset:
   name: ade20k_full_sem_seg_val # coco , ade20k_sem_seg_val, qualitative
   root: datasets/ADE20K_2021_17_01/images_detectron2/validation
   vocabulary: ade_caption_filtered # [image_caption, coco_gt, ade_caption]
+  subset: 0.25 # percentage of evaluated samples
 dataloader:
   batch_size: 1
   shuffle: False

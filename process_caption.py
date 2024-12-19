@@ -23,22 +23,6 @@ from nltk import pos_tag
 
 PATH_CAPTION = "datasets/captions_val/captions.pkl"
 
-def filter_caption(captions: str) -> str:
-    
-    # Load English stopwords
-    stop_words = set(stopwords.words('english'))
-
-    # Process captions
-    processed_captions = []
-    for caption in captions:
-        # Tokenize the caption
-        words = word_tokenize(caption.lower())
-        # Remove stopwords and punctuation
-        filtered_words = [word for word in words if word.isalnum() and word not in stop_words]
-        
-        processed_captions.append(filtered_words)
-    return processed_captions
-
 def extract_noun_phrases(text):
     
     tokens = word_tokenize(text)
@@ -164,12 +148,3 @@ if __name__ == '__main__':
 
     new_vocab = update_old_vocab(ADE20K_CATEGORIES, nouns)
     print(new_vocab)
-
-    captions_filtered = filter_caption(captions)
-    captions_filtered = set(chain(*captions_filtered))
-
-    print("-"*90)
-    print(len(captions_filtered))
-
-
-
