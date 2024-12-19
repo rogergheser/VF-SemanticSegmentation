@@ -1,5 +1,6 @@
 # results for subsetADE
 resultsSAM
+results_subsetADE
 results/
 configs/*
 
@@ -184,3 +185,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea
 /SAN/resultCaptionSubsetADE
+.DS_Store

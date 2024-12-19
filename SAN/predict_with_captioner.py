@@ -3,7 +3,13 @@ from lavis.models import load_model_and_preprocess
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import nltk
+import string
 
+from itertools import chain
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag
 
 import numpy as np
 
@@ -296,6 +302,57 @@ def generate_vocabulary(captioner, image_path):
     return vocab
 
 
+
+def filter_caption(captions: str) -> str:
+    
+    # Load English stopwords
+    stop_words = set(stopwords.words('english'))
+
+    # Process captions
+    processed_captions = []
+    for caption in captions:
+        # Tokenize the caption
+        words = word_tokenize(caption.lower())
+        # Remove stopwords and punctuation
+        filtered_words = [word for word in words if word.isalnum() and word not in stop_words]
+        
+        processed_captions.append(filtered_words)
+    return processed_captions
+
+def extract_noun_phrases(text):
+    
+    tokens = word_tokenize(text)
+    tokens = [token for token in tokens if token not in string.punctuation]
+    tagged = pos_tag(tokens)
+    # print(tagged)
+    grammar = 'NP: {<DT>?<JJ.*>*<NN.*>+}'
+    cp = nltk.RegexpParser(grammar)
+    result = cp.parse(tagged)
+    
+    nouns = []
+    for subtree in result.subtrees():
+        if subtree.label() == 'NP':
+            nouns.append(' '.join(t[0] for t in subtree.leaves() if t[1] == 'NN' and t[0] != None))   #extract only the noun part 
+    
+    return set(nouns)
+
+def generate_vocabulary_filtered(captioner, image_path):
+    image = Image.open(image_path).convert('RGB')
+    _image = cap_preprocess['eval'](image).unsqueeze(0)
+    captions = captioner.generate({"image": _image.to('mps')}, use_nucleus_sampling=True, num_captions=10)
+
+    text = " ".join(captions)
+    nouns = extract_noun_phrases(text)
+    print(nouns, len(nouns))
+
+    captions_filtered = filter_caption(captions)
+    captions_filtered = set(chain(*captions_filtered))
+
+    return captions_filtered
+
+
+
+
 if __name__ == "__main__":
     
     config_file = "configs/san_clip_vit_large_res4_coco.yaml"
@@ -314,15 +371,16 @@ if __name__ == "__main__":
 
     for i, file in enumerate(read_line_file(file_path)):
 
-        vocab = generate_vocabulary(captioner, file)
+        # vocab = generate_vocabulary(captioner, file)
+        vocab = generate_vocabulary_filtered(captioner, file)
 
         name_file = file.split("/")[-1].split(".")[0]
-        path_file = f"resultCaptionSubsetADE/{name_file}"
+        path_file = f"../results_subsetADE/results_subsetADE_images/{name_file}"
 
         os.makedirs(path_file, exist_ok=True)
 
-        output_file = f"{path_file}/results_caption_vocab.jpg"
-        save_vocabulary(vocab, f"{path_file}/vocabulary_caption.txt")
+        output_file = f"{path_file}/SAN_seg_caption_vocab.jpg"
+        save_vocabulary(vocab, f"{path_file}/vocabulary_caption_SAN.txt")
 
         
         predictor.predict(
@@ -334,7 +392,7 @@ if __name__ == "__main__":
 
 
         vocab = predictor._merge_vocabulary([])
-        output_file = f"{path_file}/results_COCO_vocab.jpg"
+        output_file = f"{path_file}/SAN_seg_COCO_vocab.jpg"
         save_vocabulary(vocab, f"{path_file}/vocabulary_COCO.txt")
 
         predictor.predict(
