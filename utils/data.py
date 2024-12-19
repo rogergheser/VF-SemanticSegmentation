@@ -3,6 +3,7 @@ import glob
 import json
 import os
 from torchvision.transforms import Compose
+from process_caption import extract_noun_phrases
 from itertools import chain
 from PIL import Image
 
@@ -75,12 +76,12 @@ class QualitativeDataset(data.Dataset):
             assert self.captioner is not None, "Captioner not defined"
             _image = self.cap_preprocess['eval'](image_copy).unsqueeze(0)
             captions = self.captioner.generate({"image": _image.to('cuda')}, use_nucleus_sampling=True, num_captions=10)
-            self.vocabulary = list(set(chain(*[cap.split(" ") for cap in captions])))
         
         sample = {
             'image': image,
             'vocabulary': self.vocabulary,
-            'label': label
+            'label': label,
+            'file_name': os.path.join(os.getcwd(), image_path)
         }
 
         return sample
@@ -113,10 +114,10 @@ class ADE20KDataset(data.Dataset):
         # with open('datasets/ADE20K_2021_17_01/image_paths.txt') as f:
         #     self.image_paths = [x.strip() for x in f.read().splitlines()]
         image_paths = glob.glob(f'{root}/**/*.jpg', recursive=True)
-        label_paths = glob.glob(f'{root}/**/*.json', recursive=True)
+        # label_paths = glob.glob(f'{root}/**/*.json', recursive=True)
         
         self.image_paths = image_paths
-        self.label_paths = label_paths
+        # self.label_paths = label_paths
         
         match self.vocab_type:
             case 'ade_gt':
@@ -129,14 +130,35 @@ class ADE20KDataset(data.Dataset):
                         self.vocabulary = pickle.load(f)
                 except:
                     raise FileNotFoundError('Could not find vocabulary.pkl')
+            case 'ade_caption_filtered':
+                import pickle
+                try:
+                    with open('datasets/captions_val/nouns_ade_1.pkl', 'rb') as f:
+                        self.vocabulary = pickle.load(f)
+                except:
+                    raise FileNotFoundError('Could not find nouns_ade20k.pkl')
+            case 'coco_caption_filtered':
+                import pickle
+                try:
+                    with open('datasets/captions_val/nouns_coco.pkl', 'rb') as f:
+                        self.vocabulary = pickle.load(f)
+                        self.vocabulary = [word.lower() for word in self.vocabulary]
+                        self.vocabulary.remove("")
+                except:
+                    raise FileNotFoundError('Could not find nouns_coco.pkl')
             case 'image_caption':
                 # define caption and create vocabulary on the fly
                 from lavis.models import load_model_and_preprocess
                 self.captioner, self.cap_preprocess, _ = load_model_and_preprocess(
                     name="blip_caption", model_type="large_coco", is_eval=True, device=device
                 )
+            case 'coco_caption':
+                with open('datasets/coco/annotations/captions_val2017.json') as f:
+                    captions = json.load(f)
+                    self.vocabulary = list(set(chain(*[caption['caption'].lower().split(" ") for caption in captions])))
             case _:
                 raise ValueError(f"Invalid vocabulary type: {self.vocab_type}")
+        print(f"Vocabulary: {self.vocabulary} - {len(self.vocabulary)}")
 
     @classmethod
     def from_args(cls, args: dict, transform: Compose=None):
@@ -156,8 +178,8 @@ class ADE20KDataset(data.Dataset):
         if self.transform:
             image = self.transform(image)
         
-        with open(self.label_paths[idx]) as f:
-            label = json.loads(f.read())
+        # with open(self.label_paths[idx]) as f:
+        #     label = json.loads(f.read())
         
         if self.vocab_type == 'image_caption':
             assert self.captioner is not None, "Captioner not defined"
@@ -168,7 +190,8 @@ class ADE20KDataset(data.Dataset):
         sample = {
             'image': image,
             'vocabulary': self.vocabulary,
-            'label': label
+            'label': 'maskemerda',
+            'file_name': os.path.join(os.getcwd(), image_path)
         }
 
         return sample
@@ -248,7 +271,8 @@ class Coco(data.Dataset):
         sample = {
             'image': image,
             'vocabulary': self.vocabulary,
-            'label': label
+            'label': label,
+            'file_name': os.path.join(os.getcwd(), image_path)
         }
 
         return sample

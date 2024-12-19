@@ -97,7 +97,7 @@ class AlphaClip:
                                         self.preprocess.transforms[1],
                                         self.preprocess.transforms[-1]])
         
-
+        
         imgs = torch.stack([preprocess(image).half().to(device=self.device) for image in images])
         alphas = torch.stack([self.prepare_mask(mask) for mask in masks])
         text = alpha_clip.tokenize(self.prompts_from_vocab(vocabulary)).to(self.device)
@@ -127,6 +127,7 @@ class AlphaClip:
         :param vocabulary: list of vocabulary to be tokenized
         :param flagUseAlpha: flag to use alpha or not
         """
+        flagUseAlpha = False
         batch = self.prepare_batch(images, masks, vocabulary, flagUseAlpha)
         cropped_img, alpha, tokenized_prompts = batch['image'], batch['alpha'], batch['text']
         

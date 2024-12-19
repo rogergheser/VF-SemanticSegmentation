@@ -31,7 +31,8 @@ from tqdm import tqdm
 
 # evaluation using SAN evaluator
 import sys
-sys.path.append('/home/disi/VF-SemanticSegmentation/SAN')
+sys.path.append('SAN')
+os.environ['DETECTRON2_DATASETS'] = os.getcwd() + '/datasets'
 from SAN.custom_evaluator import CustomSemSegEvaluator
 from detectron2.modeling.meta_arch.build import build_model
 from SAN.eval_net import setup
@@ -56,20 +57,22 @@ class Evaluator:
         self.loader = loader
         self.evaluator = evaluator
         self.device = device
-        self.save_results = args['output']['save_results']
+        self.save_predictions = args['output']['save_predictions']
         self.overlay = args['output']['overlay']
         self.out_path = args['output']['save_path']
+        self.post_process = args['sam']['post_process']
         self.ade_voc = {}
         self.new_label_idx = 0
 
-        if self.save_results:
+        if self.save_predictions:
             os.makedirs(self.out_path, exist_ok=True)
-        # for i, category in enumerate(ADE20K_CATEGORIES):
-        #     keys = category["name"].split(", ")
-        #     self.new_label_idx += 1
-        #     for key in keys:
-        #         if key not in self.ade_voc:
-        #             self.ade_voc[key] = category["trainId"]
+
+        for i, category in enumerate(ADE20K_CATEGORIES):
+            keys = category["name"].split(", ")
+            self.new_label_idx += 1
+            for key in keys:
+                if key not in self.ade_voc:
+                    self.ade_voc[key] = category["trainId"]
 
     def eval(self):
         os.makedirs(self.out_path, exist_ok=True)
@@ -82,15 +85,16 @@ class Evaluator:
             json_label = batch['label'] # unused in our experiments
 
             masks = self.sam.predict_mask(image)
-
             masks, _ = filter_masks(masks)
-            print("Filtered masks: ", len(masks))
-            images, masks = post_processing(masks, image, post_processing='none')
+            # These masks are guaranteed to remain intact, preserving correct shapes
+            original_masks = copy.deepcopy(masks) 
+
+            images, masks = post_processing(masks, image, post_processing=self.post_process)
             
             logits = self.clip.classify(images, masks, vocabulary)
             predictions = torch.argmax(logits, dim=1)
             text_predictions = [vocabulary[pred.item()][0] for pred in predictions]
-            semseg = self.add_labels(image, text_predictions, masks)
+            semseg = self.add_labels(image, text_predictions, original_masks)
 
             if self.save_results:
                 overlay = recompose_image(image.cpu().numpy(), masks, overlay=self.overlay)
@@ -161,6 +165,7 @@ class Evaluator:
             if text not in self.ade_voc:
                 self.ade_voc[text] = self.new_label_idx
                 self.new_label_idx += 1
+        
         newshape = image.shape
         newshape = (1, newshape[1], newshape[2])
         semseg = torch.zeros(newshape, dtype=torch.int32)
@@ -171,12 +176,12 @@ class Evaluator:
 
         return semseg
     
-def get_san_model():
+def get_san_model(args):
     detectron_args = default_argument_parser().parse_args()
 
     detectron_args.config_file = 'SAN/configs/san_clip_vit_res4_coco.yaml'
     detectron_args.eval_only = True
-    detectron_args.opts = ['OUTPUT_DIR', 'output/ade20k_full_SAM_eval', 'MODEL.WEIGHTS', 'checkpoints/san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"]
+    detectron_args.opts = ['OUTPUT_DIR', args['output']['save_results'], 'MODEL.WEIGHTS', 'checkpoints/san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"]
     cfg = setup(detectron_args)
     san_model = build_model(cfg)
 
@@ -198,6 +203,7 @@ def main(dataset, args):
     
     evaluator = Evaluator(sam, clip, loader, quantitative_evaluator, device=args['device'], args=args)
     evaluator.eval()
+    evaluator.evaluator.evaluate()
 
 
 if __name__ == '__main__':
@@ -222,11 +228,20 @@ if __name__ == '__main__':
     dataset_name_to_class = {
         'qualitative': QualitativeDataset,
         'ade20k_full_sem_seg_val': ADE20KDataset,
-        'coco_sem_seg_val2017' : Coco
+        'coco_2017_test_stuff_sem_seg' : Coco
     }
+
+    subset_percentage = args['dataset']['subset']
     
     dataset_name = args['dataset']['name']
     dataset_class = dataset_name_to_class[dataset_name]
     dataset = dataset_class.from_args(args, _transform)
+    if subset_percentage:
+        subset_size = int(len(dataset) * subset_percentage)
+        sample_to_skip = len(dataset) // subset_size
+        subset = torch.utils.data.Subset(dataset, range(0, len(dataset), sample_to_skip))
 
-    main(dataset, args)
+    if subset_percentage:
+        main(subset, args)
+    else:
+        main(subset, args)

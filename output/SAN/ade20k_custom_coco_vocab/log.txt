@@ -1,0 +1,1037 @@
+[12/10 14:38:31] detectron2 INFO: Rank of current process: 0. World size: 1
+[12/10 14:38:32] detectron2 INFO: Environment info:
+-------------------------------  ----------------------------------------------------------------------------------------------
+sys.platform                     linux
+Python                           3.10.16 (main, Dec  4 2024, 08:53:37) [GCC 9.4.0]
+numpy                            1.22.4
+detectron2                       0.6 @/home/disi/VF-SemanticSegmentation/venv/lib/python3.10/site-packages/detectron2
+Compiler                         GCC 9.4
+CUDA compiler                    not available
+DETECTRON2_ENV_MODULE            <not set>
+PyTorch                          2.5.1+cu124 @/home/disi/VF-SemanticSegmentation/venv/lib/python3.10/site-packages/torch
+PyTorch debug build              False
+torch._C._GLIBCXX_USE_CXX11_ABI  False
+GPU available                    Yes
+GPU 0                            Tesla V100-PCIE-16GB (arch=7.0)
+Driver version                   565.57.01
+CUDA_HOME                        None - invalid!
+Pillow                           9.3.0
+torchvision                      0.20.1+cu124 @/home/disi/VF-SemanticSegmentation/venv/lib/python3.10/site-packages/torchvision
+torchvision arch flags           /home/disi/VF-SemanticSegmentation/venv/lib/python3.10/site-packages/torchvision/_C.so
+fvcore                           0.1.5.post20221221
+iopath                           0.1.9
+cv2                              4.10.0
+-------------------------------  ----------------------------------------------------------------------------------------------
+PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201703
+  - Intel(R) oneAPI Math Kernel Library Version 2024.2-Product Build 20240605 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.5.3 (Git Hash 66f0cb9eb66affd2da3bf5f8d897376f04aae6af)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 12.4
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 90.1
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.4, CUDNN_VERSION=9.1.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, TORCH_VERSION=2.5.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=1, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
+
+[12/10 14:38:32] detectron2 INFO: Command line arguments: Namespace(config_file='configs/san_clip_vit_res4_coco.yaml', resume=False, eval_only=True, num_gpus=1, num_machines=1, machine_rank=0, dist_url='tcp://127.0.0.1:50152', opts=['OUTPUT_DIR', '../output/SAN/ade20k_custom_coco_vocab', 'MODEL.WEIGHTS', '../checkpoints/san_vit_b_16.pth', 'DATASETS.TEST', "('ade20k_full_sem_seg_val',)"], vocabulary=['neck visit', 'tricycle parakeet strainer', 'snag', 'rapper', 'point', 'hose', 'birth marina', 'temperature jeep', 'system', 'unit structure', 'restaurant', 'exhibit tip', 'brand', 'tongue luck', 'fruit flash basketball', 'bureau vanity wrap', 'hammer', 'dispenser enhance photos', 'exposition cd sport type ball magenta package transportation', 'relief fleet tournament', 'brunette', 'hole', 'status', 'video', 'rag thicket pitch smoothie plain', 'clawfoot', 'tow', 'perspective', 'outward', 'drop', 'fill', 'pizza', 'photos', 'sweat baseball', 'copier', 'route', 'cold', 'form', 'het', 'bonnet cigarette', 'event', 'spring', 'cab train eclair', 'bowler', 'island busuit', 'hook', 'contact', 'balcony tolet slab', 'empire assembly', 'tank', 'loveseat', 'ramp boulder', 'railroad resort choice', 'elbow', 'luguage poverty', 'bluebery surfs calf', 'packing harness', 'cuddle', 'banner', 'twig jockey marine liquify enveloping', 'volcano guacamole', 'wheat worker hydrogen', 'gorge', 'student feel', 'collect', 'environment growth', 'silver ground', 'speed burger butterfly', 'bandanna barrier rodeo', 'carryout', 'esplanade', 'individual', 'letter message machinery body', 'blockade', 'wash cabbage', 'shoreline fair', 'knee household link', 'boy', 'food direction', 'guide', 'tone', 'greet freeway', 'curtain', 'face instrument store', 'telegraph', 'bunny night role', 'conjunction', 'refrigerator sensor bench', 'filing', 'bicyclist', 'leans', 'guitar', 'wear', 'pasture', 'keyboard shawl', 'novelty', 'road pier', 'shaker', 'zoo girrafes', 'combination dirt brown/orange thru layout', 'beach', 'hotel', 'tint', 'biplane', 'repair sale', 'block replica', 'omelet sexy', 'eye bowl', 'fireplug entry chew', 'rubs ridge', 'pallet language icebox', 'harvey', 'corn', 'mid-air rod', 'luxury lime', 'mob', 'nunchuk', 'bovine', 'occasion', 'differing device', 'color', 'sip', 'spoon', 'desk butterflys movement city mingling loan', 'marker', 'kind stove', 'rusty', 'leafy', 'security birdie stalk', 'th honey', 'mountaintop', 'cushion meeting life', 'snowboard', 'plant man', 'campfire', 'coat', 'return faucet', 'resort', 'baggie', 'today', 'factory pastry', 'substance', 'neon', 'radio peeson ambience childi', 'toy boomerang', 'disk', 'lemon ski dingy glimpse opponent', 'rim', 'shelf walk telephone terminal expert', 'pond', 'clock', 'neighborhood', 'consumption', 'blinking', 'barge wall', 'notepad recording', 'pier contestant', 'mystery worth', 'face', 'street sleeveless', 'banner army everyone takeout illusion steam', 'hydrgon', 'material sun carpet city', 'exhibit', 'racquet bedroom', 'begin', 'passage', 'summer bow house', 'tv', 'pig combs', 'branch', 'makeshift train-station practice fireplace salon', 'redwood impersonator', 'hip', 'cauliflower speech collar', 'farm thin', 'dorm camouflage', 'tire', 'shape cash plastic barnacle passenger lacy scenery cabinetry', 'gentleman cellphone', 'track tabke checkerboard range', 'st.', 'dump', 'ten', 'player', 'handkerchief employee', 'ceiling', 'herd thick bar ski', 'distance', 'dash label', 'book', 'comic', 'foil chief', 'trackball', 'elephant ith', 'pilot', 'institution', 'maker burger', 'golf', 'bing', 'care brick orange', 'peak', 'action recipe owner', 'challenge home', 'homemade', 'museum', 'beanie', 'graffiti', 'blood circle publix', 'cheese farmer', 'somebody', 'print garter stop', 'candy', 'scissor', 'technological', 'growth', 'transporting vehicle', 'translation', 'serenity', 'fo tamale', 'plowig dumbbell', 'grey', 'coral', 'quarter corridor fifteen', 'backseat', 'gun wilderness pic van', 'character closeup', 'desert bosom league', 'limo', 'soap logo', 'day spot defender wrist squeeze', 'pepsi', 'ohone', 'projection', 'scarf catcher', 'softball bottle toddler girl mouth sort speaker', 'tunnel', 'scrapbook play mummy razor wine wok', 'mit', 'style', 'reflection toddler', 'machine', 'cel', 'foreground unbrella', 'gathering fruit copse', 'appliance building', 'lizard', 'bull', 'splatter lamp', 'lady', 'parasol', 'street.a plare', 'tv', 'vehicle', 'tail', 'intriguing tree room', 'mattress', 'stake', 're-enacting hammock wiping', 'region', 'jersey', 'sandel', 'hug', 'crosswalk ump', 'plate', 'walker', 'lake ability', 'lounge', 'countryside rowboat', 'bowtie hoodie polewith', 'stuff', 'spandex', 'racket discussion', 'pavilion hub puppet', 'junk', 'jeter department', 'handrail cemetery', 'triple', 'parsley', 'architecture', 'beach-side outfielder detour climbs swampy', 'tender ina', 'wait design', 'duck', 'lavender', 'tequila', 'product', 'family', 'playground joust', 'taste', 'microphone', 'semi-trailer', 'jacket canoe', 'protest pitch', 'campaign', 'royal', 'curb kid', 'juice wagon', 'hay show tier man morning scroll', 'motel stoop', 'asphalt', 'rafter', 'fan', 'audience', 'teaspoon defensive', 'cord balloon', 'glance barefoot toast', 'news', 'pair', 'daytime', 'selfie', 'grate', 'blackboard', 'tee', 'lodge', 'showy', 'move', 'mouse', 'decor', 'cot', 'apparatus', 'home parley', 'cat', 'suburbia', 'jouster', 'mobile smith', 'stay', 'beneath', 'mast', 'temptress pate hydrgen meatball depot', 'use', 'circle', 'herd necklace', 'grill tanker citi', 'backhand turquoise', 'day', 'badminton mask', 'creek', 'edge opening', 'food piece', 'wolf', 'stop', 'root dummy conference railway', 'guy', 'car gain', 'pub', 'angel cap backpack', 'cereal', 'picket', 'furniture', 'chalkboard', 'wire', 'sidewalk', 'salad', 'jukebox kiwi support', 'strawberry', 'sale', 'pacifier', 'slaw pyramid', 'tube', 'racket yard bookcase', 'ribbon', 'fan profanity', 'space bathe', 'medium avocado', 'setup', 'linen', 'hand male', 'fur cappuccino frisbee', 'barrel', 'fire', 'businessman station tub recliner', 'basketball sub', 'convenience', 'intention paw dirt', 'dinning', 'tabletop abundance plunger', 'post delivering spire hygenie slice liquor', 'sharpie gas', 'rack', 'vane season', 'luggage grind', 'lock', 'skiesat bathrobe', 'shape motorcycle', 'buggy blurry', 'coat mantle stretch pose', 'board grandmother hitter toilette grab', 'cd', 'station', 'bridge', 'cheesy suitcase', 'volley pet glider', 'arrow', 'buss gear', 'couple pirate bull blender drysuit', 'pay film', 'stream', 'windmill', 'rain', 'gingham sink', 'pot walker', 'ligt', 'cub', 'combination', 'text', 'lad', 'broth', 'meta tap', 'mash stroll', 'palide', 'parka restaurant aquarium', 'arena medal pizzeria style', 'tower', 'crossing', 'countyside', 'mozzarella underneath', 'trainer', 'car', 'facility dugout', 'job board', 'bud', 'photo parasailing dinner attire pottery girl', 'bee', 'spam', 'waterpark', 'officer advertisement', 'construction heat restaurant', 'batter feeder jeep air', 'step', 'circus spoon corner', 'rig', 'order land', 'beach cot', 'gang', 'combo clock', 'whisk', 'opening pool cobblestone luncheon', 'teat', 'arm', 'pigeon', 'elephant tape crib pattern tinfoil', 'frizzbe van suitcase contrast', 'lot barrette', 'mug partner interview', 'art', 'animal', 'egg holder peer', 'panel saucer', 'g', 'progress spool wort', 'scenery', 'paper', 'cooker platform', 'steel', 'course', 'lace bun shark', 'huddle', 'thing', 'city forehand', 'apple woman', 'stoneware', 'woman profession', 'cigar', 'equipment seal slab', 'bowl mill', 'flame whiteness company', 'snow', 'building chin', 'shop train', 'biker stare', 'underneath lunch', 'frappucino', 'raft example kiteboard', 'yogurt calico', 'virgin plane', 'velvet stairway', 'piano', 'flush', 'chair team postbox indicator', 'sushi', 'sensor clothing', 'bunny', 'talk', 'night', 'keyoard carriage', 'stream screensaver', 'filter party', 'kate', 'sailboat oerson image number lab coast blinder', 'earbuds', 'windsock', 'container', 'chute-type umpire strip depot', 'peace launch sanitizer cauliflower', 'boardwalk', 'projector furry', 'saucer', 'statue', 'fashion', 'foot ball', 'biilboard pamphlet', 'bumper curse', 'honey profile', 'dog', 'hang', 'bagel', 'walkway', 'furniture', 'column town', 'panel', 'graphic diving presentation', 'purse hurry iron size', 'protection flea iphone', 'diner', 'service hair', 'ball racket', 'cheesecake', 'aqueduct customer', 'mineral', 'figure kick color', 'scooter', 'kitchenette', 'aluminum christmas hotdgs brace', 'wind', 'armor', 'actress', 'mountain', 'removal', 'index', 'backyard', 'suburb', 'stone faithful', 'way vespas incense bridge', 'broccoli bedroom countertop', 'conveyer digital', 'annoyance', 'place', 'halfway calculator', 'fence ..', 'apron', 'duct zebra-print', 'heron radish carriage.on passerbys fridge glitter', 'renovation', 'cycle tundra speak', 'teenage', 'dense', 'photographing', 'wine', 'beverage', 'blanket toy wrap', 'propeller garnish', 'hitting', 'catch', 'ditch hut museum peacoat', 'capacity', 'jeep', 'signage', 'room apartment', 'water sinking', 'parasail lifeguard wig neck', 'road', 'mark', 'swim leather', 'pickup/drop', 'theme washroom', 'trunk', 'bathroom joyed', 'somber', 'pathway team', 'wildlife detail branch rack basin', 'collection', 'unboard', 'hallway', 'camera papaya', 'dinner area plot glaze', 'transit', 'scape', 'blade', 'bulb operate bus', 'bringing', 'strike', 'grocery', 'calculator', 'soda alert asparagus', 'passenger', 'dine', 'coarse', 'roller', 'photo', 'pizzas', 'factory ripe chess', 'power', 'event weedy', 'warplane cage toiletry earth', 'runner', 'cake phone icecream breakfast bookcase robe', 'pasta', 'grade', 'tank umbrella', 'intersection', 'facility', 'broom bacon', 'stain', 'pastery floor', 'line play dog sheet cross', 'conveyor', 'drive hamburger grill', 'low-rider', 'student', 'feel', 'hanger zombie online hairbrush', 'chew', 'mic hydrant', 'shock', 'newspaper', 'glassware alarm pepsi', 'plastic coffee', 'match gymnasium', 'knot chili message bird', 'show', 'set pane', 'protruding', 'morning', 'casting', 'calf beer', 'perch', 'refridgeratio cereal furniture mulch dress skyscraper wire', 'flower', 'grease', 'estate dawn', 'hoody butter doorway hangar lapel', 'variety doctor', 'aqua clutter', 'haircut lane onion flambe pizza loaf quaint', 'firewood skateboarder', 'symbol', 'babseball shreddin', 'graveyard', 'transportation', 'celery head signal', 'star tree', 'elder stroller', 'mitt', 'giraffe', 'way', 'toilet', 'thermometer', 'grizzly dispenser tow control', 'motorcross', 'lawn district', 'mutton', 'mixture middle', 'neighborhood pasture', 'stack', 'skirt sink', 'emergency fur', 'oven', 'carrot doorwall', 'tag dollop waveless', 'broom saddle', 'stunt', 'bakery', 'liquid bathtub pole design', 'air source marble', 'dog shipyard', 'enjoy', 'airport', 'magenta intersection', 'door', 'trip', 'widow gym', 'contryside fog', 'derek', 'ship', 'lecture food off', 'footpath race', 'beany map', 'image pipe bush', 'tennis camel goo', 'screen', 'baggage', 'banana', 'war lamppost', 'bat charter', 'supine refigeratator', 'horserace kid', 'yield', 'orange', 'tea', 'slide position egg', 'divider', 'giraffes', 'garbage spicy kitchen', 'pf player', 'center', 'lot date', 'shade', 'stance', 'sailor', 'trail', 'son motion multi', 'see', 'fall', 'weathervane', 'wall', 'caption', 'square', 'brocoli', 'nature', 'donut', 'citrus', 'plate cargo', 'videogame row', 'advertisement sheepherd', 'bar cocoa elephant', 'old-', 'hydrant', 'knife golf', 'fence', 'proclaim fridge ladder', 'ata runner town', 'hair dispenser', 'formation', 'friend', 'creation', 'roam', 'winter', 'bartender', 'crab celebration object', 'meeter mosaic alot', 'computer ocean', 'crash', 'pin', 'boat sofa store stool', 'flipping', 'period', 'fun', 'town', 'garment turboprop palace bill', 'river', 'hardwood timetable', 'badminto', 'dinnerware', 'dirty pan', 'house', 'finch', 'garage', 'lighthouse', 'remote', 'action', 'department', 'sign fat', 'barrier', 'bandana unto', 'meter figurine merchandise', 'window glaze', 'chocolate', 'joe display', 'blueberry vodafone', 'graffiti signpost pallet', 'tech', 'brush paddock adult take-off', 'khaki', 'slender rock metallic grass direction', 'flight hover', 'dark', 'dip', 'trailer', 'market surfboard onlooker dinner pitching dress', 'paperwork', 'internet', 'background', 'bank taco', 'fish', 'stillness wicker doorway pointy pressure', 'volley point', 'filming', 'machine ..', 'flag', 'coloration rainbow', 'console swung', 'fixture bull touch rugby', 'path', 'coconut cappuccino food', 'cloth', 'unit', 'toilet league gir', 'space show-quality', 'exposure', 'camera', 'trip maneuver', 'model night', 'toast omelet', 'end futon supermarket temple', 'vinegar', 'sheer amtrak', 'pickle cellophone', 'contraption room dance hairline', 'island monster', 'bluing sculpture cutter', 'cloudless mogul', 'tripod ipod browse cabinetry', 'coat cookware', 'briefcase', 'hilll something instruction', 'arrange scraper', 'machine backdrop prison', 'sicker', 'text genetalia', 'eachother bagel facility light', 'speed', 'rice', 'jump', 'decking', 'football handmade', 'selection', 'highway owner pass', 'belt buffet', 'gourmet infant', 'farmer ai', 'wind random', 'valley', 'mixture blade', 'topic', 'kitchen', 'rode', 'competition', 'bear', 'traveler peninsula pocket', 'cheese', 'motor cannondale roundish', 'scene pizza', 'printer', 'escalator suit scape brake', 'tar enclosure', 'highway catchup', 'air', 'race', 'residence', 'raquet dirty stink sneaker sweet', 'carriage guitar', 'lab', 'tan breezy distance', 'lobby peach roll mail', 'ahotel', 'line', 'zoo contact', 'base', 'leopard desert', 'lawn', 'isle', 'fry', 'expression sun slice victory', 'carrier', 'community jail', 'si bomb granite raincoat umbrella life surburban', 'crap', 'technology', 'drier', 'phone', 'bookcase', 'depict stadium country', 'tideline', 'medieval', 'fireplace', 'month biplane roaster', 'collaboration', 'refridgerator', 'plant shelter', 'folliage', 'explanation yak streak rag mn tarmac', 'toddler partner sequence trouble', 'bench', 'lift', 'father policeman rec', 'cock', 'circus cob', 'surfboard dormant', 'burgundy', 'gravy', 'enter tape', 'shot trio', 'wife', 'sticker pea car', 'scape umbrella', 'capital wig right', 'program ring', 'muddy range sail', 'process', 'treed study', 'blankly', 'country', 'auto smartphone machine', 'pine', 'speaker pursing', 'booth', 'roller blazer', 'comforter', 'nachos', 'meter batch waffle', 'island joy transfer sea', 'bay', 'warmer book', 'tram', 'prop leg bathroom', 'case', 'basket sauce', 'chef groom', 'shirtless trike stir flag', 'deer', 'strike', 'formica mirror banana', 'concentrating', 'cast sightseeing akite', 'patch captivity bikinis', 'bestbuy', 'image', 'singer', 'flight portion', 'size', 'autumn', 'skirt', 'climb', 'makeup truck', 'pc rotten', 'bird', 'chapel', 'poster drip stone printer photo', 'workspace showcase', 'fed child', 'court', 'ladnscape sit', 'repair hotdog', 'sunshine pony', 'redone backpack airliner', 'telivision tye', 'park buckskin', 'vety reception', 'bathroom', 'movie', 'tightrope', 'violence', 'aquarium fountain', 'workstation attempt bacon', 'pitcher roadside', 'obama ceremony smoking', 'furniture rain pc room', 'cubicle', 'stick', 'shorter descent mouth server sheepdog', 'cake', 'packaging', 'nothing', 'tree', 'quiche', 'jet', 'renovation college', 'macaroni', 'horseback', 'cone heritage', 'side weight audience clothesline', 'foil expanse greenery', 'planter fog', 'raw', 'television', 'platter spread', 'baseball', 'hill cay cement', 'roll racquette wash.', 'biking', 'farmer', 'floor spatula baby', 'dirt', 'cow', 'tapestry quiche', 'hood', 'murder', 'doberman ticket hole', 'frisbie railway', 'human', 'mud', 'mane', 'mama hammock', 'pan pack', 'city', 'toilet wash', 'peeld overpass', 'dock', 'over/under vintage mirror', 'architecture parasol robe', 'sky', 'banansas wedge', 'half lot', 'record boot wireless cocktail', 'someone', 'creepy', 'language', 'peporoni tedy', 'world sky lone bikinis', 'horse', 'losing crust hairbrush mate day', 'pull', 'crawls compartment', 'duffel burner container sausage', 'shell', 'tattoo restroom', 'birdcage', 'scene', 'meal', 'pipeline pilot sauce car', 'change', 'mirror shift compute banquet sillouhette', 'freeze', 'construction', 'guacamole skin jetliner torso rodeo', 'pop', 'snack breakfast chocolate table', 'amount', 'den', 'overhead center controller', 'analog cop', 'half', 'product family', 'sushi porcelain source monorail abreast', 'cartoon', 'quantity', 'fireplace blonde flag wti', 'arena', 'observe', 'youngster', 'badminton bellhop slope sausage', 'grinding', 'garbage', 'embankment wall', 'airline', 'truck engine', 'vanity secure entree sofas', 'barn', 'preparation beacon', 'scoop', 'object', 'base landing', 'streeet', 'game boquet propellor placemat windowpane flute', 'toilet disk overpass', 'fishing alter', 'box foam', 'sign hold', 'game', 'footstool', 'toilet portrait', 'skis fabric', 'preparation', 'perform halve', 'dime', 'tugboat drink underpass lime', 'comment', 'swell', 'foot', 'garage frame glitter man', 'fruit flatscreen tin employee', 'drug', 'bank jungle tress', 'interest', 'mingle little-league', 'market dork sgn', 'ballplayer', 'board', 'spa windowsill', 'celebratory mustache', 'kayak', 'butterfly', 'member', 'watch wedge', 'holder tuxedo', 'boat housewife', 'screwdriver gazelle', 'party', 'soccer scoreboard', 'crane', 'beech bef rack', 'brush', 'skillet junky', 'mosquito motionless', 'glow traffic', 'purchase lounge', 'market', 'viewing', 'onion', 'superficial', 'help', 'honey photograph', 'basket', 'perfume', 'breastfeeding cheesey', 'cabinet station tractor', 'plan', 'stock broccoli', 'milk church subway carrot', 'wiring', 'shoreline project', 'crusty', 'butterscotch', 'opponent', 'pacifier find', 'badge cabinet slimy reflection', 'birdhouse roof', 'grapefruit', 'meat', 'parkd', 'maple raid', 'shower', 'airport coaster ashore', 'bride', 'location', 'turtle', 'collie toothbrush', 'takeoff', 'office bath loss part', 'hour', 'chess', 'anyone storefront woolen parade zucchinis', 'flip lunch', 'goat', 'patchwork', 'decoration pick', 'dusk chihuahua', 'railcar', 'statue chistmas beard bit', 'doll softball cafeteria keybord compass house', 'dozen', 'couple', 'copper talk', 'placemat', 'seat grabs jetliner band cigarette', 'chubby', 'mine', 'chair', 'ceremony', 'block', 'progress discs horse menu', 'smoke beam smart sand vase', 'paperwork color mustache maintenance slider group', 'port', 'possession turnip', 'utility', 'bethroom', 'figure ledge', 'template deer', 'reach', 'subway', 'gate fribee bare', 'rider', 'moment', 'motorboat', 'countertop', 'bedroom', 'feed', 'lamb gauge controller', 'dough doll', 'tennis ha game', 'holdng skinny', 'magazine', 'delivery', 'st', 'tissue', 'survey', 'pile', 'cream', 'state', 'school', 'c9unter', 'disrepair crosswalk banana', 'countryside plaza', 'safety', 'hopping', 'camode', 'rest', 'stadium bell', 'bison prowess', 'area', 'snowsuit mustard animal', 'contain', 'frisbe dish', 'wiiremote', 'sky robot', 'dip sticker prey', 'shelve trot', 'caught', 'gap', 'skyline', 'swamp', 'cracker safari', 'hydrand', 'dribbling brush', 'butt backflip scale beech', 'vampire', 'antelope', 'story thing yummy', 'region plate', 'conversation humane', 'lion', 'milkshake arm blurry', 'tv age comfort', 'world protective', 'spending', 'milk grandfather', 'graze', 'frisby sand', 'spinach afternoon', 'cross-country handing area watermelon', 'polka performance', 'note bidet shoe', 'roster parent goup telegraphs ignore', 'network', 'vegetation table canister', 'messy', 'student', 'flock bib', 'junction', 'site attachment shepherd tourbus', 'length', 'salon', 'traffic', 'eith hall', 'head channel balloon', 'asia holiday', 'parent', 'clock spot toaster', 'silk rung', 'steple', 'cityscape', 'territory', 'docking', 'egg', 'shine beside storefront close', 'cockpit bike', 'board.cabbage', 'smartphone puddle herd', 'refrigerator carrot', 'meeting beauty keyboard toast', 'tape stage', 'cursing bedstand', 'furrow', 'wharehouse', 'hall', 'hunk monitor', 'something', 'teen', 'fit shower', 'ballfield', 'hairdryer', 'paperback shoulder ass clutter', 'cd vision tv come hospital stucco spinach', 'airplane', 'frisbee', 'ceiling interception boom photographs', 'ice', 'computer keyboard curb', 'dusky mid', 'mountainside', 'caricature', 'husky spooky', 'headset', 'pretending', 'contest', 'iphone', 'hippo tripod', 'ottoman', 'rubber', 'packet', 'shorn', 'design', 'brow windshield', 'level road skatepark', 'sheep', 'conversation', 'picture', 'logo kitchen', 'tomatoe', 'asphalt belt fashion', 'mean', 'kichen square', 'crime', 'go photography', 'coastline pall', 'dumpster', 'cookie', 'chamber fly', 'shirtless', 'groom beach', 'cable', 'look bannanas', 'chili', 'crypt', 'harbor', 'kitchen competition explorer oil', 'chop', 'pad learn', 'champagne', 'gun salt', 'buckle', 'droopy side', 'burner shrub music anything', 'buddha', 'procession cutlery', 'crafts property', 'planner calmly man', 'televsion', 'jam', 'friend chain motorcycle', 'peddling', 'watermelon', 'rome', 'mirage exit linoleum multi-story parket', 'bow necktie club poster', 'tennis peacock', 'paperwork background', 'streetcar', 'rear-view', 'watching', 'diamond wheel rainy', 'sit', 'kit', 'plow', 'stading', 'border turn fajita', 'description sign', 'presentation', 'chain', 'apple act', 'stuck dishwasher shrubbery bushes', 'cane', 'humidifier', 'passageway', 'fight poodle', 'paddock rooftop', 'water', 'sand', 'tidy', 'vintage cub', 'computer', 'apple pitcher dashboard', 'home load', 'church schoolbus/boat/house', 'tabby pure child devise', 'skiis', 'flour coast cheeseburger pepperocini stall projector', 'suit flowery cabinet', 'raquet', 'bigtop crochet', 'slice', 'device panel bird', 'photographer', 'tartan let', 'hello steeple district', 'railroad', 'telephone', 'entertainment ad enclosure tag', 'edge head desolate cap outfield', 'nightvision', 'motif', 'ground.a', 'mouse blackbird o', 'broccoliw attire', 'wood', 'cross giraffes', 'halter beside device', 'boardwalk playing balcony detergent warehouse auction machinery tournament towel', 'carry', 'motorcycle freez', 'balance', 'relaxation', 'cook', 'flavor barren', 'spice', 'vegetation', 'hand', 'sugar', 'bucket', 'ledge swung convention', 'cloud', 'kale stemware lettuce apocalypse', 'radar', 'series', 'skate', 'rickshaws inner', 'panini', 'griddle baby blurry', 'enthusiast', 'achild buddy bracelet bark singke', 'bake', 'inspiron pastor bug', 'belt', 'parasailer intersection snack zebra', 'flip saw board', 'toothpaste slide penguin view', 'incline teeth rice', 'restroom', 'township', 'cole', 'water diaper', 'baseball arrangement pie', 'moon', 'item', 'tusk vanilla pastry', 'bicycle', 'structure', 'staircase', 'plenty', 'money gym', 'end', 'seed service', 'information flaky proximity windowsill', 'bear listing', 'dashboard', 'courtroom paddle', 'slope group', 'seat handle', 'wisp', 'surfboard shrimp', 'efficiency', 'mug', 'thousand pale', 'curve', 'dessert', 'pastry', 'visibility clearing', 'chip', 'child', 'enclosure hydrant hairy', 'fridge park embankment', 'mp3', 'soil store', 'site', 'peanut door para', 'whoa', 'warm curly', 'ham zone', 'leafs', 'word', 'train dog sidewalk', 'montage', 'shirt mac fighter', 'pocket', 'canvas', 'girder congregation backpack tent platform looing', 'concession', 'backdrop freezer', 'notepad', 'lounging', 'sil coffee dye', 'iron pork', 'waitress twist', 'barrier speedboat berry', 'glass', 'desk granny room doughnut', 'cud motorbike', 'driveway', 'juice cow', 'land arch dark', 'plane', 'skillet', 'non', 'dusk', 'patio desktop', 'course ground mass bat', 'mushroom', 'clay guess', 'teh', 'photograph', 'tuxedo', 'trail counter', 'charge', 'court tarp hip', 'fun leash', 'tweet player chair pizzaa spill', 'portrait person georgetown', 'school winter', 'stand', 'draft sea', 'arch', 'jewelry', 'bath', 'handkerchief', 'punch deck', 'grass please', 'capital camp toe beige', 'motion', 'roof', 'mess motocross care', 'syrup', 'hit eat roll', 'shaggy', 'bloom plaid', 'bag', 'water-scape', 'suit trail', 'trash player', 'enjoy piano', 'snap', 'cellphone crowds fork', 'man', 'brass meter', 'wetsuit oil jean', 'cutin', 'restriction sheet', 'crib', 'workspace', 'tinfoil', 'pattern', 'stage', 'meadow', 'studio squat livestock burrito', 'sign', 'field playground', 'order framework ajar', 'roadway', 'blender posh decker', 'canal', 'soap', 'treeless', 'conductor mint', 'telescope share', 'tent push park', 'strip', 'award printer', 'corner', 'corridor batter gondola ground', 'sidecar section contend', 'dress', 'bottle', 'anything', 'storage crust radio rug position', 'street admire', 'ticket', 'appliance', 'sedan', 'carpet', 'blow', 'deck', 'refrigerator', 'munch cap', 'rabbit', 'crop court coule', 'cutter confrontation flagpole building', 'spinach', 'quality clouds', 'coffee', 'heart hut expanse', 'card', 'garnishment pencil shipyard flower frizzy', 'barbecue', 'cube', 'everything homelessness', 'eye option traffic', 'president', 'clay', 'shirt chilli crystal', 'body', 'pristine st', 'courtyard', 'tractor', 'daughter', 'shelf', 'yard', 'diner button', 'comfy herbs sort', 'toaster', 'fruit hotdog', 'cushion', 'music', 'peg', 'cuisine', 'baggage lie floor', 'river.a', 'muffin', 'knife tail flamingo', 'rink p ayer', 'bod', 'photo mother', 'time', 'toothpaste', 'dairy throw', 'confinement', 'chipping', 'wand', 'icy pile awood', 'classroom', 'spring pajamas', 'garden suite', 'kiosk wander rainbow', 'shop', 'dresser', 'amongst', 'seafood tear', 'shutter', 'shore', 'tabletop', 'decoration', 'instructor drain talkie antique', 'baby', 'bite', 'raise', 'elephant/', 'bend', 'attention', 'death', 'drainpipe', 'milkshake', 'onstage sail pony', 'blazer patchy mushroom', 'orange broccoli string', 'taxi', 'spooning', 'hungry clothing', 'walkie', 'squirrel', 'microwave odd', 'panda case rainwater', 'farm train', 'canopy', 'butter', 'cog', 'paper steel', 'field', 'office match', 'joke', 'shoe', 'fork', 'contraption glove crate reminder', 'phone tuxedos', 'motorcycle dumpster shabby', 'zebra', 'peeler business', 'field trick carrier popsicle', 'planter beef', 'gesture', 'tie', 'pass', 'soup', 'stamp', 'televison', 'consult', 'life', 'mill', 'view', 'pickup', 'terrain', 'bus greenery', 'cabinetry', 'diesel maker', 'costume', 'display', 'adventure', 'bend bowling neck hi swatter clog daytime i', 'table/desk jug', 'curb', 'placid wastepaper', 'turkey', 'feeding', 'monitor', 'roundabout barb', 'box respond', 'graying builder street', 'hoe', 'boarder photo', 'billboard caught made/messy simulator', 'movement', 'distance zebra', 'section', 'strawberry function approach coupe', 'bronze shamrock', 'vendor', 'howdah corner', 'luggage enjoying', 'today', 'bathing', 'showroom', 'look', 'tshirt', 'break', 'soccer', 'shrimp homelessness waterway', 'presenter flashlight', 'cup prepare', 'neat', 'cinnamon', 'sleepy teammate gate bodyboarding', 'outer', 'business', 'skater', 'woman', 'blowup beer', 'battle', 'giant', 'summit', 'icebox', 'error googley hair', 'cherry blurs', 'compilation', 'tortilla', 'equipment', 'horizon', 'conference fly', 'shrubbery ferry', 'montage vapor', 'treat seed', 'smile ourange', 'residence environment canoe receiver', 'person', 'groffetti', 'liner', 'leftover midst lamp', 'poll', 'jockey', 'crew', 'window', 'exit waterfront rock', 'sandwhich goat caramel all-terrain parked.a', 'path socialize', 'milk', 'truck', 'side cycle homeless', 'obstacle game', 'tomato boogie', 'mogul', 'floatee class wildebeest plant sweater', 'desk labcoat metal hairbrush cubicle', 'trimming', 'district', 'piece', 'price', 'platter', 'foliage equipment', 'tub tattooed capture youth', 'country-style', 'bin', 'curtain preservative editor', 'tub/shower', 'surface paint', 'silhouette', 'destination commode', 'cage sidecar centerpiece', 'casserole', 'bunch', 'miniature fence', 'font', 'side', 'treat clad', 'bleacher catcher', 'peel checkout', 'dim', 'bilk', 'mud mane', 'patron zoo jacket mint closet load horse', 'viw', 'llama', 'retro bond cage', 'grassland', 'office control', 'exercise baseball post', 'tha', 'relish sandlot', 'hon', 'pink drive birthday', 'holder fixture', 'alcohol linen computer', 'soda sunset', 'landscape', 'storage', 'teacher'])
+[12/10 14:38:32] detectron2 INFO: Contents of args.config_file=configs/san_clip_vit_res4_coco.yaml:
+[38;5;204m_BASE_[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mBase-coco-stuff-164K-171.yaml[39m
+[38;5;204mMODEL[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mMETA_ARCHITECTURE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186mSAN[39m[38;5;186m"[39m
+[38;5;204mSOLVER[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mBACKBONE_MULTIPLIER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+
+[12/10 14:38:32] detectron2 INFO: Running with full config:
+[38;5;204mCUDNN_BENCHMARK[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;204mDATALOADER[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mASPECT_RATIO_GROUPING[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m  [39m[38;5;204mFILTER_EMPTY_ANNOTATIONS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m  [39m[38;5;204mNUM_WORKERS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m4[39m
+[38;5;15m  [39m[38;5;204mREPEAT_SQRT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m  [39m[38;5;204mREPEAT_THRESHOLD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;15m  [39m[38;5;204mSAMPLER_TRAIN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mTrainingSampler[39m
+[38;5;204mDATASETS[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mPRECOMPUTED_PROPOSAL_TOPK_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1000[39m
+[38;5;15m  [39m[38;5;204mPRECOMPUTED_PROPOSAL_TOPK_TRAIN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2000[39m
+[38;5;15m  [39m[38;5;204mPROPOSAL_FILES_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;15m][39m
+[38;5;15m  [39m[38;5;204mPROPOSAL_FILES_TRAIN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;15m][39m
+[38;5;15m  [39m[38;5;204mTEST[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141made20k_full_sem_seg_val[39m
+[38;5;15m  [39m[38;5;204mTRAIN[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mcoco_2017_train_stuff_sem_seg[39m
+[38;5;204mFLOAT32_PRECISION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186m'[39m
+[38;5;204mGLOBAL[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mHACK[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;204mINPUT[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mCOLOR_AUG_SSD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m  [39m[38;5;204mCROP[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mENABLED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mSINGLE_CATEGORY_MAX_AREA[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;204mSIZE[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m640[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m640[39m
+[38;5;15m    [39m[38;5;204mTYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mabsolute[39m
+[38;5;15m  [39m[38;5;204mDATASET_MAPPER_NAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mmask_former_semantic[39m
+[38;5;15m  [39m[38;5;204mFORMAT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mRGB[39m
+[38;5;15m  [39m[38;5;204mMASK_FORMAT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mpolygon[39m
+[38;5;15m  [39m[38;5;204mMAX_SIZE_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2560[39m
+[38;5;15m  [39m[38;5;204mMAX_SIZE_TRAIN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2560[39m
+[38;5;15m  [39m[38;5;204mMIN_SIZE_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m640[39m
+[38;5;15m  [39m[38;5;204mMIN_SIZE_TRAIN[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m320[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m384[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m448[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m576[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m640[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m704[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m768[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m832[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m896[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m960[39m
+[38;5;15m  [39m[38;5;204mMIN_SIZE_TRAIN_SAMPLING[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mchoice[39m
+[38;5;15m  [39m[38;5;204mRANDOM_FLIP[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mhorizontal[39m
+[38;5;15m  [39m[38;5;204mSIZE_DIVISIBILITY[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m640[39m
+[38;5;204mMODEL[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mANCHOR_GENERATOR[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mANGLES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m-90[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m90[39m
+[38;5;15m    [39m[38;5;204mASPECT_RATIOS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m2.0[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mDefaultAnchorGenerator[39m
+[38;5;15m    [39m[38;5;204mOFFSET[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;15m    [39m[38;5;204mSIZES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m32[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m64[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m128[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m  [39m[38;5;204mBACKBONE[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mFREEZE_AT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mbuild_resnet_backbone[39m
+[38;5;15m  [39m[38;5;204mDEVICE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mcuda[39m
+[38;5;15m  [39m[38;5;204mFLASH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m  [39m[38;5;204mFPN[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mFUSE_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141msum[39m
+[38;5;15m    [39m[38;5;204mIN_FEATURES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;15m][39m
+[38;5;15m    [39m[38;5;204mNORM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186m'[39m
+[38;5;15m    [39m[38;5;204mOUT_CHANNELS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m  [39m[38;5;204mKEYPOINT_ON[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m  [39m[38;5;204mLOAD_PROPOSALS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m  [39m[38;5;204mMASK_ON[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m  [39m[38;5;204mMETA_ARCHITECTURE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mSAN[39m
+[38;5;15m  [39m[38;5;204mPANOPTIC_FPN[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mCOMBINE[39m[38;5;15m:[39m
+[38;5;15m      [39m[38;5;204mENABLED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m      [39m[38;5;204mINSTANCES_CONFIDENCE_THRESH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m      [39m[38;5;204mOVERLAP_THRESH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m      [39m[38;5;204mSTUFF_AREA_LIMIT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m4096[39m
+[38;5;15m    [39m[38;5;204mINSTANCE_LOSS_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m  [39m[38;5;204mPIXEL_MEAN[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m103.53[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m116.28[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m123.675[39m
+[38;5;15m  [39m[38;5;204mPIXEL_STD[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m  [39m[38;5;204mPROPOSAL_GENERATOR[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mMIN_SIZE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mRPN[39m
+[38;5;15m  [39m[38;5;204mRESNETS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mDEFORM_MODULATED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mDEFORM_NUM_GROUPS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;204mDEFORM_ON_PER_STAGE[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mDEPTH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m50[39m
+[38;5;15m    [39m[38;5;204mNORM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mFrozenBN[39m
+[38;5;15m    [39m[38;5;204mNUM_GROUPS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;204mOUT_FEATURES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mres4[39m
+[38;5;15m    [39m[38;5;204mRES2_OUT_CHANNELS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m    [39m[38;5;204mRES4_DILATION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;204mRES5_DILATION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;204mRES5_MULTI_GRID[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m2[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m4[39m
+[38;5;15m    [39m[38;5;204mSTEM_OUT_CHANNELS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m64[39m
+[38;5;15m    [39m[38;5;204mSTEM_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mdeeplab[39m
+[38;5;15m    [39m[38;5;204mSTRIDE_IN_1X1[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mWIDTH_PER_GROUP[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m64[39m
+[38;5;15m  [39m[38;5;204mRETINANET[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_LOSS_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141msmooth_l1[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_WEIGHTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m&id002[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;204mFOCAL_LOSS_ALPHA[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.25[39m
+[38;5;15m    [39m[38;5;204mFOCAL_LOSS_GAMMA[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2.0[39m
+[38;5;15m    [39m[38;5;204mIN_FEATURES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp3[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp4[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp5[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp6[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp7[39m
+[38;5;15m    [39m[38;5;204mIOU_LABELS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m-1[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;204mIOU_THRESHOLDS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.4[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m    [39m[38;5;204mNMS_THRESH_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m    [39m[38;5;204mNORM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186m'[39m
+[38;5;15m    [39m[38;5;204mNUM_CLASSES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m80[39m
+[38;5;15m    [39m[38;5;204mNUM_CONVS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m4[39m
+[38;5;15m    [39m[38;5;204mPRIOR_PROB[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.01[39m
+[38;5;15m    [39m[38;5;204mSCORE_THRESH_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.05[39m
+[38;5;15m    [39m[38;5;204mSMOOTH_L1_LOSS_BETA[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.1[39m
+[38;5;15m    [39m[38;5;204mTOPK_CANDIDATES_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1000[39m
+[38;5;15m  [39m[38;5;204mROI_BOX_CASCADE_HEAD[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_WEIGHTS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;15m&id001[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m10.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m10.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m5.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m5.0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m20.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m20.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m10.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m10.0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m30.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m30.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m15.0[39m
+[38;5;15m      [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m15.0[39m
+[38;5;15m    [39m[38;5;204mIOUS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.6[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.7[39m
+[38;5;15m  [39m[38;5;204mROI_BOX_HEAD[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_LOSS_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141msmooth_l1[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_LOSS_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_WEIGHTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m*id001[39m
+[38;5;15m    [39m[38;5;204mCLS_AGNOSTIC_BBOX_REG[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mCONV_DIM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m    [39m[38;5;204mFC_DIM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1024[39m
+[38;5;15m    [39m[38;5;204mFED_LOSS_FREQ_WEIGHT_POWER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m    [39m[38;5;204mFED_LOSS_NUM_CLASSES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m50[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186m'[39m
+[38;5;15m    [39m[38;5;204mNORM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186m'[39m
+[38;5;15m    [39m[38;5;204mNUM_CONV[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;204mNUM_FC[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;204mPOOLER_RESOLUTION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m14[39m
+[38;5;15m    [39m[38;5;204mPOOLER_SAMPLING_RATIO[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;204mPOOLER_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mROIAlignV2[39m
+[38;5;15m    [39m[38;5;204mSMOOTH_L1_BETA[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;15m    [39m[38;5;204mTRAIN_ON_PRED_BOXES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mUSE_FED_LOSS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mUSE_SIGMOID_CE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m  [39m[38;5;204mROI_HEADS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mBATCH_SIZE_PER_IMAGE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;204mIN_FEATURES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mres4[39m
+[38;5;15m    [39m[38;5;204mIOU_LABELS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;204mIOU_THRESHOLDS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mRes5ROIHeads[39m
+[38;5;15m    [39m[38;5;204mNMS_THRESH_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m    [39m[38;5;204mNUM_CLASSES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m80[39m
+[38;5;15m    [39m[38;5;204mPOSITIVE_FRACTION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.25[39m
+[38;5;15m    [39m[38;5;204mPROPOSAL_APPEND_GT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mSCORE_THRESH_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.05[39m
+[38;5;15m  [39m[38;5;204mROI_KEYPOINT_HEAD[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mCONV_DIMS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m512[39m
+[38;5;15m    [39m[38;5;204mLOSS_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;204mMIN_KEYPOINTS_PER_IMAGE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mKRCNNConvDeconvUpsampleHead[39m
+[38;5;15m    [39m[38;5;204mNORMALIZE_LOSS_BY_VISIBLE_KEYPOINTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mNUM_KEYPOINTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m17[39m
+[38;5;15m    [39m[38;5;204mPOOLER_RESOLUTION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m14[39m
+[38;5;15m    [39m[38;5;204mPOOLER_SAMPLING_RATIO[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;204mPOOLER_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mROIAlignV2[39m
+[38;5;15m  [39m[38;5;204mROI_MASK_HEAD[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mCLS_AGNOSTIC_MASK[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mCONV_DIM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mMaskRCNNConvUpsampleHead[39m
+[38;5;15m    [39m[38;5;204mNORM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;186m'[39m[38;5;186m'[39m
+[38;5;15m    [39m[38;5;204mNUM_CONV[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;204mPOOLER_RESOLUTION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m14[39m
+[38;5;15m    [39m[38;5;204mPOOLER_SAMPLING_RATIO[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;204mPOOLER_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mROIAlignV2[39m
+[38;5;15m  [39m[38;5;204mRPN[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mBATCH_SIZE_PER_IMAGE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_LOSS_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141msmooth_l1[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_LOSS_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;204mBBOX_REG_WEIGHTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m*id002[39m
+[38;5;15m    [39m[38;5;204mBOUNDARY_THRESH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m-1[39m
+[38;5;15m    [39m[38;5;204mCONV_DIMS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m-1[39m
+[38;5;15m    [39m[38;5;204mHEAD_NAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mStandardRPNHead[39m
+[38;5;15m    [39m[38;5;204mIN_FEATURES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mres4[39m
+[38;5;15m    [39m[38;5;204mIOU_LABELS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m-1[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m    [39m[38;5;204mIOU_THRESHOLDS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.3[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0.7[39m
+[38;5;15m    [39m[38;5;204mLOSS_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;204mNMS_THRESH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.7[39m
+[38;5;15m    [39m[38;5;204mPOSITIVE_FRACTION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m    [39m[38;5;204mPOST_NMS_TOPK_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1000[39m
+[38;5;15m    [39m[38;5;204mPOST_NMS_TOPK_TRAIN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2000[39m
+[38;5;15m    [39m[38;5;204mPRE_NMS_TOPK_TEST[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m6000[39m
+[38;5;15m    [39m[38;5;204mPRE_NMS_TOPK_TRAIN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m12000[39m
+[38;5;15m    [39m[38;5;204mSMOOTH_L1_BETA[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;15m  [39m[38;5;204mSAN[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mASYMETRIC_INPUT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mCLASS_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2.0[39m
+[38;5;15m    [39m[38;5;204mCLIP_DEEPER_FROZEN_EXCLUDE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;15m][39m
+[38;5;15m    [39m[38;5;204mCLIP_FROZEN_EXCLUDE[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mpositional_embedding[39m
+[38;5;15m    [39m[38;5;204mCLIP_MODEL_NAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mViT-B/16[39m
+[38;5;15m    [39m[38;5;204mCLIP_PRETRAINED_NAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mopenai[39m
+[38;5;15m    [39m[38;5;204mCLIP_RESOLUTION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.5[39m
+[38;5;15m    [39m[38;5;204mCLIP_TEMPLATE_SET[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mvild[39m
+[38;5;15m    [39m[38;5;204mDICE_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m5.0[39m
+[38;5;15m    [39m[38;5;204mFEATURE_LAST_LAYER_IDX[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m9[39m
+[38;5;15m    [39m[38;5;204mIMPORTANCE_SAMPLE_RATIO[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.75[39m
+[38;5;15m    [39m[38;5;204mMASK_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m5.0[39m
+[38;5;15m    [39m[38;5;204mNO_OBJECT_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.1[39m
+[38;5;15m    [39m[38;5;204mNUM_CLASSES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m171[39m
+[38;5;15m    [39m[38;5;204mOVERSAMPLE_RATIO[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m3.0[39m
+[38;5;15m    [39m[38;5;204mREC_CROSS_ATTN[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mREC_DOWNSAMPLE_METHOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mmax[39m
+[38;5;15m    [39m[38;5;204mSEM_SEG_POSTPROCESS_BEFORE_INFERENCE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mSIZE_DIVISIBILITY[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m32[39m
+[38;5;15m    [39m[38;5;204mSOS_TOKEN_FORMAT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mcls_token[39m
+[38;5;15m    [39m[38;5;204mTRAIN_NUM_POINTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m12544[39m
+[38;5;15m  [39m[38;5;204mSEM_SEG_HEAD[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mASPP_CHANNELS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m    [39m[38;5;204mASPP_DILATIONS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m6[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m12[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m18[39m
+[38;5;15m    [39m[38;5;204mASPP_DROPOUT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.1[39m
+[38;5;15m    [39m[38;5;204mCOMMON_STRIDE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m4[39m
+[38;5;15m    [39m[38;5;204mCONVS_DIM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m128[39m
+[38;5;15m    [39m[38;5;204mIGNORE_VALUE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m255[39m
+[38;5;15m    [39m[38;5;204mIN_FEATURES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp2[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp3[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp4[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mp5[39m
+[38;5;15m    [39m[38;5;204mLOSS_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mhard_pixel_mining[39m
+[38;5;15m    [39m[38;5;204mLOSS_WEIGHT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mSemSegFPNHead[39m
+[38;5;15m    [39m[38;5;204mNORM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mGN[39m
+[38;5;15m    [39m[38;5;204mNUM_CLASSES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m54[39m
+[38;5;15m    [39m[38;5;204mPROJECT_CHANNELS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m48[39m
+[38;5;15m    [39m[38;5;204mPROJECT_FEATURES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mres2[39m
+[38;5;15m    [39m[38;5;204mUSE_DEPTHWISE_SEPARABLE_CONV[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m  [39m[38;5;204mSIDE_ADAPTER[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mATTN_BIAS[39m[38;5;15m:[39m
+[38;5;15m      [39m[38;5;204mEMBED_CHANNELS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m      [39m[38;5;204mMLP_CHANNELS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m256[39m
+[38;5;15m      [39m[38;5;204mMLP_NUM_LAYERS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m3[39m
+[38;5;15m      [39m[38;5;204mNUM_HEADS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m12[39m
+[38;5;15m      [39m[38;5;204mNUM_LAYERS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m      [39m[38;5;204mRESCALE_ATTN_BIAS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mDEEP_SUPERVISION_IDXS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m7[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m8[39m
+[38;5;15m    [39m[38;5;204mDROP_PATH_RATE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;15m    [39m[38;5;204mFUSION_MAP[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m0->0[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m3->1[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m6->2[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m9->3[39m
+[38;5;15m    [39m[38;5;204mFUSION_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141madd[39m
+[38;5;15m    [39m[38;5;204mIMAGE_SIZE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m640[39m
+[38;5;15m    [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mRegionwiseSideAdapterNetwork[39m
+[38;5;15m    [39m[38;5;204mNUM_QUERIES[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m100[39m
+[38;5;15m    [39m[38;5;204mPRETRAINED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mVIT_NAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mvit_w240n6d8_patch16[39m
+[38;5;15m  [39m[38;5;204mWEIGHTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m../checkpoints/san_vit_b_16.pth[39m
+[38;5;204mOUTPUT_DIR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m../output/SAN/ade20k_custom_coco_vocab[39m
+[38;5;204mSEED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m-1[39m
+[38;5;204mSOLVER[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mAMP[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mENABLED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m  [39m[38;5;204mBACKBONE_MULTIPLIER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m  [39m[38;5;204mBASE_LR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0001[39m
+[38;5;15m  [39m[38;5;204mBASE_LR_END[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;15m  [39m[38;5;204mBIAS_LR_FACTOR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m  [39m[38;5;204mCHECKPOINT_PERIOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m5000[39m
+[38;5;15m  [39m[38;5;204mCLIP_GRADIENTS[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mCLIP_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfull_model[39m
+[38;5;15m    [39m[38;5;204mCLIP_VALUE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.01[39m
+[38;5;15m    [39m[38;5;204mENABLED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mNORM_TYPE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2.0[39m
+[38;5;15m  [39m[38;5;204mCLIP_MULTIPLIER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m  [39m[38;5;204mGAMMA[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.1[39m
+[38;5;15m  [39m[38;5;204mIMS_PER_BATCH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m32[39m
+[38;5;15m  [39m[38;5;204mLR_SCHEDULER_NAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mWarmupPolyLR[39m
+[38;5;15m  [39m[38;5;204mMAX_ITER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m60000[39m
+[38;5;15m  [39m[38;5;204mMOMENTUM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.9[39m
+[38;5;15m  [39m[38;5;204mNESTEROV[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m  [39m[38;5;204mNUM_DECAYS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m3[39m
+[38;5;15m  [39m[38;5;204mOPTIMIZER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mADAMW[39m
+[38;5;15m  [39m[38;5;204mPOLY_LR_CONSTANT_ENDING[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;15m  [39m[38;5;204mPOLY_LR_POWER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.9[39m
+[38;5;15m  [39m[38;5;204mREFERENCE_WORLD_SIZE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m  [39m[38;5;204mRESCALE_INTERVAL[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m  [39m[38;5;204mSTEPS[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m30000[39m
+[38;5;15m  [39m[38;5;204mTEST_IMS_PER_BATCH[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1[39m
+[38;5;15m  [39m[38;5;204mWARMUP_FACTOR[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m1.0[39m
+[38;5;15m  [39m[38;5;204mWARMUP_ITERS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;15m  [39m[38;5;204mWARMUP_METHOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mlinear[39m
+[38;5;15m  [39m[38;5;204mWEIGHT_DECAY[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0001[39m
+[38;5;15m  [39m[38;5;204mWEIGHT_DECAY_BIAS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mnull[39m
+[38;5;15m  [39m[38;5;204mWEIGHT_DECAY_EMBED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;15m  [39m[38;5;204mWEIGHT_DECAY_EMBED_GROUP[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mabsolute_pos_embed[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mpositional_embedding[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mpos_embed[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mquery_embed[39m
+[38;5;15m  [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141mrelative_position_bias_table[39m
+[38;5;15m  [39m[38;5;204mWEIGHT_DECAY_NORM[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0.0[39m
+[38;5;204mTEST[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mAUG[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mENABLED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mFLIP[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mtrue[39m
+[38;5;15m    [39m[38;5;204mMAX_SIZE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m4480[39m
+[38;5;15m    [39m[38;5;204mMIN_SIZES[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m320[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m480[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m640[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m800[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m960[39m
+[38;5;15m    [39m[38;5;15m-[39m[38;5;15m [39m[38;5;141m1120[39m
+[38;5;15m  [39m[38;5;204mDETECTIONS_PER_IMAGE[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m100[39m
+[38;5;15m  [39m[38;5;204mEVAL_PERIOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m5000[39m
+[38;5;15m  [39m[38;5;204mEXPECTED_RESULTS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;15m][39m
+[38;5;15m  [39m[38;5;204mKEYPOINT_OKS_SIGMAS[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15m[[39m[38;5;15m][39m
+[38;5;15m  [39m[38;5;204mPRECISE_BN[39m[38;5;15m:[39m
+[38;5;15m    [39m[38;5;204mENABLED[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mfalse[39m
+[38;5;15m    [39m[38;5;204mNUM_ITER[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m200[39m
+[38;5;204mVERSION[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m2[39m
+[38;5;204mVIS_PERIOD[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141m0[39m
+[38;5;204mWANDB[39m[38;5;15m:[39m
+[38;5;15m  [39m[38;5;204mNAME[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141mnull[39m
+[38;5;15m  [39m[38;5;204mPROJECT[39m[38;5;15m:[39m[38;5;15m [39m[38;5;141moseg_1111[39m
+
+[12/10 14:38:32] detectron2 INFO: Full config saved to ../output/SAN/ade20k_custom_coco_vocab/config.yaml
+[12/10 14:38:32] d2.utils.env INFO: Using a generated random seed 32401107
+[12/10 14:38:35] d2.engine.defaults INFO: Model:
+SAN(
+  (criterion): Criterion SetCriterion
+      matcher: Matcher HungarianMatcher
+          cost_class: 2.0
+          cost_mask: 5.0
+          cost_dice: 5.0
+      losses: ['labels', 'masks']
+      weight_dict: {'loss_ce': 2.0, 'loss_mask': 5.0, 'loss_dice': 5.0, 'loss_ce_0': 2.0, 'loss_mask_0': 5.0, 'loss_dice_0': 5.0}
+      num_classes: 171
+      eos_coef: 0.1
+      num_points: 12544
+      oversample_ratio: 3.0
+      importance_sample_ratio: 0.75
+  (side_adapter_network): RegionwiseSideAdapterNetwork(
+    (vit_model): VisionTransformer(
+      (patch_embed): PatchEmbed(
+        (proj): Conv2d(3, 240, kernel_size=(16, 16), stride=(16, 16))
+        (norm): Identity()
+      )
+      (pos_drop): Dropout(p=0.0, inplace=False)
+      (patch_drop): Identity()
+      (norm_pre): Identity()
+      (blocks): Sequential(
+        (0): Block(
+          (norm1): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (attn): Attention(
+            (qkv): Linear(in_features=240, out_features=720, bias=True)
+            (q_norm): Identity()
+            (k_norm): Identity()
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Linear(in_features=240, out_features=240, bias=True)
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (ls1): Identity()
+          (drop_path1): Identity()
+          (norm2): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=240, out_features=960, bias=True)
+            (act): GELU(approximate='none')
+            (drop1): Dropout(p=0.0, inplace=False)
+            (norm): Identity()
+            (fc2): Linear(in_features=960, out_features=240, bias=True)
+            (drop2): Dropout(p=0.0, inplace=False)
+          )
+          (ls2): Identity()
+          (drop_path2): Identity()
+        )
+        (1): Block(
+          (norm1): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (attn): Attention(
+            (qkv): Linear(in_features=240, out_features=720, bias=True)
+            (q_norm): Identity()
+            (k_norm): Identity()
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Linear(in_features=240, out_features=240, bias=True)
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (ls1): Identity()
+          (drop_path1): Identity()
+          (norm2): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=240, out_features=960, bias=True)
+            (act): GELU(approximate='none')
+            (drop1): Dropout(p=0.0, inplace=False)
+            (norm): Identity()
+            (fc2): Linear(in_features=960, out_features=240, bias=True)
+            (drop2): Dropout(p=0.0, inplace=False)
+          )
+          (ls2): Identity()
+          (drop_path2): Identity()
+        )
+        (2): Block(
+          (norm1): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (attn): Attention(
+            (qkv): Linear(in_features=240, out_features=720, bias=True)
+            (q_norm): Identity()
+            (k_norm): Identity()
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Linear(in_features=240, out_features=240, bias=True)
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (ls1): Identity()
+          (drop_path1): Identity()
+          (norm2): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=240, out_features=960, bias=True)
+            (act): GELU(approximate='none')
+            (drop1): Dropout(p=0.0, inplace=False)
+            (norm): Identity()
+            (fc2): Linear(in_features=960, out_features=240, bias=True)
+            (drop2): Dropout(p=0.0, inplace=False)
+          )
+          (ls2): Identity()
+          (drop_path2): Identity()
+        )
+        (3): Block(
+          (norm1): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (attn): Attention(
+            (qkv): Linear(in_features=240, out_features=720, bias=True)
+            (q_norm): Identity()
+            (k_norm): Identity()
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Linear(in_features=240, out_features=240, bias=True)
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (ls1): Identity()
+          (drop_path1): Identity()
+          (norm2): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=240, out_features=960, bias=True)
+            (act): GELU(approximate='none')
+            (drop1): Dropout(p=0.0, inplace=False)
+            (norm): Identity()
+            (fc2): Linear(in_features=960, out_features=240, bias=True)
+            (drop2): Dropout(p=0.0, inplace=False)
+          )
+          (ls2): Identity()
+          (drop_path2): Identity()
+        )
+        (4): Block(
+          (norm1): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (attn): Attention(
+            (qkv): Linear(in_features=240, out_features=720, bias=True)
+            (q_norm): Identity()
+            (k_norm): Identity()
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Linear(in_features=240, out_features=240, bias=True)
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (ls1): Identity()
+          (drop_path1): Identity()
+          (norm2): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=240, out_features=960, bias=True)
+            (act): GELU(approximate='none')
+            (drop1): Dropout(p=0.0, inplace=False)
+            (norm): Identity()
+            (fc2): Linear(in_features=960, out_features=240, bias=True)
+            (drop2): Dropout(p=0.0, inplace=False)
+          )
+          (ls2): Identity()
+          (drop_path2): Identity()
+        )
+        (5): Block(
+          (norm1): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (attn): Attention(
+            (qkv): Linear(in_features=240, out_features=720, bias=True)
+            (q_norm): Identity()
+            (k_norm): Identity()
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Linear(in_features=240, out_features=240, bias=True)
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (ls1): Identity()
+          (drop_path1): Identity()
+          (norm2): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=240, out_features=960, bias=True)
+            (act): GELU(approximate='none')
+            (drop1): Dropout(p=0.0, inplace=False)
+            (norm): Identity()
+            (fc2): Linear(in_features=960, out_features=240, bias=True)
+            (drop2): Dropout(p=0.0, inplace=False)
+          )
+          (ls2): Identity()
+          (drop_path2): Identity()
+        )
+        (6): Block(
+          (norm1): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (attn): Attention(
+            (qkv): Linear(in_features=240, out_features=720, bias=True)
+            (q_norm): Identity()
+            (k_norm): Identity()
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Linear(in_features=240, out_features=240, bias=True)
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (ls1): Identity()
+          (drop_path1): Identity()
+          (norm2): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=240, out_features=960, bias=True)
+            (act): GELU(approximate='none')
+            (drop1): Dropout(p=0.0, inplace=False)
+            (norm): Identity()
+            (fc2): Linear(in_features=960, out_features=240, bias=True)
+            (drop2): Dropout(p=0.0, inplace=False)
+          )
+          (ls2): Identity()
+          (drop_path2): Identity()
+        )
+        (7): Block(
+          (norm1): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (attn): Attention(
+            (qkv): Linear(in_features=240, out_features=720, bias=True)
+            (q_norm): Identity()
+            (k_norm): Identity()
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Linear(in_features=240, out_features=240, bias=True)
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (ls1): Identity()
+          (drop_path1): Identity()
+          (norm2): LayerNorm((240,), eps=1e-06, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=240, out_features=960, bias=True)
+            (act): GELU(approximate='none')
+            (drop1): Dropout(p=0.0, inplace=False)
+            (norm): Identity()
+            (fc2): Linear(in_features=960, out_features=240, bias=True)
+            (drop2): Dropout(p=0.0, inplace=False)
+          )
+          (ls2): Identity()
+          (drop_path2): Identity()
+        )
+      )
+      (fc_norm): Identity()
+      (head_drop): Dropout(p=0.0, inplace=False)
+      (head): Identity()
+      (norm): Identity()
+    )
+    (fusion_layers): ModuleDict(
+      (layer_0): AddFusion(
+        (input_proj): Sequential(
+          (0): LayerNorm()
+          (1): Conv2d(768, 240, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (layer_1): AddFusion(
+        (input_proj): Sequential(
+          (0): LayerNorm()
+          (1): Conv2d(768, 240, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (layer_2): AddFusion(
+        (input_proj): Sequential(
+          (0): LayerNorm()
+          (1): Conv2d(768, 240, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (layer_3): AddFusion(
+        (input_proj): Sequential(
+          (0): LayerNorm()
+          (1): Conv2d(768, 240, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+    )
+    (mask_decoder): MLPMaskDecoder(
+      (query_mlp): MLP(
+        (layers): ModuleList(
+          (0): Linear(in_features=240, out_features=256, bias=True)
+          (1-2): 2 x Linear(in_features=256, out_features=256, bias=True)
+        )
+      )
+      (pix_mlp): MLP(
+        (layers): ModuleList(
+          (0): Conv2d(240, 256, kernel_size=(1, 1), stride=(1, 1))
+          (1-2): 2 x Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (attn_mlp): MLP(
+        (layers): ModuleList(
+          (0): Conv2d(240, 256, kernel_size=(1, 1), stride=(1, 1))
+          (1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))
+          (2): Conv2d(256, 3072, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (bias_scaling): Linear(in_features=1, out_features=1, bias=True)
+    )
+  )
+  (clip_visual_extractor): FeatureExtractor(
+    (patchnorm_pre_ln): Identity()
+    (conv1): Conv2d(3, 768, kernel_size=(16, 16), stride=(16, 16), bias=False)
+    (patch_dropout): Identity()
+    (ln_pre): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (resblocks): ModuleList(
+      (0-8): 9 x ResidualAttentionBlock(
+        (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (ls_1): Identity()
+        (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Sequential(
+          (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+          (gelu): QuickGELU()
+          (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+        )
+        (ls_2): Identity()
+      )
+    )
+  )
+  (clip_rec_head): RecWithAttnbiasHead(
+    (resblocks): ModuleList(
+      (0-2): 3 x ResidualAttentionBlock(
+        (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (ls_1): Identity()
+        (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Sequential(
+          (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+          (gelu): QuickGELU()
+          (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+        )
+        (ls_2): Identity()
+      )
+    )
+    (ln_post): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+  )
+  (ov_classifier): LearnableBgOvClassifier(
+    (transformer): Transformer(
+      (resblocks): ModuleList(
+        (0-11): 12 x ResidualAttentionBlock(
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ls_1): Identity()
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): QuickGELU()
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ls_2): Identity()
+        )
+      )
+    )
+    (token_embedding): Embedding(49408, 512)
+    (ln_final): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+  )
+)
+[12/10 14:38:35] d2.checkpoint.detection_checkpoint INFO: [DetectionCheckpointer] Loading from ../checkpoints/san_vit_b_16.pth ...
+[12/10 14:38:35] fvcore.common.checkpoint INFO: [Checkpointer] Loading from ../checkpoints/san_vit_b_16.pth ...
+[12/10 14:38:36] d2.data.datasets.coco INFO: Loaded 2000 images with semantic segmentation from /home/disi/VF-SemanticSegmentation/datasets/ADE20K_2021_17_01/images_detectron2/validation
+[12/10 14:38:36] d2.data.dataset_mapper INFO: [DatasetMapper] Augmentations used in inference: [ResizeShortestEdge(short_edge_length=(640, 640), max_size=2560, sample_style='choice')]
+[12/10 14:38:36] d2.data.common INFO: Serializing the dataset using: <class 'detectron2.data.common._TorchSerializedList'>
+[12/10 14:38:36] d2.data.common INFO: Serializing 2000 elements to byte tensors and concatenating them all ...
+[12/10 14:38:36] d2.data.common INFO: Serialized dataset takes 0.63 MiB
+[12/10 14:38:36] d2.data.datasets.coco INFO: Loaded 2000 images with semantic segmentation from /home/disi/VF-SemanticSegmentation/datasets/ADE20K_2021_17_01/images_detectron2/validation
+[12/10 14:38:36] d2.evaluation.sem_seg_evaluation WARNING: SemSegEvaluator(num_classes) is more than supported value for Boundary IoU
+                calculation! B-IoU metrics are not going to be computed. Max allowed value
+                (exclusive) for num_classes for calculating Boundary IoU is.
+                255 The number of classes of dataset ade20k_full_sem_seg_val is
+                847
+[12/10 14:38:36] d2.evaluation.evaluator INFO: Start inference on 2000 batches
+[12/10 14:38:54] san.model.side_adapter.side_adapter INFO: fuse clip 0 to 0
+[12/10 14:38:54] san.model.side_adapter.side_adapter INFO: fuse clip 3 to 1
+[12/10 14:38:54] san.model.side_adapter.side_adapter INFO: fuse clip 6 to 2
+[12/10 14:38:54] san.model.side_adapter.side_adapter INFO: fuse clip 9 to 3
+[12/10 14:38:55] d2.evaluation.evaluator INFO: Inference done 1/2000. Dataloading: 0.1676 s/iter. Inference: 18.0103 s/iter. Eval: 0.7961 s/iter. Total: 18.9758 s/iter. ETA=10:32:12
+[12/10 14:39:01] d2.evaluation.evaluator INFO: Inference done 11/2000. Dataloading: 0.0016 s/iter. Inference: 0.0468 s/iter. Eval: 0.5494 s/iter. Total: 0.5978 s/iter. ETA=0:19:49
+[12/10 14:39:06] d2.evaluation.evaluator INFO: Inference done 21/2000. Dataloading: 0.0020 s/iter. Inference: 0.0463 s/iter. Eval: 0.5289 s/iter. Total: 0.5772 s/iter. ETA=0:19:02
+[12/10 14:39:12] d2.evaluation.evaluator INFO: Inference done 31/2000. Dataloading: 0.0021 s/iter. Inference: 0.0454 s/iter. Eval: 0.5288 s/iter. Total: 0.5764 s/iter. ETA=0:18:54
+[12/10 14:39:17] d2.evaluation.evaluator INFO: Inference done 40/2000. Dataloading: 0.0022 s/iter. Inference: 0.0462 s/iter. Eval: 0.5311 s/iter. Total: 0.5795 s/iter. ETA=0:18:55
+[12/10 14:39:23] d2.evaluation.evaluator INFO: Inference done 48/2000. Dataloading: 0.0022 s/iter. Inference: 0.0464 s/iter. Eval: 0.5442 s/iter. Total: 0.5929 s/iter. ETA=0:19:17
+[12/10 14:39:28] d2.evaluation.evaluator INFO: Inference done 55/2000. Dataloading: 0.0022 s/iter. Inference: 0.0471 s/iter. Eval: 0.5696 s/iter. Total: 0.6190 s/iter. ETA=0:20:03
+[12/10 14:39:34] d2.evaluation.evaluator INFO: Inference done 65/2000. Dataloading: 0.0023 s/iter. Inference: 0.0469 s/iter. Eval: 0.5588 s/iter. Total: 0.6080 s/iter. ETA=0:19:36
+[12/10 14:39:39] d2.evaluation.evaluator INFO: Inference done 75/2000. Dataloading: 0.0023 s/iter. Inference: 0.0465 s/iter. Eval: 0.5458 s/iter. Total: 0.5947 s/iter. ETA=0:19:04
+[12/10 14:39:44] d2.evaluation.evaluator INFO: Inference done 83/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5536 s/iter. Total: 0.6026 s/iter. ETA=0:19:15
+[12/10 14:39:50] d2.evaluation.evaluator INFO: Inference done 93/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5489 s/iter. Total: 0.5978 s/iter. ETA=0:19:00
+[12/10 14:39:55] d2.evaluation.evaluator INFO: Inference done 100/2000. Dataloading: 0.0023 s/iter. Inference: 0.0469 s/iter. Eval: 0.5628 s/iter. Total: 0.6120 s/iter. ETA=0:19:22
+[12/10 14:40:01] d2.evaluation.evaluator INFO: Inference done 107/2000. Dataloading: 0.0023 s/iter. Inference: 0.0495 s/iter. Eval: 0.5718 s/iter. Total: 0.6237 s/iter. ETA=0:19:40
+[12/10 14:40:06] d2.evaluation.evaluator INFO: Inference done 118/2000. Dataloading: 0.0023 s/iter. Inference: 0.0488 s/iter. Eval: 0.5608 s/iter. Total: 0.6120 s/iter. ETA=0:19:11
+[12/10 14:40:12] d2.evaluation.evaluator INFO: Inference done 125/2000. Dataloading: 0.0023 s/iter. Inference: 0.0487 s/iter. Eval: 0.5698 s/iter. Total: 0.6209 s/iter. ETA=0:19:24
+[12/10 14:40:17] d2.evaluation.evaluator INFO: Inference done 132/2000. Dataloading: 0.0023 s/iter. Inference: 0.0488 s/iter. Eval: 0.5790 s/iter. Total: 0.6302 s/iter. ETA=0:19:37
+[12/10 14:40:23] d2.evaluation.evaluator INFO: Inference done 140/2000. Dataloading: 0.0023 s/iter. Inference: 0.0489 s/iter. Eval: 0.5841 s/iter. Total: 0.6354 s/iter. ETA=0:19:41
+[12/10 14:40:28] d2.evaluation.evaluator INFO: Inference done 147/2000. Dataloading: 0.0023 s/iter. Inference: 0.0490 s/iter. Eval: 0.5887 s/iter. Total: 0.6401 s/iter. ETA=0:19:46
+[12/10 14:40:33] d2.evaluation.evaluator INFO: Inference done 154/2000. Dataloading: 0.0023 s/iter. Inference: 0.0490 s/iter. Eval: 0.5930 s/iter. Total: 0.6444 s/iter. ETA=0:19:49
+[12/10 14:40:38] d2.evaluation.evaluator INFO: Inference done 162/2000. Dataloading: 0.0023 s/iter. Inference: 0.0488 s/iter. Eval: 0.5933 s/iter. Total: 0.6446 s/iter. ETA=0:19:44
+[12/10 14:40:44] d2.evaluation.evaluator INFO: Inference done 170/2000. Dataloading: 0.0023 s/iter. Inference: 0.0486 s/iter. Eval: 0.5975 s/iter. Total: 0.6485 s/iter. ETA=0:19:46
+[12/10 14:40:50] d2.evaluation.evaluator INFO: Inference done 177/2000. Dataloading: 0.0023 s/iter. Inference: 0.0486 s/iter. Eval: 0.6040 s/iter. Total: 0.6550 s/iter. ETA=0:19:54
+[12/10 14:40:55] d2.evaluation.evaluator INFO: Inference done 184/2000. Dataloading: 0.0023 s/iter. Inference: 0.0487 s/iter. Eval: 0.6089 s/iter. Total: 0.6600 s/iter. ETA=0:19:58
+[12/10 14:41:01] d2.evaluation.evaluator INFO: Inference done 196/2000. Dataloading: 0.0023 s/iter. Inference: 0.0484 s/iter. Eval: 0.5963 s/iter. Total: 0.6472 s/iter. ETA=0:19:27
+[12/10 14:41:06] d2.evaluation.evaluator INFO: Inference done 206/2000. Dataloading: 0.0023 s/iter. Inference: 0.0491 s/iter. Eval: 0.5886 s/iter. Total: 0.6401 s/iter. ETA=0:19:08
+[12/10 14:41:11] d2.evaluation.evaluator INFO: Inference done 221/2000. Dataloading: 0.0023 s/iter. Inference: 0.0482 s/iter. Eval: 0.5712 s/iter. Total: 0.6218 s/iter. ETA=0:18:26
+[12/10 14:41:17] d2.evaluation.evaluator INFO: Inference done 230/2000. Dataloading: 0.0023 s/iter. Inference: 0.0480 s/iter. Eval: 0.5692 s/iter. Total: 0.6196 s/iter. ETA=0:18:16
+[12/10 14:41:22] d2.evaluation.evaluator INFO: Inference done 238/2000. Dataloading: 0.0023 s/iter. Inference: 0.0480 s/iter. Eval: 0.5704 s/iter. Total: 0.6208 s/iter. ETA=0:18:13
+[12/10 14:41:27] d2.evaluation.evaluator INFO: Inference done 246/2000. Dataloading: 0.0023 s/iter. Inference: 0.0478 s/iter. Eval: 0.5717 s/iter. Total: 0.6219 s/iter. ETA=0:18:10
+[12/10 14:41:32] d2.evaluation.evaluator INFO: Inference done 256/2000. Dataloading: 0.0023 s/iter. Inference: 0.0475 s/iter. Eval: 0.5674 s/iter. Total: 0.6174 s/iter. ETA=0:17:56
+[12/10 14:41:38] d2.evaluation.evaluator INFO: Inference done 266/2000. Dataloading: 0.0023 s/iter. Inference: 0.0474 s/iter. Eval: 0.5652 s/iter. Total: 0.6150 s/iter. ETA=0:17:46
+[12/10 14:41:43] d2.evaluation.evaluator INFO: Inference done 274/2000. Dataloading: 0.0023 s/iter. Inference: 0.0473 s/iter. Eval: 0.5663 s/iter. Total: 0.6160 s/iter. ETA=0:17:43
+[12/10 14:41:48] d2.evaluation.evaluator INFO: Inference done 282/2000. Dataloading: 0.0023 s/iter. Inference: 0.0473 s/iter. Eval: 0.5680 s/iter. Total: 0.6177 s/iter. ETA=0:17:41
+[12/10 14:41:53] d2.evaluation.evaluator INFO: Inference done 288/2000. Dataloading: 0.0023 s/iter. Inference: 0.0474 s/iter. Eval: 0.5732 s/iter. Total: 0.6230 s/iter. ETA=0:17:46
+[12/10 14:41:59] d2.evaluation.evaluator INFO: Inference done 296/2000. Dataloading: 0.0023 s/iter. Inference: 0.0474 s/iter. Eval: 0.5754 s/iter. Total: 0.6252 s/iter. ETA=0:17:45
+[12/10 14:42:05] d2.evaluation.evaluator INFO: Inference done 304/2000. Dataloading: 0.0023 s/iter. Inference: 0.0474 s/iter. Eval: 0.5782 s/iter. Total: 0.6280 s/iter. ETA=0:17:45
+[12/10 14:42:11] d2.evaluation.evaluator INFO: Inference done 312/2000. Dataloading: 0.0023 s/iter. Inference: 0.0474 s/iter. Eval: 0.5801 s/iter. Total: 0.6299 s/iter. ETA=0:17:43
+[12/10 14:42:16] d2.evaluation.evaluator INFO: Inference done 318/2000. Dataloading: 0.0023 s/iter. Inference: 0.0475 s/iter. Eval: 0.5845 s/iter. Total: 0.6344 s/iter. ETA=0:17:47
+[12/10 14:42:21] d2.evaluation.evaluator INFO: Inference done 325/2000. Dataloading: 0.0023 s/iter. Inference: 0.0475 s/iter. Eval: 0.5872 s/iter. Total: 0.6370 s/iter. ETA=0:17:47
+[12/10 14:42:26] d2.evaluation.evaluator INFO: Inference done 333/2000. Dataloading: 0.0023 s/iter. Inference: 0.0475 s/iter. Eval: 0.5876 s/iter. Total: 0.6375 s/iter. ETA=0:17:42
+[12/10 14:42:31] d2.evaluation.evaluator INFO: Inference done 342/2000. Dataloading: 0.0023 s/iter. Inference: 0.0475 s/iter. Eval: 0.5857 s/iter. Total: 0.6356 s/iter. ETA=0:17:33
+[12/10 14:42:37] d2.evaluation.evaluator INFO: Inference done 353/2000. Dataloading: 0.0023 s/iter. Inference: 0.0473 s/iter. Eval: 0.5827 s/iter. Total: 0.6324 s/iter. ETA=0:17:21
+[12/10 14:42:42] d2.evaluation.evaluator INFO: Inference done 364/2000. Dataloading: 0.0023 s/iter. Inference: 0.0472 s/iter. Eval: 0.5778 s/iter. Total: 0.6274 s/iter. ETA=0:17:06
+[12/10 14:42:48] d2.evaluation.evaluator INFO: Inference done 374/2000. Dataloading: 0.0023 s/iter. Inference: 0.0471 s/iter. Eval: 0.5755 s/iter. Total: 0.6250 s/iter. ETA=0:16:56
+[12/10 14:42:53] d2.evaluation.evaluator INFO: Inference done 382/2000. Dataloading: 0.0023 s/iter. Inference: 0.0472 s/iter. Eval: 0.5771 s/iter. Total: 0.6266 s/iter. ETA=0:16:53
+[12/10 14:42:58] d2.evaluation.evaluator INFO: Inference done 389/2000. Dataloading: 0.0023 s/iter. Inference: 0.0472 s/iter. Eval: 0.5786 s/iter. Total: 0.6282 s/iter. ETA=0:16:52
+[12/10 14:43:04] d2.evaluation.evaluator INFO: Inference done 400/2000. Dataloading: 0.0023 s/iter. Inference: 0.0471 s/iter. Eval: 0.5746 s/iter. Total: 0.6241 s/iter. ETA=0:16:38
+[12/10 14:43:09] d2.evaluation.evaluator INFO: Inference done 415/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5645 s/iter. Total: 0.6137 s/iter. ETA=0:16:12
+[12/10 14:43:14] d2.evaluation.evaluator INFO: Inference done 425/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5637 s/iter. Total: 0.6127 s/iter. ETA=0:16:04
+[12/10 14:43:20] d2.evaluation.evaluator INFO: Inference done 434/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5641 s/iter. Total: 0.6131 s/iter. ETA=0:16:00
+[12/10 14:43:25] d2.evaluation.evaluator INFO: Inference done 443/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5633 s/iter. Total: 0.6123 s/iter. ETA=0:15:53
+[12/10 14:43:31] d2.evaluation.evaluator INFO: Inference done 453/2000. Dataloading: 0.0023 s/iter. Inference: 0.0465 s/iter. Eval: 0.5615 s/iter. Total: 0.6104 s/iter. ETA=0:15:44
+[12/10 14:43:36] d2.evaluation.evaluator INFO: Inference done 460/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5632 s/iter. Total: 0.6122 s/iter. ETA=0:15:42
+[12/10 14:43:41] d2.evaluation.evaluator INFO: Inference done 467/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5652 s/iter. Total: 0.6142 s/iter. ETA=0:15:41
+[12/10 14:43:46] d2.evaluation.evaluator INFO: Inference done 473/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5686 s/iter. Total: 0.6177 s/iter. ETA=0:15:43
+[12/10 14:43:52] d2.evaluation.evaluator INFO: Inference done 481/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5698 s/iter. Total: 0.6189 s/iter. ETA=0:15:40
+[12/10 14:43:57] d2.evaluation.evaluator INFO: Inference done 494/2000. Dataloading: 0.0023 s/iter. Inference: 0.0465 s/iter. Eval: 0.5639 s/iter. Total: 0.6128 s/iter. ETA=0:15:22
+[12/10 14:44:02] d2.evaluation.evaluator INFO: Inference done 501/2000. Dataloading: 0.0023 s/iter. Inference: 0.0465 s/iter. Eval: 0.5656 s/iter. Total: 0.6145 s/iter. ETA=0:15:21
+[12/10 14:44:07] d2.evaluation.evaluator INFO: Inference done 508/2000. Dataloading: 0.0023 s/iter. Inference: 0.0465 s/iter. Eval: 0.5672 s/iter. Total: 0.6162 s/iter. ETA=0:15:19
+[12/10 14:44:12] d2.evaluation.evaluator INFO: Inference done 515/2000. Dataloading: 0.0023 s/iter. Inference: 0.0466 s/iter. Eval: 0.5691 s/iter. Total: 0.6182 s/iter. ETA=0:15:17
+[12/10 14:44:18] d2.evaluation.evaluator INFO: Inference done 521/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5723 s/iter. Total: 0.6214 s/iter. ETA=0:15:19
+[12/10 14:44:23] d2.evaluation.evaluator INFO: Inference done 528/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5745 s/iter. Total: 0.6236 s/iter. ETA=0:15:17
+[12/10 14:44:29] d2.evaluation.evaluator INFO: Inference done 535/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5761 s/iter. Total: 0.6252 s/iter. ETA=0:15:15
+[12/10 14:44:34] d2.evaluation.evaluator INFO: Inference done 543/2000. Dataloading: 0.0023 s/iter. Inference: 0.0468 s/iter. Eval: 0.5770 s/iter. Total: 0.6262 s/iter. ETA=0:15:12
+[12/10 14:44:40] d2.evaluation.evaluator INFO: Inference done 551/2000. Dataloading: 0.0023 s/iter. Inference: 0.0468 s/iter. Eval: 0.5780 s/iter. Total: 0.6272 s/iter. ETA=0:15:08
+[12/10 14:44:45] d2.evaluation.evaluator INFO: Inference done 563/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5744 s/iter. Total: 0.6235 s/iter. ETA=0:14:56
+[12/10 14:44:50] d2.evaluation.evaluator INFO: Inference done 570/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5760 s/iter. Total: 0.6251 s/iter. ETA=0:14:53
+[12/10 14:44:56] d2.evaluation.evaluator INFO: Inference done 577/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5785 s/iter. Total: 0.6276 s/iter. ETA=0:14:53
+[12/10 14:45:01] d2.evaluation.evaluator INFO: Inference done 583/2000. Dataloading: 0.0023 s/iter. Inference: 0.0467 s/iter. Eval: 0.5808 s/iter. Total: 0.6300 s/iter. ETA=0:14:52
+[12/10 14:45:06] d2.evaluation.evaluator INFO: Inference done 589/2000. Dataloading: 0.0023 s/iter. Inference: 0.0468 s/iter. Eval: 0.5829 s/iter. Total: 0.6321 s/iter. ETA=0:14:51
+[12/10 14:45:11] d2.evaluation.evaluator INFO: Inference done 595/2000. Dataloading: 0.0023 s/iter. Inference: 0.0468 s/iter. Eval: 0.5850 s/iter. Total: 0.6342 s/iter. ETA=0:14:51
+[12/10 14:45:16] d2.evaluation.evaluator INFO: Inference done 602/2000. Dataloading: 0.0023 s/iter. Inference: 0.0468 s/iter. Eval: 0.5859 s/iter. Total: 0.6352 s/iter. ETA=0:14:48
+[12/10 14:45:22] d2.evaluation.evaluator INFO: Inference done 612/2000. Dataloading: 0.0024 s/iter. Inference: 0.0468 s/iter. Eval: 0.5847 s/iter. Total: 0.6340 s/iter. ETA=0:14:39
+[12/10 14:45:27] d2.evaluation.evaluator INFO: Inference done 624/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5812 s/iter. Total: 0.6303 s/iter. ETA=0:14:27
+[12/10 14:45:33] d2.evaluation.evaluator INFO: Inference done 636/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5777 s/iter. Total: 0.6268 s/iter. ETA=0:14:15
+[12/10 14:45:38] d2.evaluation.evaluator INFO: Inference done 645/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5768 s/iter. Total: 0.6259 s/iter. ETA=0:14:08
+[12/10 14:45:43] d2.evaluation.evaluator INFO: Inference done 655/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5752 s/iter. Total: 0.6243 s/iter. ETA=0:13:59
+[12/10 14:45:49] d2.evaluation.evaluator INFO: Inference done 665/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5743 s/iter. Total: 0.6235 s/iter. ETA=0:13:52
+[12/10 14:45:54] d2.evaluation.evaluator INFO: Inference done 675/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5730 s/iter. Total: 0.6222 s/iter. ETA=0:13:44
+[12/10 14:46:00] d2.evaluation.evaluator INFO: Inference done 685/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5720 s/iter. Total: 0.6212 s/iter. ETA=0:13:36
+[12/10 14:46:05] d2.evaluation.evaluator INFO: Inference done 693/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5727 s/iter. Total: 0.6219 s/iter. ETA=0:13:32
+[12/10 14:46:10] d2.evaluation.evaluator INFO: Inference done 701/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5729 s/iter. Total: 0.6220 s/iter. ETA=0:13:28
+[12/10 14:46:16] d2.evaluation.evaluator INFO: Inference done 710/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5727 s/iter. Total: 0.6219 s/iter. ETA=0:13:22
+[12/10 14:46:21] d2.evaluation.evaluator INFO: Inference done 720/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5717 s/iter. Total: 0.6208 s/iter. ETA=0:13:14
+[12/10 14:46:27] d2.evaluation.evaluator INFO: Inference done 733/2000. Dataloading: 0.0024 s/iter. Inference: 0.0466 s/iter. Eval: 0.5686 s/iter. Total: 0.6177 s/iter. ETA=0:13:02
+[12/10 14:46:32] d2.evaluation.evaluator INFO: Inference done 743/2000. Dataloading: 0.0024 s/iter. Inference: 0.0466 s/iter. Eval: 0.5671 s/iter. Total: 0.6162 s/iter. ETA=0:12:54
+[12/10 14:46:38] d2.evaluation.evaluator INFO: Inference done 753/2000. Dataloading: 0.0024 s/iter. Inference: 0.0466 s/iter. Eval: 0.5665 s/iter. Total: 0.6155 s/iter. ETA=0:12:47
+[12/10 14:46:43] d2.evaluation.evaluator INFO: Inference done 769/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5605 s/iter. Total: 0.6094 s/iter. ETA=0:12:30
+[12/10 14:46:48] d2.evaluation.evaluator INFO: Inference done 779/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5598 s/iter. Total: 0.6086 s/iter. ETA=0:12:23
+[12/10 14:46:53] d2.evaluation.evaluator INFO: Inference done 785/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5616 s/iter. Total: 0.6105 s/iter. ETA=0:12:21
+[12/10 14:46:59] d2.evaluation.evaluator INFO: Inference done 792/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5635 s/iter. Total: 0.6124 s/iter. ETA=0:12:19
+[12/10 14:47:05] d2.evaluation.evaluator INFO: Inference done 799/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5653 s/iter. Total: 0.6142 s/iter. ETA=0:12:17
+[12/10 14:47:10] d2.evaluation.evaluator INFO: Inference done 805/2000. Dataloading: 0.0024 s/iter. Inference: 0.0465 s/iter. Eval: 0.5670 s/iter. Total: 0.6159 s/iter. ETA=0:12:15
+[12/10 14:47:16] d2.evaluation.evaluator INFO: Inference done 812/2000. Dataloading: 0.0024 s/iter. Inference: 0.0465 s/iter. Eval: 0.5687 s/iter. Total: 0.6177 s/iter. ETA=0:12:13
+[12/10 14:47:21] d2.evaluation.evaluator INFO: Inference done 819/2000. Dataloading: 0.0024 s/iter. Inference: 0.0465 s/iter. Eval: 0.5705 s/iter. Total: 0.6195 s/iter. ETA=0:12:11
+[12/10 14:47:27] d2.evaluation.evaluator INFO: Inference done 826/2000. Dataloading: 0.0024 s/iter. Inference: 0.0465 s/iter. Eval: 0.5724 s/iter. Total: 0.6214 s/iter. ETA=0:12:09
+[12/10 14:47:32] d2.evaluation.evaluator INFO: Inference done 832/2000. Dataloading: 0.0024 s/iter. Inference: 0.0466 s/iter. Eval: 0.5739 s/iter. Total: 0.6229 s/iter. ETA=0:12:07
+[12/10 14:47:37] d2.evaluation.evaluator INFO: Inference done 838/2000. Dataloading: 0.0024 s/iter. Inference: 0.0466 s/iter. Eval: 0.5754 s/iter. Total: 0.6245 s/iter. ETA=0:12:05
+[12/10 14:47:43] d2.evaluation.evaluator INFO: Inference done 844/2000. Dataloading: 0.0024 s/iter. Inference: 0.0466 s/iter. Eval: 0.5772 s/iter. Total: 0.6263 s/iter. ETA=0:12:03
+[12/10 14:47:48] d2.evaluation.evaluator INFO: Inference done 850/2000. Dataloading: 0.0024 s/iter. Inference: 0.0466 s/iter. Eval: 0.5787 s/iter. Total: 0.6278 s/iter. ETA=0:12:01
+[12/10 14:47:53] d2.evaluation.evaluator INFO: Inference done 857/2000. Dataloading: 0.0024 s/iter. Inference: 0.0467 s/iter. Eval: 0.5803 s/iter. Total: 0.6294 s/iter. ETA=0:11:59
+[12/10 14:47:59] d2.evaluation.evaluator INFO: Inference done 872/2000. Dataloading: 0.0024 s/iter. Inference: 0.0465 s/iter. Eval: 0.5755 s/iter. Total: 0.6244 s/iter. ETA=0:11:44
+[12/10 14:48:04] d2.evaluation.evaluator INFO: Inference done 883/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5734 s/iter. Total: 0.6223 s/iter. ETA=0:11:35
+[12/10 14:48:09] d2.evaluation.evaluator INFO: Inference done 891/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5737 s/iter. Total: 0.6226 s/iter. ETA=0:11:30
+[12/10 14:48:14] d2.evaluation.evaluator INFO: Inference done 904/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5708 s/iter. Total: 0.6196 s/iter. ETA=0:11:19
+[12/10 14:48:19] d2.evaluation.evaluator INFO: Inference done 916/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5682 s/iter. Total: 0.6170 s/iter. ETA=0:11:08
+[12/10 14:48:24] d2.evaluation.evaluator INFO: Inference done 922/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5696 s/iter. Total: 0.6184 s/iter. ETA=0:11:06
+[12/10 14:48:30] d2.evaluation.evaluator INFO: Inference done 932/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5693 s/iter. Total: 0.6182 s/iter. ETA=0:11:00
+[12/10 14:48:35] d2.evaluation.evaluator INFO: Inference done 939/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5701 s/iter. Total: 0.6189 s/iter. ETA=0:10:56
+[12/10 14:48:40] d2.evaluation.evaluator INFO: Inference done 948/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5698 s/iter. Total: 0.6186 s/iter. ETA=0:10:50
+[12/10 14:48:46] d2.evaluation.evaluator INFO: Inference done 958/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5687 s/iter. Total: 0.6175 s/iter. ETA=0:10:43
+[12/10 14:48:51] d2.evaluation.evaluator INFO: Inference done 965/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5699 s/iter. Total: 0.6187 s/iter. ETA=0:10:40
+[12/10 14:48:57] d2.evaluation.evaluator INFO: Inference done 971/2000. Dataloading: 0.0024 s/iter. Inference: 0.0464 s/iter. Eval: 0.5716 s/iter. Total: 0.6205 s/iter. ETA=0:10:38
+[12/10 14:49:02] d2.evaluation.evaluator INFO: Inference done 982/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5700 s/iter. Total: 0.6187 s/iter. ETA=0:10:29
+[12/10 14:49:07] d2.evaluation.evaluator INFO: Inference done 993/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5686 s/iter. Total: 0.6174 s/iter. ETA=0:10:21
+[12/10 14:49:12] d2.evaluation.evaluator INFO: Inference done 1001/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5687 s/iter. Total: 0.6174 s/iter. ETA=0:10:16
+[12/10 14:49:17] d2.evaluation.evaluator INFO: Inference done 1009/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5691 s/iter. Total: 0.6179 s/iter. ETA=0:10:12
+[12/10 14:49:23] d2.evaluation.evaluator INFO: Inference done 1016/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5699 s/iter. Total: 0.6187 s/iter. ETA=0:10:08
+[12/10 14:49:28] d2.evaluation.evaluator INFO: Inference done 1025/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5694 s/iter. Total: 0.6181 s/iter. ETA=0:10:02
+[12/10 14:49:33] d2.evaluation.evaluator INFO: Inference done 1032/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5707 s/iter. Total: 0.6195 s/iter. ETA=0:09:59
+[12/10 14:49:39] d2.evaluation.evaluator INFO: Inference done 1040/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5711 s/iter. Total: 0.6199 s/iter. ETA=0:09:55
+[12/10 14:49:44] d2.evaluation.evaluator INFO: Inference done 1049/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5707 s/iter. Total: 0.6195 s/iter. ETA=0:09:49
+[12/10 14:49:49] d2.evaluation.evaluator INFO: Inference done 1059/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5698 s/iter. Total: 0.6185 s/iter. ETA=0:09:42
+[12/10 14:49:55] d2.evaluation.evaluator INFO: Inference done 1069/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5692 s/iter. Total: 0.6180 s/iter. ETA=0:09:35
+[12/10 14:50:00] d2.evaluation.evaluator INFO: Inference done 1077/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5696 s/iter. Total: 0.6183 s/iter. ETA=0:09:30
+[12/10 14:50:06] d2.evaluation.evaluator INFO: Inference done 1084/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5707 s/iter. Total: 0.6196 s/iter. ETA=0:09:27
+[12/10 14:50:11] d2.evaluation.evaluator INFO: Inference done 1093/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5704 s/iter. Total: 0.6192 s/iter. ETA=0:09:21
+[12/10 14:50:16] d2.evaluation.evaluator INFO: Inference done 1100/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5713 s/iter. Total: 0.6201 s/iter. ETA=0:09:18
+[12/10 14:50:22] d2.evaluation.evaluator INFO: Inference done 1109/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5712 s/iter. Total: 0.6200 s/iter. ETA=0:09:12
+[12/10 14:50:27] d2.evaluation.evaluator INFO: Inference done 1119/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5703 s/iter. Total: 0.6190 s/iter. ETA=0:09:05
+[12/10 14:50:33] d2.evaluation.evaluator INFO: Inference done 1127/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5711 s/iter. Total: 0.6198 s/iter. ETA=0:09:01
+[12/10 14:50:38] d2.evaluation.evaluator INFO: Inference done 1133/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5724 s/iter. Total: 0.6212 s/iter. ETA=0:08:58
+[12/10 14:50:43] d2.evaluation.evaluator INFO: Inference done 1143/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5714 s/iter. Total: 0.6202 s/iter. ETA=0:08:51
+[12/10 14:50:48] d2.evaluation.evaluator INFO: Inference done 1151/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5718 s/iter. Total: 0.6206 s/iter. ETA=0:08:46
+[12/10 14:50:54] d2.evaluation.evaluator INFO: Inference done 1161/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5715 s/iter. Total: 0.6203 s/iter. ETA=0:08:40
+[12/10 14:51:00] d2.evaluation.evaluator INFO: Inference done 1169/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5720 s/iter. Total: 0.6208 s/iter. ETA=0:08:35
+[12/10 14:51:05] d2.evaluation.evaluator INFO: Inference done 1176/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5730 s/iter. Total: 0.6218 s/iter. ETA=0:08:32
+[12/10 14:51:11] d2.evaluation.evaluator INFO: Inference done 1184/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5735 s/iter. Total: 0.6223 s/iter. ETA=0:08:27
+[12/10 14:51:16] d2.evaluation.evaluator INFO: Inference done 1194/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5726 s/iter. Total: 0.6214 s/iter. ETA=0:08:20
+[12/10 14:51:21] d2.evaluation.evaluator INFO: Inference done 1204/2000. Dataloading: 0.0024 s/iter. Inference: 0.0463 s/iter. Eval: 0.5716 s/iter. Total: 0.6204 s/iter. ETA=0:08:13
+[12/10 14:51:26] d2.evaluation.evaluator INFO: Inference done 1218/2000. Dataloading: 0.0024 s/iter. Inference: 0.0462 s/iter. Eval: 0.5687 s/iter. Total: 0.6174 s/iter. ETA=0:08:02
+[12/10 14:51:31] d2.evaluation.evaluator INFO: Inference done 1226/2000. Dataloading: 0.0024 s/iter. Inference: 0.0462 s/iter. Eval: 0.5689 s/iter. Total: 0.6176 s/iter. ETA=0:07:58
+[12/10 14:51:37] d2.evaluation.evaluator INFO: Inference done 1236/2000. Dataloading: 0.0024 s/iter. Inference: 0.0462 s/iter. Eval: 0.5682 s/iter. Total: 0.6169 s/iter. ETA=0:07:51
+[12/10 14:51:42] d2.evaluation.evaluator INFO: Inference done 1245/2000. Dataloading: 0.0024 s/iter. Inference: 0.0462 s/iter. Eval: 0.5682 s/iter. Total: 0.6169 s/iter. ETA=0:07:45
+[12/10 14:51:47] d2.evaluation.evaluator INFO: Inference done 1258/2000. Dataloading: 0.0024 s/iter. Inference: 0.0461 s/iter. Eval: 0.5660 s/iter. Total: 0.6146 s/iter. ETA=0:07:36
+[12/10 14:51:52] d2.evaluation.evaluator INFO: Inference done 1266/2000. Dataloading: 0.0024 s/iter. Inference: 0.0461 s/iter. Eval: 0.5661 s/iter. Total: 0.6147 s/iter. ETA=0:07:31
+[12/10 14:51:58] d2.evaluation.evaluator INFO: Inference done 1276/2000. Dataloading: 0.0024 s/iter. Inference: 0.0461 s/iter. Eval: 0.5655 s/iter. Total: 0.6141 s/iter. ETA=0:07:24
+[12/10 14:52:03] d2.evaluation.evaluator INFO: Inference done 1287/2000. Dataloading: 0.0024 s/iter. Inference: 0.0461 s/iter. Eval: 0.5645 s/iter. Total: 0.6130 s/iter. ETA=0:07:17
+[12/10 14:52:08] d2.evaluation.evaluator INFO: Inference done 1297/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5639 s/iter. Total: 0.6124 s/iter. ETA=0:07:10
+[12/10 14:52:14] d2.evaluation.evaluator INFO: Inference done 1307/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5631 s/iter. Total: 0.6116 s/iter. ETA=0:07:03
+[12/10 14:52:19] d2.evaluation.evaluator INFO: Inference done 1315/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5636 s/iter. Total: 0.6121 s/iter. ETA=0:06:59
+[12/10 14:52:25] d2.evaluation.evaluator INFO: Inference done 1325/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5632 s/iter. Total: 0.6117 s/iter. ETA=0:06:52
+[12/10 14:52:30] d2.evaluation.evaluator INFO: Inference done 1334/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5633 s/iter. Total: 0.6118 s/iter. ETA=0:06:47
+[12/10 14:52:35] d2.evaluation.evaluator INFO: Inference done 1342/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5635 s/iter. Total: 0.6120 s/iter. ETA=0:06:42
+[12/10 14:52:41] d2.evaluation.evaluator INFO: Inference done 1352/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5628 s/iter. Total: 0.6113 s/iter. ETA=0:06:36
+[12/10 14:52:46] d2.evaluation.evaluator INFO: Inference done 1367/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5602 s/iter. Total: 0.6086 s/iter. ETA=0:06:25
+[12/10 14:52:52] d2.evaluation.evaluator INFO: Inference done 1375/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5607 s/iter. Total: 0.6091 s/iter. ETA=0:06:20
+[12/10 14:52:57] d2.evaluation.evaluator INFO: Inference done 1382/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5614 s/iter. Total: 0.6098 s/iter. ETA=0:06:16
+[12/10 14:53:02] d2.evaluation.evaluator INFO: Inference done 1390/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5615 s/iter. Total: 0.6099 s/iter. ETA=0:06:12
+[12/10 14:53:07] d2.evaluation.evaluator INFO: Inference done 1401/2000. Dataloading: 0.0024 s/iter. Inference: 0.0460 s/iter. Eval: 0.5606 s/iter. Total: 0.6090 s/iter. ETA=0:06:04
+[12/10 14:53:13] d2.evaluation.evaluator INFO: Inference done 1417/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5576 s/iter. Total: 0.6060 s/iter. ETA=0:05:53
+[12/10 14:53:18] d2.evaluation.evaluator INFO: Inference done 1427/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5569 s/iter. Total: 0.6052 s/iter. ETA=0:05:46
+[12/10 14:53:23] d2.evaluation.evaluator INFO: Inference done 1434/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5574 s/iter. Total: 0.6058 s/iter. ETA=0:05:42
+[12/10 14:53:28] d2.evaluation.evaluator INFO: Inference done 1444/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5568 s/iter. Total: 0.6051 s/iter. ETA=0:05:36
+[12/10 14:53:33] d2.evaluation.evaluator INFO: Inference done 1454/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5563 s/iter. Total: 0.6046 s/iter. ETA=0:05:30
+[12/10 14:53:38] d2.evaluation.evaluator INFO: Inference done 1461/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5569 s/iter. Total: 0.6053 s/iter. ETA=0:05:26
+[12/10 14:53:44] d2.evaluation.evaluator INFO: Inference done 1468/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5576 s/iter. Total: 0.6059 s/iter. ETA=0:05:22
+[12/10 14:53:49] d2.evaluation.evaluator INFO: Inference done 1475/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5584 s/iter. Total: 0.6068 s/iter. ETA=0:05:18
+[12/10 14:53:55] d2.evaluation.evaluator INFO: Inference done 1487/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5573 s/iter. Total: 0.6056 s/iter. ETA=0:05:10
+[12/10 14:54:00] d2.evaluation.evaluator INFO: Inference done 1497/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5568 s/iter. Total: 0.6051 s/iter. ETA=0:05:04
+[12/10 14:54:05] d2.evaluation.evaluator INFO: Inference done 1505/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5569 s/iter. Total: 0.6052 s/iter. ETA=0:04:59
+[12/10 14:54:11] d2.evaluation.evaluator INFO: Inference done 1512/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5578 s/iter. Total: 0.6062 s/iter. ETA=0:04:55
+[12/10 14:54:16] d2.evaluation.evaluator INFO: Inference done 1519/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5588 s/iter. Total: 0.6072 s/iter. ETA=0:04:52
+[12/10 14:54:22] d2.evaluation.evaluator INFO: Inference done 1526/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5597 s/iter. Total: 0.6081 s/iter. ETA=0:04:48
+[12/10 14:54:27] d2.evaluation.evaluator INFO: Inference done 1535/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5595 s/iter. Total: 0.6079 s/iter. ETA=0:04:42
+[12/10 14:54:33] d2.evaluation.evaluator INFO: Inference done 1546/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5589 s/iter. Total: 0.6073 s/iter. ETA=0:04:35
+[12/10 14:54:38] d2.evaluation.evaluator INFO: Inference done 1556/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5584 s/iter. Total: 0.6068 s/iter. ETA=0:04:29
+[12/10 14:54:44] d2.evaluation.evaluator INFO: Inference done 1568/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5574 s/iter. Total: 0.6057 s/iter. ETA=0:04:21
+[12/10 14:54:49] d2.evaluation.evaluator INFO: Inference done 1575/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5582 s/iter. Total: 0.6065 s/iter. ETA=0:04:17
+[12/10 14:54:55] d2.evaluation.evaluator INFO: Inference done 1582/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5590 s/iter. Total: 0.6073 s/iter. ETA=0:04:13
+[12/10 14:55:01] d2.evaluation.evaluator INFO: Inference done 1589/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5599 s/iter. Total: 0.6083 s/iter. ETA=0:04:10
+[12/10 14:55:06] d2.evaluation.evaluator INFO: Inference done 1596/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5609 s/iter. Total: 0.6092 s/iter. ETA=0:04:06
+[12/10 14:55:11] d2.evaluation.evaluator INFO: Inference done 1609/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5591 s/iter. Total: 0.6074 s/iter. ETA=0:03:57
+[12/10 14:55:17] d2.evaluation.evaluator INFO: Inference done 1621/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5580 s/iter. Total: 0.6063 s/iter. ETA=0:03:49
+[12/10 14:55:22] d2.evaluation.evaluator INFO: Inference done 1631/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5575 s/iter. Total: 0.6058 s/iter. ETA=0:03:43
+[12/10 14:55:27] d2.evaluation.evaluator INFO: Inference done 1640/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5573 s/iter. Total: 0.6056 s/iter. ETA=0:03:38
+[12/10 14:55:33] d2.evaluation.evaluator INFO: Inference done 1651/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5566 s/iter. Total: 0.6049 s/iter. ETA=0:03:31
+[12/10 14:55:38] d2.evaluation.evaluator INFO: Inference done 1663/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5557 s/iter. Total: 0.6039 s/iter. ETA=0:03:23
+[12/10 14:55:44] d2.evaluation.evaluator INFO: Inference done 1675/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5544 s/iter. Total: 0.6026 s/iter. ETA=0:03:15
+[12/10 14:55:49] d2.evaluation.evaluator INFO: Inference done 1686/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5537 s/iter. Total: 0.6020 s/iter. ETA=0:03:09
+[12/10 14:55:54] d2.evaluation.evaluator INFO: Inference done 1693/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5542 s/iter. Total: 0.6025 s/iter. ETA=0:03:04
+[12/10 14:56:00] d2.evaluation.evaluator INFO: Inference done 1701/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5548 s/iter. Total: 0.6031 s/iter. ETA=0:03:00
+[12/10 14:56:05] d2.evaluation.evaluator INFO: Inference done 1709/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5551 s/iter. Total: 0.6034 s/iter. ETA=0:02:55
+[12/10 14:56:10] d2.evaluation.evaluator INFO: Inference done 1717/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5552 s/iter. Total: 0.6035 s/iter. ETA=0:02:50
+[12/10 14:56:16] d2.evaluation.evaluator INFO: Inference done 1726/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5551 s/iter. Total: 0.6034 s/iter. ETA=0:02:45
+[12/10 14:56:21] d2.evaluation.evaluator INFO: Inference done 1734/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5552 s/iter. Total: 0.6035 s/iter. ETA=0:02:40
+[12/10 14:56:26] d2.evaluation.evaluator INFO: Inference done 1744/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5548 s/iter. Total: 0.6032 s/iter. ETA=0:02:34
+[12/10 14:56:31] d2.evaluation.evaluator INFO: Inference done 1759/2000. Dataloading: 0.0024 s/iter. Inference: 0.0457 s/iter. Eval: 0.5527 s/iter. Total: 0.6009 s/iter. ETA=0:02:24
+[12/10 14:56:37] d2.evaluation.evaluator INFO: Inference done 1771/2000. Dataloading: 0.0024 s/iter. Inference: 0.0457 s/iter. Eval: 0.5518 s/iter. Total: 0.6000 s/iter. ETA=0:02:17
+[12/10 14:56:43] d2.evaluation.evaluator INFO: Inference done 1780/2000. Dataloading: 0.0024 s/iter. Inference: 0.0457 s/iter. Eval: 0.5520 s/iter. Total: 0.6002 s/iter. ETA=0:02:12
+[12/10 14:56:48] d2.evaluation.evaluator INFO: Inference done 1787/2000. Dataloading: 0.0024 s/iter. Inference: 0.0457 s/iter. Eval: 0.5529 s/iter. Total: 0.6011 s/iter. ETA=0:02:08
+[12/10 14:56:53] d2.evaluation.evaluator INFO: Inference done 1793/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5536 s/iter. Total: 0.6019 s/iter. ETA=0:02:04
+[12/10 14:56:58] d2.evaluation.evaluator INFO: Inference done 1799/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5545 s/iter. Total: 0.6028 s/iter. ETA=0:02:01
+[12/10 14:57:04] d2.evaluation.evaluator INFO: Inference done 1805/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5553 s/iter. Total: 0.6035 s/iter. ETA=0:01:57
+[12/10 14:57:09] d2.evaluation.evaluator INFO: Inference done 1812/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5561 s/iter. Total: 0.6044 s/iter. ETA=0:01:53
+[12/10 14:57:15] d2.evaluation.evaluator INFO: Inference done 1819/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5569 s/iter. Total: 0.6052 s/iter. ETA=0:01:49
+[12/10 14:57:21] d2.evaluation.evaluator INFO: Inference done 1826/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5578 s/iter. Total: 0.6061 s/iter. ETA=0:01:45
+[12/10 14:57:26] d2.evaluation.evaluator INFO: Inference done 1832/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5585 s/iter. Total: 0.6068 s/iter. ETA=0:01:41
+[12/10 14:57:31] d2.evaluation.evaluator INFO: Inference done 1838/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5592 s/iter. Total: 0.6076 s/iter. ETA=0:01:38
+[12/10 14:57:37] d2.evaluation.evaluator INFO: Inference done 1845/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5601 s/iter. Total: 0.6084 s/iter. ETA=0:01:34
+[12/10 14:57:42] d2.evaluation.evaluator INFO: Inference done 1852/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5609 s/iter. Total: 0.6092 s/iter. ETA=0:01:30
+[12/10 14:57:47] d2.evaluation.evaluator INFO: Inference done 1858/2000. Dataloading: 0.0024 s/iter. Inference: 0.0459 s/iter. Eval: 0.5616 s/iter. Total: 0.6100 s/iter. ETA=0:01:26
+[12/10 14:57:53] d2.evaluation.evaluator INFO: Inference done 1876/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5586 s/iter. Total: 0.6069 s/iter. ETA=0:01:15
+[12/10 14:57:58] d2.evaluation.evaluator INFO: Inference done 1884/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5587 s/iter. Total: 0.6070 s/iter. ETA=0:01:10
+[12/10 14:58:03] d2.evaluation.evaluator INFO: Inference done 1892/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5589 s/iter. Total: 0.6072 s/iter. ETA=0:01:05
+[12/10 14:58:08] d2.evaluation.evaluator INFO: Inference done 1904/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5578 s/iter. Total: 0.6060 s/iter. ETA=0:00:58
+[12/10 14:58:13] d2.evaluation.evaluator INFO: Inference done 1914/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5574 s/iter. Total: 0.6057 s/iter. ETA=0:00:52
+[12/10 14:58:19] d2.evaluation.evaluator INFO: Inference done 1925/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5566 s/iter. Total: 0.6049 s/iter. ETA=0:00:45
+[12/10 14:58:24] d2.evaluation.evaluator INFO: Inference done 1934/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5568 s/iter. Total: 0.6051 s/iter. ETA=0:00:39
+[12/10 14:58:30] d2.evaluation.evaluator INFO: Inference done 1943/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5567 s/iter. Total: 0.6050 s/iter. ETA=0:00:34
+[12/10 14:58:35] d2.evaluation.evaluator INFO: Inference done 1951/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5569 s/iter. Total: 0.6052 s/iter. ETA=0:00:29
+[12/10 14:58:41] d2.evaluation.evaluator INFO: Inference done 1962/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5564 s/iter. Total: 0.6047 s/iter. ETA=0:00:22
+[12/10 14:58:46] d2.evaluation.evaluator INFO: Inference done 1968/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5572 s/iter. Total: 0.6055 s/iter. ETA=0:00:19
+[12/10 14:58:51] d2.evaluation.evaluator INFO: Inference done 1976/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5573 s/iter. Total: 0.6056 s/iter. ETA=0:00:14
+[12/10 14:58:56] d2.evaluation.evaluator INFO: Inference done 1986/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5569 s/iter. Total: 0.6052 s/iter. ETA=0:00:08
+[12/10 14:59:02] d2.evaluation.evaluator INFO: Inference done 1995/2000. Dataloading: 0.0024 s/iter. Inference: 0.0458 s/iter. Eval: 0.5571 s/iter. Total: 0.6054 s/iter. ETA=0:00:03
+[12/10 14:59:03] d2.evaluation.evaluator INFO: Total inference time: 0:20:05.932991 (0.604478 s / iter per device, on 1 devices)
+[12/10 14:59:03] d2.evaluation.evaluator INFO: Total inference pure compute time: 0:01:31 (0.045726 s / iter per device, on 1 devices)
+[12/10 15:02:03] d2.evaluation.sem_seg_evaluation INFO: OrderedDict([('sem_seg', {'sem_acc': 78.30305695533752, 'sem_acc_rescaled': 66.74426794052124})])
+[12/10 15:02:03] d2.evaluation.testing INFO: copypaste: Task: sem_seg
+[12/10 15:02:03] d2.evaluation.testing INFO: copypaste: sem_acc,sem_acc_rescaled
+[12/10 15:02:03] d2.evaluation.testing INFO: copypaste: 78.3031,66.7443

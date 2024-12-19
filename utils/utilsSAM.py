@@ -91,7 +91,10 @@ def post_processing(masks: list[dict],
         if image.dtype == 'uint8' or image.dtype == np.uint8:
             image = image.astype(np.float32)/255.0
         else:
-            image = image.type(torch.float32)/255.0
+            image = (image.type(torch.float32)/255.0).cpu().numpy()
+
+    if image.shape[0] == 3:
+        image = image.transpose(1, 2, 0)
 
     masks_copy = copy.deepcopy(masks)
     if post_processing == 'blurred_masks':
@@ -108,7 +111,11 @@ def post_processing(masks: list[dict],
         print("Invalid post processing method")
         raise ValueError
     
-    
+    if image.dtype == np.uint8 or image.dtype == 'uint8' \
+        or image.dtype == torch.uint8:
+        assert image.dtype == np.uint8, f"Expected np.uint8, got {image.dtype}"
+        images = [image.astype(np.float32) for image in images]
+    images = [torch.tensor(image).permute((2, 0, 1)) for image in images]
 
     return images, masks_copy
 
@@ -180,6 +187,7 @@ def bbox_masks(masks, image):
         processed_image = image.copy()
         processed_image = processed_image[y:y+h, x:x+w]
         masks[i]['segmentation'] = masks[i]['segmentation'][y:y+h, x:x+w]
+        masks[i]['bbox'] = [x, y, h, w]
 
         images.append(processed_image)
     

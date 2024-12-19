@@ -69,7 +69,6 @@ class SAMSegmenter:
                 img = img.astype(np.float32)
 
             masks = mask_generator.generate(img)
-            print("Generated {} masks".format(len(masks)))
             
             return masks
 

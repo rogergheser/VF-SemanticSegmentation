@@ -1,0 +1,1 @@
+[12/09 14:41:12] d2.evaluation.sem_seg_evaluation INFO: OrderedDict([('sem_seg', {'sem_acc': 84.87505912780762, 'sem_acc_rescaled': 70.05927562713623, 'mIoU': 3.0610668098148013 ])
