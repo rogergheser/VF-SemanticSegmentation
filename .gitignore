@@ -14,7 +14,6 @@ datasets/pcontext
 datasets/coco
 datasets/ADEChallengeData2016
 datasets/ADE20K_*
-images/
 checkpoints
 overlay
 overlay
