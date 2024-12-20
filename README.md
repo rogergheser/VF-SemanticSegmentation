@@ -106,3 +106,24 @@ To evaluate SAM using our pipeline, follow these steps:
   ```
 
 ### Evaluating SAN
+
+
+
+
+# Contacts
+For any inquiries, feel free to contact:
+
+- Simone Roman - [simone.roman@studenti.unitn.it](mailto:simone.roman@studenti.unitn.it)
+
+- Amir Gheser - [amir.gheser@studenti.unitn.it](mailto:amir.gheser@studenti.unitn.it)
+
+- Matteo Mascherin - [matteo.mascherin@studenti.unitn.it](mailto:matteo.mascherin@studenti.unitn.it)
+
+
+<br>
+
+<div>
+    <a href="https://www.unitn.it/">
+        <img src="https://ing-gest.disi.unitn.it/wp-content/uploads/2022/11/marchio_disi_bianco_vert_eng-1024x295.png" width="400px">
+    </a>
+</div>
