@@ -109,7 +109,7 @@ To evaluate SAM using our pipeline, follow these steps:
 
 To evaluate SAN, on ADE20K dataset, using a custom vocabulary, follow these steps:
 
-1. First, you need to slightly change the inference_on_dataset function in the evaluator.py file inside detectron2 in order to perform predictions with a custom vocabulary using the SAN model.
+1. First, you need to slightly change the `inference_on_dataset` function in the `evaluator.py` file inside detectron2 in order to perform predictions with a custom vocabulary using the SAN model.
 
 You can find the file in the following path: `your_venv/lib/python3.10/site-packages/detectron2/evaluation/evaluator.py`. And then you need to change the inference_on_dataset function as shown in the following images:
 
