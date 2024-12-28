@@ -114,18 +114,17 @@ To evaluate SAN, on ADE20K dataset, using a custom vocabulary, follow these step
 You can find the file in the following path: `your_venv/lib/python3.10/site-packages/detectron2/evaluation/evaluator.py`. And then you need to change the inference_on_dataset function as shown in the following images:
 
 <center>
-<img src="images/function_definition.png" alt="inference_on_dataset" width="49%">
-<img src="images/function_content.png" alt="inference_on_dataset" width="49%">
+<img src="images/code_changes.png" alt="Code changes" width="500">
 </center>
 
 
-1. Browse the `dataset/captions_val` directory and select the preferred vocabulary you want to test on (e.g., `nouns_ade_filtered.pkl` or `nouns_coco_filtered.pkl`, for nouns extracted and filtered from ADE20K and COCO datasets, respectively).
+2. Browse the `dataset/captions_val` directory and select the preferred vocabulary you want to test on (e.g., `nouns_ade_filtered.pkl` or `nouns_coco_filtered.pkl`, for nouns extracted and filtered from ADE20K and COCO datasets, respectively).
 
-2. Launch the SAN evaluation from the SAN directory using the following command:
+3. Launch the SAN evaluation from the SAN directory using the following command:
 
   ```bash
   cd SAN
-  python eval_net.py --eval-only --config-file configs/san_clip_vit_res4_coco.yaml --vocabulary ../datasets/captions_val/nouns_ade_filtered.pkl  OUTPUT_DIR ../output/[Name of the output folder] MODEL.WEIGHTS ../checkpoints/san_vit_b_16.pth DATASETS.TEST "('ade20k_full_sem_seg_val',"                            
+  python eval_net.py --eval-only --config-file configs/san_clip_vit_res4_coco.yaml --vocabulary ../datasets/captions_val/nouns_ade_filtered.pkl  OUTPUT_DIR ../output/[Name of the output folder] MODEL.WEIGHTS ../checkpoints/san_vit_b_16.pth DATASETS.TEST "('ade20k_full_sem_seg_val',)"                            
   ```
 
 Adjust the `--vocabulary` parameter to the desired vocabulary file and the `OUTPUT_DIR` parameter to the desired output folder name. Take a look to [SAN official repository](https://github.com/MendelXu/SAN) for more information.
