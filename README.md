@@ -113,9 +113,9 @@ To evaluate SAN, on ADE20K dataset, using a custom vocabulary, follow these step
 
 You can find the file in the following path: `your_venv/lib/python3.10/site-packages/detectron2/evaluation/evaluator.py`. And then you need to change the inference_on_dataset function as shown in the following images:
 
-<center>
+<p align="center">
 <img src="images/code_changes.png" alt="Code changes" width="500">
-</center>
+</p>
 
 
 2. Browse the `dataset/captions_val` directory and select the preferred vocabulary you want to test on (e.g., `nouns_ade_filtered.pkl` or `nouns_coco_filtered.pkl`, for nouns extracted and filtered from ADE20K and COCO datasets, respectively).
