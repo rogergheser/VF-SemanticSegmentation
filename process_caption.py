@@ -21,7 +21,7 @@ from nltk import pos_tag
 # nltk.download('punkt')
 # nltk.download('averaged_perceptron_tagger_eng')
 
-PATH_CAPTION = "datasets/captions_val/captions.pkl"
+PATH_CAPTION = "datasets/captions_val/coco_captions.pkl"
 
 def extract_noun_phrases(text):
     
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     nouns = extract_noun_phrases(text)
     print(list(nouns), len(nouns))
     # save captions in a pickle file 
-    with open("datasets/captions_val/nouns_ade20k.pkl", "wb") as f:
+    with open("datasets/captions_val/nouns_ade.pkl", "wb") as f:
         pickle.dump(list(nouns), f)
 
     nouns = [strip_noun(noun) for noun in nouns]

@@ -344,12 +344,22 @@ def merge_vocabulary(vocabulary: List[str]) -> List[str]:
     default_voc = [c["name"] for c in COCO_CATEGORIES]
     return vocabulary + [c for c in default_voc if c not in vocabulary]
 
+def extended_argument_parser():
+    parser = default_argument_parser()
+    parser.add_argument(
+        "--vocabulary",
+        type=str,
+        default="",
+        help="Path to the vocabulary file, stored in a pickle file"
+    )
+    return parser
+
 if __name__ == "__main__":
-    args = default_argument_parser().parse_args()
+    args = extended_argument_parser().parse_args()
     print("Command Line Args:", args)
-    # args.vocabulary = merge_vocabulary(vocabulary=['batman', 'wonderwoman'])
+
     # read the list saved in a pickle file
-    with open("../datasets/captions_val/nouns_ade_1.pkl", "rb") as f:
+    with open(args.vocabulary, "rb") as f:
         nouns = pickle.load(f)
     args.vocabulary = nouns
     print("Vocabulary:", args.vocabulary, len(args.vocabulary))

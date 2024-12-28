@@ -91,7 +91,7 @@ AlphaCLIP only has google drive link working, so you need to download it manuall
 
 ## Running the project
 
-You can find examples of how to use **SAN** (Self-Attention Networks) and **SAM** (Segment Anything Models) in the `notebook` directory. These examples demonstrate practical implementations and workflows for applying these models effectively.
+You can find examples of how to use **SAN** (Side Adapter Network) and **SAM** (Segment Anything Model) in the `notebook` directory. These examples demonstrate practical implementations and workflows for applying these models effectively.
 
 
 ### Evaluating SAM with Our Pipeline
@@ -107,8 +107,18 @@ To evaluate SAM using our pipeline, follow these steps:
 
 ### Evaluating SAN
 
+To evaluate SAN, on ADE20K dataset, using a custom vocabulary, follow these steps:
 
+1. Browse the `dataset/captions_val` directory and select the preferred vocabulary you want to test on (e.g., `nouns_ade_filtered.pkl` or `nouns_coco_filtered.pkl`, for nouns extracted and filtered from ADE20K and COCO datasets, respectively).
 
+2. Launch the SAN evaluation from the SAN directory using the following command:
+
+  ```bash
+  cd SAN
+  python eval_net.py --eval-only --config-file configs/san_clip_vit_res4_coco.yaml --vocabulary ../datasets/captions_val/nouns_ade_filtered.pkl  OUTPUT_DIR ../output/[Name of the output folder] MODEL.WEIGHTS ../checkpoints/san_vit_b_16.pth DATASETS.TEST "('ade20k_full_sem_seg_val',"                            
+  ```
+
+Adjust the `--vocabulary` parameter to the desired vocabulary file and the `OUTPUT_DIR` parameter to the desired output folder name. Take a look to [SAN official repository](https://github.com/MendelXu/SAN) for more information.
 
 # Contacts
 For any inquiries, feel free to contact:
